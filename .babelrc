@@ -1,0 +1,44 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "loose": true,
+        "useBuiltIns": true,
+        "targets": {
+          "browsers": [
+            "defaults"
+          ]
+        }
+      }
+    ],
+    "react",
+    "stage-3"
+  ],
+  "plugins": [
+    "syntax-dynamic-import"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "modules": "commonjs",
+            "loose": true,
+            "useBuiltIns": true,
+            "targets": {
+              "node": "current"
+            }
+          }
+        ],
+        "react",
+        "stage-3"
+      ],
+      "plugins": [
+        "dynamic-import-node"
+      ]
+    }
+  }
+}
