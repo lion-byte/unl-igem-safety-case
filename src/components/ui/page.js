@@ -1,0 +1,31 @@
+import * as React from 'react'
+import * as PropTypes from 'prop-types'
+import { Helmet } from 'react-helmet'
+
+export class Page extends React.PureComponent {
+  render () {
+    const { children, title, useDefaultTitle } = this.props
+
+    return (
+      <main className='flex four center'>
+        {useDefaultTitle ? null : (
+          <Helmet title={`${title} | UNL iGEM Safety Case`} />
+        )}
+
+        <h1 className='three-fourth'>{title}</h1>
+
+        {children}
+      </main>
+    )
+  }
+}
+
+Page.propTypes = {
+  title: PropTypes.string,
+  useDefaultTitle: PropTypes.bool
+}
+
+Page.defaultProps = {
+  title: '',
+  useDefaultTitle: false
+}

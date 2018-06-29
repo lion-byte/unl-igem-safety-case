@@ -6,24 +6,24 @@ import Loadable from 'react-loadable'
 import { Loading } from '../components/ui'
 import { Navigation } from '../components/navigation'
 
-const Main = Loadable({
+const Home = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "main", webpackPrefetch: true */ '../pages/main'),
+    import(/* webpackChunkName: "main", webpackPrefetch: true */ '../pages/home'),
   loading: Loading
 })
 
 export class App extends React.PureComponent {
   render () {
     return (
-      <main>
+      <React.Fragment>
         <Helmet defaultTitle='UNL iGEM Safety Case' />
 
         <Navigation />
 
         <Router>
-          <Main path='/' />
+          <Home path='/' />
         </Router>
-      </main>
+      </React.Fragment>
     )
   }
 }

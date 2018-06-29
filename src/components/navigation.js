@@ -41,7 +41,7 @@ export class Navigation extends React.PureComponent {
 
         <div className='menu'>
           <Link className='pseudo button' onClick={this.hideMenu} to='/'>
-            Main
+            Home
           </Link>
         </div>
       </nav>
