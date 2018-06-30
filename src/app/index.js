@@ -3,13 +3,24 @@ import { Helmet } from 'react-helmet'
 import { Router } from '@reach/router'
 // @ts-ignore
 import Loadable from 'react-loadable'
-import { Loading } from '../components/ui'
+import { LoadingPage } from '../components/ui'
 import { Navigation } from '../components/navigation'
+
+const routes = [
+  { label: 'Home', to: '/' },
+  { label: 'Example', to: '/example' }
+]
 
 const Home = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "main", webpackPrefetch: true */ '../pages/home'),
-  loading: Loading
+    import(/* webpackChunkName: "home", webpackPrefetch: true */ '../pages/home'),
+  loading: LoadingPage
+})
+
+const Example = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "example", webpackPrefetch: true */ '../pages/example'),
+  loading: LoadingPage
 })
 
 export class App extends React.PureComponent {
@@ -18,11 +29,14 @@ export class App extends React.PureComponent {
       <React.Fragment>
         <Helmet defaultTitle='UNL iGEM Safety Case' />
 
-        <Navigation />
+        <Navigation routes={routes} />
 
-        <Router>
-          <Home path='/' />
-        </Router>
+        <section className='container'>
+          <Router>
+            <Home path='/' />
+            <Example path='/example' />
+          </Router>
+        </section>
       </React.Fragment>
     )
   }

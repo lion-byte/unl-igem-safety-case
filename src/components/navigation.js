@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 
 export class Navigation extends React.PureComponent {
@@ -21,6 +22,7 @@ export class Navigation extends React.PureComponent {
 
   render () {
     const { checked } = this.state
+    const { routes } = this.props
 
     return (
       <nav>
@@ -40,11 +42,27 @@ export class Navigation extends React.PureComponent {
         </label>
 
         <div className='menu'>
-          <Link className='pseudo button' onClick={this.hideMenu} to='/'>
-            Home
-          </Link>
+          {routes.map(route => (
+            <Link
+              key={route.to}
+              className='pseudo button'
+              onClick={this.hideMenu}
+              to={route.to}
+            >
+              {route.label}
+            </Link>
+          ))}
         </div>
       </nav>
     )
   }
+}
+
+Navigation.propTypes = {
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      to: PropTypes.string.isRequired
+    })
+  ).isRequired
 }
