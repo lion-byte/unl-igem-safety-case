@@ -1,43 +1,15 @@
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const bodyParser = require('body-parser')
 const express = require('express')
-const { makeExecutableSchema } = require('graphql-tools')
 const logger = require('morgan')
+
+const { schema } = require('./graphql')
 
 const app = express()
 
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
-// Some fake data
-const books = [
-  {
-    title: `Harry Potter and the Sorcerer's stone`,
-    author: 'J.K. Rowling'
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton'
-  }
-]
-
-// The GraphQL schema in string form
-const typeDefs = `
-  type Query { books: [Book] }
-  type Book { title: String, author: String }
-`
-
-// The resolvers
-const resolvers = {
-  Query: { books: () => books }
-}
-
-// Put together a schema
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
-})
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
