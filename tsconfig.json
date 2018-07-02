@@ -10,5 +10,5 @@
     "target": "es2017",
     "jsx": "react"
   },
-  "include": ["declarations.d.ts", "src/**/*.js"]
+  "include": ["declarations.d.ts", "server/**/*.js", "src/**/*.js"]
 }
