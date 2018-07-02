@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-export class Argument extends React.PureComponent {
+export class ArgumentNode extends React.PureComponent {
   render () {
-    const { height, fill, node, stroke, strokeWidth, width } = this.props
+    const { height, fontSize, node, width } = this.props
 
     console.log(node)
 
@@ -11,15 +11,22 @@ export class Argument extends React.PureComponent {
       <React.Fragment>
         <rect
           height={height}
-          fill={fill}
+          fill='#ff611f'
+          stroke='#ffffff'
+          strokeWidth={1}
           width={width}
           x={-width / 2}
           y={-height / 2}
-          stroke={stroke}
-          strokeWidth={strokeWidth}
         />
 
-        <text style={{ pointerEvents: 'none' }} fill='white'>
+        <text
+          style={{ pointerEvents: 'none' }}
+          textAnchor='middle'
+          fontSize={fontSize}
+          x={0}
+          y={fontSize / 3}
+          fill='white'
+        >
           {node.data.name}
         </text>
       </React.Fragment>
@@ -27,16 +34,15 @@ export class Argument extends React.PureComponent {
   }
 }
 
-Argument.propTypes = {
-  height: PropTypes.number.isRequired,
-  fill: PropTypes.string,
+ArgumentNode.propTypes = {
+  height: PropTypes.number,
+  fontSize: PropTypes.number,
   node: PropTypes.any.isRequired,
-  stroke: PropTypes.string.isRequired,
-  strokeWidth: PropTypes.number,
-  width: PropTypes.number.isRequired
+  width: PropTypes.number
 }
 
-Argument.defaultProps = {
-  fill: '',
-  strokeWidth: 0
+ArgumentNode.defaultProps = {
+  height: 40,
+  fontSize: 16,
+  width: 60
 }

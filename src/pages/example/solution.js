@@ -1,25 +1,29 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-export class Solution extends React.PureComponent {
+export class SolutionNode extends React.PureComponent {
   render () {
-    const { height, fill, node, stroke, strokeWidth, width } = this.props
+    const { height, fontSize, node, width } = this.props
 
     console.log(node)
 
     return (
       <React.Fragment>
-        <rect
-          height={height}
-          fill={fill}
-          width={width}
-          x={-width / 2}
-          y={-height / 2}
-          stroke={stroke}
-          strokeWidth={strokeWidth}
+        <circle
+          r={Math.max(height, width) / 2}
+          fill='#035155'
+          stroke='#ffffff'
+          strokeWidth={1}
         />
 
-        <text style={{ pointerEvents: 'none' }} fill='white'>
+        <text
+          style={{ pointerEvents: 'none' }}
+          textAnchor='middle'
+          fontSize={fontSize}
+          x={0}
+          y={fontSize / 3}
+          fill='white'
+        >
           {node.data.name}
         </text>
       </React.Fragment>
@@ -27,16 +31,15 @@ export class Solution extends React.PureComponent {
   }
 }
 
-Solution.propTypes = {
-  height: PropTypes.number.isRequired,
-  fill: PropTypes.string,
+SolutionNode.propTypes = {
+  height: PropTypes.number,
+  fontSize: PropTypes.number,
   node: PropTypes.any.isRequired,
-  stroke: PropTypes.string.isRequired,
-  strokeWidth: PropTypes.number,
-  width: PropTypes.number.isRequired
+  width: PropTypes.number
 }
 
-Solution.defaultProps = {
-  fill: '',
-  strokeWidth: 0
+SolutionNode.defaultProps = {
+  height: 40,
+  fontSize: 16,
+  width: 60
 }

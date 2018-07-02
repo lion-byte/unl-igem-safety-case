@@ -25,6 +25,30 @@ const data = {
               message: 'hoi'
             }
           ]
+        },
+        {
+          type: 'goal',
+          message: 'test goal3',
+          name: 'g3',
+          children: [
+            {
+              name: 'solution 3',
+              type: 'solution',
+              message: 'hoi'
+            }
+          ]
+        },
+        {
+          type: 'goal',
+          message: 'test goal4',
+          name: 'g4',
+          children: [
+            {
+              name: 'solution 3',
+              type: 'solution',
+              message: 'hoi'
+            }
+          ]
         }
       ]
     }

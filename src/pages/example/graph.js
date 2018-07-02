@@ -5,60 +5,27 @@ import { Group } from '@vx/group'
 import { Tree } from '@vx/hierarchy'
 import { LinkVertical } from '@vx/shape'
 
-import { Goal } from './goal'
-import { Argument } from './argument'
-import { Solution } from './solution'
+import { GoalNode } from './goal'
+import { ArgumentNode } from './argument'
+import { SolutionNode } from './solution'
 
-/**
- * @augments {React.PureComponent<{ node:{ data: Assumption | Condition | Justification | Solution | Argument | Goal } }>}
- */
 export class Node extends React.PureComponent {
   render () {
     const { node } = this.props
-
-    const width = 50
-    const height = 20
 
     let graphNode
 
     switch (node.data.type) {
       case 'argument':
-        graphNode = (
-          <Argument
-            height={height}
-            fill='#035155'
-            node={node}
-            stroke='#ffffff'
-            strokeWidth={1}
-            width={width}
-          />
-        )
+        graphNode = <ArgumentNode node={node} />
         break
 
       case 'goal':
-        graphNode = (
-          <Goal
-            height={height}
-            fill='#035155'
-            node={node}
-            stroke='#ffffff'
-            strokeWidth={1}
-            width={width}
-          />
-        )
+        graphNode = <GoalNode node={node} />
         break
 
       case 'solution':
-        graphNode = (
-          <Solution
-            height={height}
-            fill='#035155'
-            node={node}
-            stroke='#ffffff'
-            strokeWidth={1}
-            width={width}
-          />
-        )
+        graphNode = <SolutionNode node={node} width={100} />
         break
     }
 
@@ -75,7 +42,7 @@ export class Link extends React.PureComponent {
     const { link } = this.props
 
     return (
-      <LinkVertical data={link} stroke='#374469' strokeWidth='1' fill='none' />
+      <LinkVertical data={link} stroke='#374469' strokeWidth={2} fill='none' />
     )
   }
 }
