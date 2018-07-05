@@ -4,6 +4,14 @@ const { config } = require('dotenv')
 
 config()
 
+// Checks for env variables
+const { DB_HOST, TOKEN_SECRET } = process.env
+
+if (DB_HOST === null || TOKEN_SECRET === null) {
+  console.error('Set environment variables either on your machine or via `.env` file')
+  process.exit(1)
+}
+
 const { app } = require('./app')
 
 const normalizePort = (val = '3000') => {

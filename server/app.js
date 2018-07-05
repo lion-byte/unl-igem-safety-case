@@ -1,6 +1,7 @@
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const bodyParser = require('body-parser')
 const express = require('express')
+const jwt = require('express-jwt')
 const logger = require('morgan')
 
 const { schema } = require('./graphql')
@@ -10,8 +11,21 @@ const app = express()
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(
+  jwt({
+    credentialsRequired: false,
+    secret: process.env.TOKEN_SECRET
+  })
+)
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }))
+app.use(
+  '/graphql',
+  bodyParser.json(),
+  graphqlExpress(req => ({
+    schema,
+    context: { user: req.user }
+  }))
+)
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 
 app.use((req, res, next) => {

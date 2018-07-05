@@ -3,6 +3,16 @@ const { createHmac, randomBytes } = require('crypto')
 const { db } = require('./connection')
 
 /**
+ * @param {string} email
+ * @returns {Promise<any>}
+ */
+const findByEmail = email => {
+  const userCollection = db.get('users')
+
+  return userCollection.findOne({ email })
+}
+
+/**
  * @param {string} username
  * @returns {Promise<any>}
  */
@@ -35,33 +45,49 @@ const hashPassword = (password, salt) => {
 
 /**
  * @param {string} username
+ * @param {string} email
  * @param {string} password
- * @returns {Promise<void>}
+ * @returns {Promise<boolean>}
  */
-const register = (username, password) => {
+const register = async (username, email, password) => {
+  if ((await findByEmail(email)) !== null) {
+    return false
+  }
+
   const userCollection = db.get('users')
 
   const salt = genSalt(16)
   const passwordHash = hashPassword(password, salt)
 
-  return userCollection.insert({
+  await userCollection.insert({
     username,
+    email,
     passwordHash,
     salt
   })
+
+  return true
 }
 
 /**
- * @param {string} username
+ * @param {string} email
  * @param {string} password
- * @returns {Promise<boolean>}
+ * @returns {Promise<{isValid: boolean, account: any}>}
  */
-const validate = (username, password) => {
-  return findByUsername(username).then(user => {
-    const { passwordHash, salt } = user
+const validate = async (email, password) => {
+  const user = await findByEmail(email)
 
-    return Promise.resolve(passwordHash === hashPassword(password, salt))
-  })
+  if (user === null) {
+    return { isValid: false, account: null }
+  }
+
+  const { passwordHash, salt } = user
+
+  if (passwordHash === hashPassword(password, salt)) {
+    return { isValid: true, account: user }
+  } else {
+    return { isValid: false, account: null }
+  }
 }
 
-module.exports = { register, validate }
+module.exports = { findByEmail, findByUsername, register, validate }
