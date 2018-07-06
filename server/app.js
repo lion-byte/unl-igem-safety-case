@@ -1,5 +1,6 @@
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const express = require('express')
 const jwt = require('express-jwt')
 const logger = require('morgan')
@@ -11,6 +12,7 @@ const app = express()
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors())
 app.use(
   jwt({
     credentialsRequired: false,

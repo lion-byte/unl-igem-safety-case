@@ -2,6 +2,8 @@ import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 
+import { User } from './user'
+
 export class Navigation extends React.PureComponent {
   constructor (props) {
     super(props)
@@ -27,7 +29,9 @@ export class Navigation extends React.PureComponent {
     return (
       <nav>
         <Link className='brand' to='/'>
-          <span>UNL iGEM Safety Case</span>
+          <span>
+            UNL iGEM Safety Case | <User />
+          </span>
         </Link>
 
         <input
