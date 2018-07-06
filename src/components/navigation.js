@@ -1,8 +1,5 @@
 import * as React from 'react'
-import * as PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-
-import { User } from './user'
 
 export class Navigation extends React.PureComponent {
   constructor (props) {
@@ -23,15 +20,15 @@ export class Navigation extends React.PureComponent {
   }
 
   render () {
-    const { checked } = this.state
-    const { routes } = this.props
+    const {
+      state: { checked },
+      props: { children }
+    } = this
 
     return (
       <nav>
         <Link className='brand' to='/'>
-          <span>
-            UNL iGEM Safety Case
-          </span>
+          <span>UNL iGEM Safety Case</span>
         </Link>
 
         <input
@@ -45,28 +42,10 @@ export class Navigation extends React.PureComponent {
           &#9776;
         </label>
 
-        <div className='menu'>
-          {routes.map(route => (
-            <Link
-              key={route.to}
-              className='pseudo button'
-              onClick={this.hideMenu}
-              to={route.to}
-            >
-              {route.label}
-            </Link>
-          ))}
+        <div className='menu' onClick={this.hideMenu}>
+          {children}
         </div>
       </nav>
     )
   }
-}
-
-Navigation.propTypes = {
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      to: PropTypes.string.isRequired
-    })
-  ).isRequired
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Redirect } from '@reach/router'
 import { graphql } from 'react-apollo'
 
-import { LOGIN_MUTATION, USERNAME_QUERY } from '../../queries'
+import { REGISTER_MUTATION, USERNAME_QUERY } from '../../queries'
 import { setToken } from '../../utils'
 
 export class FormPresentation extends React.PureComponent {
@@ -12,6 +12,8 @@ export class FormPresentation extends React.PureComponent {
     this.state = {
       email: '',
       password: '',
+      confirmPassword: '',
+      username: '',
       success: false
     }
 
@@ -32,15 +34,20 @@ export class FormPresentation extends React.PureComponent {
 
     const {
       props: { mutate },
-      state: { email, password }
+      state: { email, password, confirmPassword, username }
     } = this
 
-    if (email.trim() === '' || password.trim() === '') {
+    if (
+      email.trim() === '' ||
+      password.trim() === '' ||
+      username.trim() === '' ||
+      password !== confirmPassword
+    ) {
       return
     }
 
     try {
-      await mutate({ variables: { email, password } })
+      await mutate({ variables: { email, password, username } })
       this.setState({ success: true })
     } catch (e) {
       console.error(e)
@@ -48,9 +55,7 @@ export class FormPresentation extends React.PureComponent {
   }
 
   render () {
-    const {
-      state: { email, password, success }
-    } = this
+    const { email, password, confirmPassword, username, success } = this.state
 
     if (success) {
       return <Redirect to='/' noThrow />
@@ -58,8 +63,19 @@ export class FormPresentation extends React.PureComponent {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <fieldset className='flex center one two-1400'>
-          <label>
+        <fieldset className='flex one two-1400'>
+          <label className='full-1400'>
+            Username
+            <input
+              name='username'
+              onChange={this.handleChange}
+              required
+              type='text'
+              value={username}
+            />
+          </label>
+
+          <label className='full-1400'>
             Email
             <input
               name='email'
@@ -80,18 +96,29 @@ export class FormPresentation extends React.PureComponent {
               value={password}
             />
           </label>
+
+          <label>
+            Confirm Password
+            <input
+              name='confirmPassword'
+              onChange={this.handleChange}
+              required
+              type='password'
+              value={confirmPassword}
+            />
+          </label>
         </fieldset>
 
-        <button>Login</button>
+        <button>Register</button>
       </form>
     )
   }
 }
 
-export const Form = graphql(LOGIN_MUTATION, {
+export const Form = graphql(REGISTER_MUTATION, {
   options: {
-    refetchQueries: ({ data: { login } }) => {
-      setToken(login)
+    refetchQueries: ({ data: { register } }) => {
+      setToken(register)
 
       return [{ query: USERNAME_QUERY }]
     }

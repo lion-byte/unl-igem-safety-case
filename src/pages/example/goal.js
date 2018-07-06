@@ -5,8 +5,6 @@ export class GoalNode extends React.PureComponent {
   render () {
     const { height, fontSize, node, width } = this.props
 
-    console.log(node)
-
     return (
       <React.Fragment>
         <ellipse

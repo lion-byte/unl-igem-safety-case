@@ -10,7 +10,7 @@ export class UserPresentation extends React.PureComponent {
     } = this.props
 
     if (loading) {
-      return <span>Loading...</span>
+      return null
     } else if (error) {
       return <span>guest</span>
     } else {

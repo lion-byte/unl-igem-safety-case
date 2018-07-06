@@ -13,7 +13,7 @@ module.exports = merge(common, {
     new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, './dist'),
       indexPath: path.join(__dirname, './dist/index.html'),
-      routes: ['/', '/example', '/login'],
+      routes: ['/', '/example', '/login', '/logout', '/register'],
       minify: {
         collapseBooleanAttributes: true,
         collapseWhitespace: true,
