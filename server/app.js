@@ -9,20 +9,20 @@ const { schema } = require('./graphql')
 
 const app = express()
 
+const auth = jwt({
+  credentialsRequired: false,
+  secret: process.env.TOKEN_SECRET
+})
+
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
-app.use(
-  jwt({
-    credentialsRequired: false,
-    secret: process.env.TOKEN_SECRET
-  })
-)
 
 app.use(
   '/graphql',
   bodyParser.json(),
+  auth,
   graphqlExpress(req => ({
     schema,
     context: { user: req.user }

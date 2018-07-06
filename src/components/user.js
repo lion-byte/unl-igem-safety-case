@@ -1,29 +1,22 @@
 import * as React from 'react'
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 
-const query = gql`
-query CurrentUser {
-  me {
-    username
-  }
-}
-`
+import { USERNAME_QUERY } from '../queries'
 
-export class User extends React.PureComponent {
+export class UserPresentation extends React.PureComponent {
   render () {
-    return (
-      <Query query={query}>
-        {({ loading, error, data }) => {
-          if (loading) {
-            return <span>Loading...</span>
-          } else if (error) {
-            return <span>Guest</span>
-          } else {
-            return <span>{data.me.username}</span>
-          }
-        }}
-      </Query>
-    )
+    const {
+      data: { loading, error, me }
+    } = this.props
+
+    if (loading) {
+      return <span>Loading...</span>
+    } else if (error) {
+      return <span>guest</span>
+    } else {
+      return <span>{me.username}</span>
+    }
   }
 }
+
+export const User = graphql(USERNAME_QUERY)(UserPresentation)

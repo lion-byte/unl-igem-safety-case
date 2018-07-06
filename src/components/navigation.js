@@ -30,7 +30,7 @@ export class Navigation extends React.PureComponent {
       <nav>
         <Link className='brand' to='/'>
           <span>
-            UNL iGEM Safety Case | <User />
+            UNL iGEM Safety Case
           </span>
         </Link>
 
