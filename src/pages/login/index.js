@@ -1,8 +1,8 @@
 import * as React from 'react'
+import { Link } from '@reach/router'
 
 import { Page } from '../../components/ui'
 import { Form } from './form'
-import { Link } from '@reach/router'
 
 export default class Login extends React.PureComponent {
   render () {

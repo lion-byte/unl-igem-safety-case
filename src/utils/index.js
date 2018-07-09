@@ -1,3 +1,5 @@
+export * from './lazyload'
+
 export const isProduction = () => process.env.NODE_ENV === 'production'
 
 export const setToken = token => window.localStorage.setItem('token', token)

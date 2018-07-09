@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Redirect } from '@reach/router'
 import { graphql } from 'react-apollo'
 
-import { client } from '../../client'
 import { LOGIN_MUTATION, USERNAME_QUERY } from '../../queries'
 import { setToken, getToken, removeToken } from '../../utils'
 
@@ -43,6 +42,8 @@ export class FormPresentation extends React.PureComponent {
     // If already signed in, quickly sign out
     if (getToken()) {
       removeToken()
+
+      const { client } = await import('../../client')
       await client.resetStore()
     }
 
