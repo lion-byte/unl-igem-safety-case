@@ -42,7 +42,7 @@ app.use((err, req, res, next) => {
 
   const { stack } = err
 
-  res.status(stack !== undefined ? Number.parseInt(stack) : 500)
+  res.status(stack !== undefined ? Number.parseInt(stack) || 500 : 500)
   res.send('Error')
 })
 

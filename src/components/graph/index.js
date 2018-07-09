@@ -6,8 +6,11 @@ import { Tree } from '@vx/hierarchy'
 import { LinkVertical } from '@vx/shape'
 
 import { GoalNode } from './goal'
-import { ArgumentNode } from './argument'
+import { StrategyNode } from './strategy'
 import { SolutionNode } from './solution'
+import { ConditionNode } from './condition'
+import { AssumptionNode } from './assumption'
+import { JustificationNode } from './justification'
 
 export class Node extends React.PureComponent {
   render () {
@@ -16,16 +19,28 @@ export class Node extends React.PureComponent {
     let graphNode
 
     switch (node.data.type) {
-      case 'argument':
-        graphNode = <ArgumentNode node={node} />
+      case 'assumption':
+        graphNode = <AssumptionNode node={node} />
+        break
+
+      case 'condition':
+        graphNode = <ConditionNode node={node} />
         break
 
       case 'goal':
         graphNode = <GoalNode node={node} />
         break
 
+      case 'justification':
+        graphNode = <JustificationNode node={node} />
+        break
+
       case 'solution':
         graphNode = <SolutionNode node={node} width={100} />
+        break
+
+      case 'strategy':
+        graphNode = <StrategyNode node={node} />
         break
     }
 

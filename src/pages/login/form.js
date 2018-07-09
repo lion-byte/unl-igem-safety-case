@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Redirect } from '@reach/router'
 import { graphql } from 'react-apollo'
 
+import { client } from '../../client'
 import { LOGIN_MUTATION, USERNAME_QUERY } from '../../queries'
-import { setToken } from '../../utils'
+import { setToken, getToken, removeToken } from '../../utils'
 
 export class FormPresentation extends React.PureComponent {
   constructor (props) {
@@ -37,6 +38,12 @@ export class FormPresentation extends React.PureComponent {
 
     if (email.trim() === '' || password.trim() === '') {
       return
+    }
+
+    // If already signed in, quickly sign out
+    if (getToken()) {
+      removeToken()
+      await client.resetStore()
     }
 
     try {

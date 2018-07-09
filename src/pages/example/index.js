@@ -1,52 +1,64 @@
 import * as React from 'react'
 
+import Graph from '../../components/graph'
 import { Page } from '../../components/ui'
-import Graph from './graph'
 
 /** @type {Goal} */
 const data = {
   type: 'goal',
-  name: 'test g',
-  message: 'test goal',
+  name: 'Root goal',
+  message: 'The product is safe',
   children: [
     {
-      type: 'argument',
-      name: 'test a',
-      message: 'test argument',
+      type: 'condition',
+      name: 'Environment condition',
+      message: 'Outside'
+    },
+    {
+      type: 'condition',
+      name: 'Operating condition',
+      message: 'Lab'
+    },
+    {
+      type: 'strategy',
+      name: 'Root strategy',
+      message: 'Argument over the safety of the product',
       children: [
+        { type: 'justification', name: 'Justified', message: 'Something here' },
+        { type: 'assumption', name: 'Assumed', message: 'Something here' },
         {
           type: 'goal',
-          message: 'test goal2',
-          name: 'g2',
+          name: 'SG1',
+          message: 'Subgoal 1',
           children: [
             {
-              name: 'solution 1',
               type: 'solution',
-              message: 'hoi'
+              name: 'Solution 1',
+              message: 'Something'
             }
           ]
         },
         {
           type: 'goal',
-          message: 'test goal3',
-          name: 'g3',
+          name: 'SG2',
+          message: 'Subgoal 2',
           children: [
             {
-              name: 'solution 3',
               type: 'solution',
-              message: 'hoi'
+              name: 'Solution 2',
+              message: 'Something'
             }
           ]
         },
         {
           type: 'goal',
-          message: 'test goal4',
-          name: 'g4',
+          name: 'SG3',
+          message: 'Subgoal 3',
           children: [
             {
-              name: 'solution 3',
               type: 'solution',
-              message: 'hoi'
+              name: 'Solution 3',
+              message: 'Something'
             }
           ]
         }
@@ -64,7 +76,7 @@ export default class Example extends React.PureComponent {
             data={data}
             height={640}
             style={{ width: '100%' }}
-            width={960}
+            width={1260}
           />
         </section>
       </Page>

@@ -1,29 +1,27 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-export class ArgumentNode extends React.PureComponent {
+export class GoalNode extends React.PureComponent {
   render () {
     const { height, fontSize, node, width } = this.props
 
     return (
       <React.Fragment>
-        <rect
-          height={height}
-          fill='#ff611f'
+        <ellipse
+          fill='#af52d1'
+          rx={width / 2}
+          ry={height / 2}
           stroke='#ffffff'
           strokeWidth={1}
-          width={width}
-          x={-width / 2}
-          y={-height / 2}
         />
 
         <text
           style={{ pointerEvents: 'none' }}
           textAnchor='middle'
+          fill='white'
           fontSize={fontSize}
           x={0}
           y={fontSize / 3}
-          fill='white'
         >
           {node.data.name}
         </text>
@@ -32,14 +30,14 @@ export class ArgumentNode extends React.PureComponent {
   }
 }
 
-ArgumentNode.propTypes = {
+GoalNode.propTypes = {
   height: PropTypes.number,
   fontSize: PropTypes.number,
   node: PropTypes.any.isRequired,
   width: PropTypes.number
 }
 
-ArgumentNode.defaultProps = {
+GoalNode.defaultProps = {
   height: 40,
   fontSize: 16,
   width: 60

@@ -4,11 +4,11 @@
 
 // type Hazard = 1 | 2 | 3 | 4
 
-// type SafetyMechanism =
-//   | 'Kill-switch'
-//   | 'Auxotrophy'
-//   | 'Degradation'
-//   | 'Sterility'
+type SafetyMechanism =
+  | 'Kill-switch'
+  | 'Auxotrophy'
+  | 'Degradation'
+  | 'Sterility'
 
 // type Usage = 'SEBO' | 'SEBO outputs'
 
@@ -28,41 +28,47 @@
 type NodeType =
   | 'assumption'
   | 'condition'
+  | 'goal'
   | 'justification'
   | 'solution'
-  | 'argument'
-  | 'goal'
+  | 'strategy'
 
-interface Info {
-  message: string
-  name: string
-  type: NodeType
-}
-
-interface Assumption extends Info {
+interface Assumption {
   type: 'assumption'
+  name: string
+  message: string
 }
 
-interface Condition extends Info {
+interface Condition {
   type: 'condition'
+  name: string
+  message: string
 }
 
-interface Justification extends Info {
-  type: 'justification'
-}
-
-interface Solution extends Info {
-  type: 'solution'
-}
-
-interface Argument extends Info {
-  type: 'argument'
-  children?: Array<Assumption | Condition | Justification | Goal>
-}
-
-interface Goal extends Info {
+interface Goal {
   type: 'goal'
+  name: string
+  message: string
   children?:
-    | Array<Argument | Condition | Justification>
+    | Array<Condition | Justification | Strategy>
     | Array<Condition | Solution>
+}
+
+interface Justification {
+  type: 'justification'
+  name: string
+  message: string
+}
+
+interface Solution {
+  type: 'solution'
+  name: string
+  message: string
+}
+
+interface Strategy {
+  type: 'strategy'
+  name: string
+  message: string
+  children?: Array<Assumption | Condition | Justification | Goal>
 }

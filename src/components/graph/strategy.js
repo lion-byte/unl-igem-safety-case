@@ -1,18 +1,20 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-export class GoalNode extends React.PureComponent {
+export class StrategyNode extends React.PureComponent {
   render () {
     const { height, fontSize, node, width } = this.props
 
     return (
       <React.Fragment>
-        <ellipse
-          rx={width / 2}
-          ry={height / 2}
-          fill='#af52d1'
+        <rect
+          height={height}
+          fill='#ff611f'
           stroke='#ffffff'
           strokeWidth={1}
+          width={width}
+          x={-width / 2}
+          y={-height / 2}
         />
 
         <text
@@ -30,15 +32,15 @@ export class GoalNode extends React.PureComponent {
   }
 }
 
-GoalNode.propTypes = {
+StrategyNode.propTypes = {
   height: PropTypes.number,
   fontSize: PropTypes.number,
   node: PropTypes.any.isRequired,
   width: PropTypes.number
 }
 
-GoalNode.defaultProps = {
+StrategyNode.defaultProps = {
   height: 40,
   fontSize: 16,
-  width: 60
+  width: 100
 }

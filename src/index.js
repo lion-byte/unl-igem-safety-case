@@ -1,17 +1,10 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
-// @ts-ignore
-import Loadable from 'react-loadable'
 
 import './styles/main.less'
-import { client } from './apollo'
-
-const App = Loadable({
-  loader: () =>
-    import(/* webpackChunkName: "main", webpackPreload: true */ './app'),
-  loading: () => null
-})
+import { client } from './client'
+import { App } from './app'
 
 render(
   <ApolloProvider client={client}>
