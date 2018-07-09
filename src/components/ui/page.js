@@ -7,12 +7,12 @@ export class Page extends React.PureComponent {
     const { children, title, useDefaultTitle } = this.props
 
     return (
-      <main className='flex four center'>
+      <main className='flex one center'>
         {useDefaultTitle ? null : (
           <Helmet title={`${title} | UNL iGEM Safety Case`} />
         )}
 
-        <h1 className='three-fourth'>{title}</h1>
+        <h1>{title}</h1>
 
         {children}
       </main>

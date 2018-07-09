@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
@@ -52,9 +53,15 @@ module.exports = {
     new MiniCSSExtractPlugin({
       filename: '[name].css'
     }),
+    new CopyWebpackPlugin([
+      {
+        from: '**/*',
+        context: 'static/'
+      }
+    ]),
     new HtmlWebpackPlugin({
       title: 'Hello',
-      template: 'pages/index.html'
+      template: 'static/index.html'
     })
   ]
 }

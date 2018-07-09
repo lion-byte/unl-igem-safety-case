@@ -8,9 +8,8 @@
     "moduleResolution": "node",
     "noEmit": true,
     "target": "es2017",
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*.js"
-  ]
+  "include": ["declarations.d.ts", "server/**/*.js", "src/**/*.js"]
 }

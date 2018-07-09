@@ -1,6 +1,8 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
+import { Page } from './page'
+
 export class Loading extends React.PureComponent {
   render () {
     const { className, error, pastDelay, retry, timedOut } = this.props
@@ -33,4 +35,36 @@ Loading.propTypes = {
 
 Loading.defaultProps = {
   className: ''
+}
+
+export class LoadingPage extends React.PureComponent {
+  render () {
+    const { error, pastDelay, retry, timedOut } = this.props
+
+    if (error) {
+      return (
+        <Page useDefaultTitle>
+          <h2>Error!</h2>
+
+          <button onClick={retry}>Retry</button>
+        </Page>
+      )
+    } else if (timedOut) {
+      return (
+        <Page useDefaultTitle>
+          <h2>Taking a while...</h2>
+
+          <button onClick={retry}>Retry</button>
+        </Page>
+      )
+    } else if (pastDelay) {
+      return (
+        <Page useDefaultTitle>
+          <h2>Loading...</h2>
+        </Page>
+      )
+    } else {
+      return null
+    }
+  }
 }

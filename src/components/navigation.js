@@ -20,7 +20,10 @@ export class Navigation extends React.PureComponent {
   }
 
   render () {
-    const { checked } = this.state
+    const {
+      state: { checked },
+      props: { children }
+    } = this
 
     return (
       <nav>
@@ -39,10 +42,8 @@ export class Navigation extends React.PureComponent {
           &#9776;
         </label>
 
-        <div className='menu'>
-          <Link className='pseudo button' onClick={this.hideMenu} to='/'>
-            Home
-          </Link>
+        <div className='menu' onClick={this.hideMenu}>
+          {children}
         </div>
       </nav>
     )
