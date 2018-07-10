@@ -4,6 +4,12 @@ import { Page } from '../../components/ui'
 
 export default class Edit extends React.PureComponent {
   render () {
-    return <Page title='Edit' />
+    return (
+      <Page title='Edit'>
+        <section>
+          <h2>Nothing here to edit</h2>
+        </section>
+      </Page>
+    )
   }
 }

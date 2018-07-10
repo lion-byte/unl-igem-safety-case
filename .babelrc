@@ -5,7 +5,7 @@
       {
         "modules": false,
         "loose": true,
-        "useBuiltIns": true,
+        "useBuiltIns": false,
         "targets": {
           "browsers": [
             "defaults"
@@ -27,7 +27,7 @@
           {
             "modules": "commonjs",
             "loose": true,
-            "useBuiltIns": true,
+            "useBuiltIns": false,
             "targets": {
               "node": "current"
             }

@@ -5,6 +5,7 @@ import { Group } from '@vx/group'
 import { Tree } from '@vx/hierarchy'
 import { LinkVertical } from '@vx/shape'
 
+import { exportAsPNG, exportAsSVG } from '../../utils'
 import { GoalNode } from './goal'
 import { StrategyNode } from './strategy'
 import { SolutionNode } from './solution'
@@ -63,6 +64,27 @@ export class Link extends React.PureComponent {
 }
 
 export default class Graph extends React.PureComponent {
+  constructor (props) {
+    super(props)
+
+    this.diagram = null
+
+    this.saveSVG = this.saveSVG.bind(this)
+    this.savePNG = this.savePNG.bind(this)
+  }
+
+  async saveSVG () {
+    const { diagram } = this
+
+    exportAsSVG(diagram, 'diagram.svg')
+  }
+
+  async savePNG () {
+    const { diagram } = this
+
+    exportAsPNG(diagram, 'diagram.png')
+  }
+
   render () {
     const {
       className,
@@ -81,29 +103,35 @@ export default class Graph extends React.PureComponent {
     const data = hierarchy(raw)
 
     return (
-      <svg
-        className={className}
-        height={height}
-        width={width}
-        viewBox={`0 0 ${width} ${height}`}
-        {...others}
-      >
-        <LinearGradient id='lg' from='#fd9b93' to='#fe6e9e' />
+      <React.Fragment>
+        <svg
+          className={className}
+          height={height}
+          width={width}
+          viewBox={`0 0 ${width} ${height}`}
+          {...others}
+          ref={diagram => (this.diagram = diagram)}
+        >
+          <LinearGradient id='lg' from='#fd9b93' to='#fe6e9e' />
 
-        <rect width={width} height={height} rx={14} fill='#272b4d' />
+          <rect width={width} height={height} rx={14} fill='#272b4d' />
 
-        <Tree
-          top={margin.top}
-          left={margin.left}
-          root={data}
-          size={[
-            width - (margin.left + margin.right),
-            height - (margin.top + margin.bottom)
-          ]}
-          nodeComponent={Node}
-          linkComponent={Link}
-        />
-      </svg>
+          <Tree
+            top={margin.top}
+            left={margin.left}
+            root={data}
+            size={[
+              width - (margin.left + margin.right),
+              height - (margin.top + margin.bottom)
+            ]}
+            nodeComponent={Node}
+            linkComponent={Link}
+          />
+        </svg>
+
+        <button onClick={this.saveSVG}>Save as SVG</button>
+        <button onClick={this.savePNG}>Save as PNG</button>
+      </React.Fragment>
     )
   }
 }

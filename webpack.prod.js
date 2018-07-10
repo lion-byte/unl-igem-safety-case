@@ -8,6 +8,10 @@ const common = require('./webpack.common')
 module.exports = merge(common, {
   devtool: 'source-map',
   mode: 'production',
+  performance: {
+    maxAssetSize: 300000,
+    maxEntrypointSize: 300000
+  },
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new PrerenderSPAPlugin({
@@ -15,8 +19,10 @@ module.exports = merge(common, {
       indexPath: path.join(__dirname, './dist/index.html'),
       routes: [
         '/',
+        '/account',
         '/create',
         '/create/root',
+        '/create/sub-goal',
         '/edit',
         '/example',
         '/login',

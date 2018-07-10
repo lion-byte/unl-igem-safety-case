@@ -1,9 +1,19 @@
 import gql from 'graphql-tag'
 
 export const USERNAME_QUERY = gql`
-  query UserInfo {
+  query Username {
     me {
       username
+    }
+  }
+`
+
+export const PERMISSIONS_QUERY = gql`
+  query Permissions {
+    permissions {
+      level
+      canRead
+      canWrite
     }
   }
 `

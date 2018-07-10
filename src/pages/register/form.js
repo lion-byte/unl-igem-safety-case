@@ -2,7 +2,11 @@ import * as React from 'react'
 import { Redirect } from '@reach/router'
 import { graphql } from 'react-apollo'
 
-import { REGISTER_MUTATION, USERNAME_QUERY } from '../../queries'
+import {
+  REGISTER_MUTATION,
+  USERNAME_QUERY,
+  PERMISSIONS_QUERY
+} from '../../queries'
 import { setToken } from '../../utils'
 
 export class FormPresentation extends React.PureComponent {
@@ -63,8 +67,8 @@ export class FormPresentation extends React.PureComponent {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <fieldset className='flex one two-1400'>
-          <label className='full-1400'>
+        <fieldset className='flex one two-800'>
+          <label className='full-800'>
             Username
             <input
               name='username'
@@ -75,7 +79,7 @@ export class FormPresentation extends React.PureComponent {
             />
           </label>
 
-          <label className='full-1400'>
+          <label className='full-800'>
             Email
             <input
               name='email'
@@ -120,7 +124,7 @@ export const Form = graphql(REGISTER_MUTATION, {
     refetchQueries: ({ data: { register } }) => {
       setToken(register)
 
-      return [{ query: USERNAME_QUERY }]
+      return [{ query: USERNAME_QUERY }, { query: PERMISSIONS_QUERY }]
     }
   }
 })(FormPresentation)

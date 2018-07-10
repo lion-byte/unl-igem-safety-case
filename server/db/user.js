@@ -59,11 +59,18 @@ const register = async (username, email, password) => {
   const salt = genSalt(16)
   const passwordHash = hashPassword(password, salt)
 
+  const permissions = {
+    level: 'USER',
+    canRead: true,
+    canWrite: true
+  }
+
   await userCollection.insert({
     username,
     email,
     passwordHash,
-    salt
+    salt,
+    permissions
   })
 
   return true
