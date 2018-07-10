@@ -6,12 +6,29 @@ const resolvers = {
   Query: {
     me: async (_, args, { user: userToken }) => {
       if (!userToken) {
-        throw Error('You are not authenticated')
+        return null
       }
 
       const account = await user.findByEmail(userToken.email)
 
       return account
+    },
+    permissions: async (_, args, { user: userToken }) => {
+      const guestPermissions = {
+        level: 'GUEST',
+        canRead: true,
+        canWrite: false
+      }
+
+      if (!userToken) {
+        return guestPermissions
+      }
+
+      const { permissions } = (await user.findByEmail(userToken.email)) || {
+        permissions: guestPermissions
+      }
+
+      return permissions
     }
   },
   Mutation: {

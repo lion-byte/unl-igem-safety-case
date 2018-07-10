@@ -19,6 +19,7 @@ module.exports = merge(common, {
       indexPath: path.join(__dirname, './dist/index.html'),
       routes: [
         '/',
+        '/account',
         '/create',
         '/create/root',
         '/create/sub-goal',

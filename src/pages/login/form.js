@@ -2,7 +2,11 @@ import * as React from 'react'
 import { Redirect } from '@reach/router'
 import { graphql } from 'react-apollo'
 
-import { LOGIN_MUTATION, USERNAME_QUERY } from '../../queries'
+import {
+  LOGIN_MUTATION,
+  USERNAME_QUERY,
+  PERMISSIONS_QUERY
+} from '../../queries'
 import { setToken, getToken, removeToken } from '../../utils'
 
 export class FormPresentation extends React.PureComponent {
@@ -101,7 +105,7 @@ export const Form = graphql(LOGIN_MUTATION, {
     refetchQueries: ({ data: { login } }) => {
       setToken(login)
 
-      return [{ query: USERNAME_QUERY }]
+      return [{ query: USERNAME_QUERY }, { query: PERMISSIONS_QUERY }]
     }
   }
 })(FormPresentation)
