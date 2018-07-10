@@ -63,8 +63,8 @@ export class FormPresentation extends React.PureComponent {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <fieldset className='flex one two-1400'>
-          <label className='full-1400'>
+        <fieldset className='flex one two-800'>
+          <label className='full-800'>
             Username
             <input
               name='username'
@@ -75,7 +75,7 @@ export class FormPresentation extends React.PureComponent {
             />
           </label>
 
-          <label className='full-1400'>
+          <label className='full-800'>
             Email
             <input
               name='email'
