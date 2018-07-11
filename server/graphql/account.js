@@ -1,6 +1,36 @@
+const { makeExecutableSchema } = require('graphql-tools')
 const { sign } = require('jsonwebtoken')
 
 const { user } = require('../db')
+
+const typeDefs = `
+enum PermissionLevel {
+  ADMIN
+  USER
+  GUEST
+}
+
+type Permissions {
+  level: PermissionLevel!
+  canRead: Boolean!
+  canWrite: Boolean!
+}
+
+type User {
+  username: String!
+  email: String!
+}
+
+type Query {
+  me: User
+  permissions: Permissions!
+}
+
+type Mutation {
+  register (username: String!, email: String!, password: String!): String
+  login (email: String!, password: String!): String
+}
+`
 
 const resolvers = {
   Query: {
@@ -13,6 +43,7 @@ const resolvers = {
 
       return account
     },
+
     permissions: async (_, args, { user: userToken }) => {
       const guestPermissions = {
         level: 'GUEST',
@@ -31,6 +62,7 @@ const resolvers = {
       return permissions
     }
   },
+
   Mutation: {
     register: async (_, { username, email, password }) => {
       const success = await user.register(username, email, password)
@@ -70,4 +102,8 @@ const resolvers = {
   }
 }
 
-module.exports = { resolvers }
+const accountSchema = makeExecutableSchema({ typeDefs, resolvers })
+
+module.exports = {
+  accountSchema
+}

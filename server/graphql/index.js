@@ -1,11 +1,9 @@
-const { makeExecutableSchema } = require('graphql-tools')
+const { mergeSchemas } = require('graphql-tools')
 
-const { typeDefs } = require('./typeDefs')
-const { resolvers } = require('./resolvers')
+const { accountSchema } = require('./account')
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers
+const schema = mergeSchemas({
+  schemas: [accountSchema]
 })
 
 module.exports = { schema }
