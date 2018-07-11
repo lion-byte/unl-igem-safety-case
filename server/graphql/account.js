@@ -57,6 +57,10 @@ const resolvers = {
 
       const account = await user.findById(userToken.id)
 
+      if (account === null) {
+        return guestPermissions
+      }
+
       return account.permissions
     }
   },

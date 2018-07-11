@@ -7,58 +7,62 @@ import { Page } from '../../components/ui'
 const data = {
   type: 'goal',
   name: 'Root goal',
-  message: 'The product is safe',
+  statement: 'The product is safe',
   children: [
     {
-      type: 'condition',
-      name: 'Environment condition',
-      message: 'Outside'
+      type: 'context',
+      name: 'Environment context',
+      statement: 'Outside'
     },
     {
-      type: 'condition',
-      name: 'Operating condition',
-      message: 'Lab'
+      type: 'context',
+      name: 'Operating context',
+      statement: 'Lab'
     },
     {
       type: 'strategy',
       name: 'Root strategy',
-      message: 'Argument over the safety of the product',
+      statement: 'Argument over the safety of the product',
       children: [
-        { type: 'justification', name: 'Justified', message: 'Something here' },
-        { type: 'assumption', name: 'Assumed', message: 'Something here' },
+        {
+          type: 'justification',
+          name: 'Justified',
+          statement: 'Something here'
+        },
+        { type: 'assumption', name: 'Assumed', statement: 'Something here' },
         {
           type: 'goal',
           name: 'SG1',
-          message: 'Subgoal 1',
+          statement: 'Subgoal 1',
           children: [
             {
               type: 'solution',
               name: 'Solution 1',
-              message: 'Something'
+              statement: 'Something'
             }
           ]
         },
         {
           type: 'goal',
           name: 'SG2',
-          message: 'Subgoal 2',
+          statement: 'Subgoal 2',
           children: [
             {
               type: 'solution',
               name: 'Solution 2',
-              message: 'Something'
+              statement: 'Something'
             }
           ]
         },
         {
           type: 'goal',
           name: 'SG3',
-          message: 'Subgoal 3',
+          statement: 'Subgoal 3',
           children: [
             {
               type: 'solution',
               name: 'Solution 3',
-              message: 'Something'
+              statement: 'Something'
             }
           ]
         }

@@ -9,7 +9,7 @@ import { exportAsPNG, exportAsSVG } from '../../utils'
 import { GoalNode } from './goal'
 import { StrategyNode } from './strategy'
 import { SolutionNode } from './solution'
-import { ConditionNode } from './condition'
+import { ContextNode } from './context'
 import { AssumptionNode } from './assumption'
 import { JustificationNode } from './justification'
 
@@ -24,8 +24,8 @@ export class Node extends React.PureComponent {
         graphNode = <AssumptionNode node={node} />
         break
 
-      case 'condition':
-        graphNode = <ConditionNode node={node} />
+      case 'context':
+        graphNode = <ContextNode node={node} />
         break
 
       case 'goal':
