@@ -17,6 +17,20 @@ const findByEmail = async email => {
 }
 
 /**
+ * @param {any} id
+ * @returns {Promise<any>}
+ */
+const findById = async id => {
+  const db = getConnection()
+  const userCollection = db.get('users')
+
+  const account = await userCollection.findOne({ _id: id })
+  db.close()
+
+  return account
+}
+
+/**
  * @param {string} username
  * @returns {Promise<any>}
  */
@@ -108,4 +122,4 @@ const validate = async (email, password) => {
   }
 }
 
-module.exports = { findByEmail, findByUsername, register, validate }
+module.exports = { findByEmail, findById, findByUsername, register, validate }

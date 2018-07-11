@@ -39,7 +39,7 @@ const resolvers = {
         return null
       }
 
-      const account = await user.findByEmail(userToken.email)
+      const account = await user.findById(userToken.id)
 
       return account
     },
@@ -55,11 +55,9 @@ const resolvers = {
         return guestPermissions
       }
 
-      const { permissions } = (await user.findByEmail(userToken.email)) || {
-        permissions: guestPermissions
-      }
+      const account = await user.findById(userToken.id)
 
-      return permissions
+      return account.permissions
     }
   },
 
@@ -75,7 +73,7 @@ const resolvers = {
 
       return sign(
         {
-          id: account.id,
+          id: account._id,
           email: account.email
         },
         process.env.TOKEN_SECRET,
@@ -92,7 +90,7 @@ const resolvers = {
 
       return sign(
         {
-          id: account.id,
+          id: account._id,
           email: account.email
         },
         process.env.TOKEN_SECRET,
