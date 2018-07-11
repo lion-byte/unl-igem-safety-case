@@ -1,25 +1,33 @@
 const { createHmac, randomBytes } = require('crypto')
 
-const { db } = require('./connection')
+const { getConnection } = require('./connection')
 
 /**
  * @param {string} email
  * @returns {Promise<any>}
  */
-const findByEmail = email => {
+const findByEmail = async email => {
+  const db = getConnection()
   const userCollection = db.get('users')
 
-  return userCollection.findOne({ email })
+  const account = await userCollection.findOne({ email })
+  db.close()
+
+  return account
 }
 
 /**
  * @param {string} username
  * @returns {Promise<any>}
  */
-const findByUsername = username => {
+const findByUsername = async username => {
+  const db = getConnection()
   const userCollection = db.get('users')
 
-  return userCollection.findOne({ username })
+  const account = await userCollection.findOne({ username })
+  db.close()
+
+  return account
 }
 
 /**
@@ -54,6 +62,7 @@ const register = async (username, email, password) => {
     return false
   }
 
+  const db = getConnection()
   const userCollection = db.get('users')
 
   const salt = genSalt(16)
@@ -72,6 +81,8 @@ const register = async (username, email, password) => {
     salt,
     permissions
   })
+
+  db.close()
 
   return true
 }

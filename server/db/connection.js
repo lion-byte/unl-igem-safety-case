@@ -1,5 +1,5 @@
 const { default: Monk } = require('monk')
 
-const db = Monk(process.env.DB_HOST)
+const getConnection = () => Monk(process.env.DB_HOST)
 
-module.exports = { db }
+module.exports = { getConnection }
