@@ -33,25 +33,23 @@
     "ignore": [],
     "parser": "babel-eslint"
   },
-  "hookInfo": {
-    "husky": {
-      "hooks": {
-        "pre-commit": [
-          "lint-staged"
-        ]
-      }
-    },
-    "lint-staged": {
-      "*.js": [
-        "prettier --write",
-        "standard --fix",
-        "git add"
-      ],
-      "*.{md,less}": [
-        "prettier --write",
-        "git add"
+  "husky": {
+    "hooks": {
+      "pre-commit": [
+        "lint-staged"
       ]
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "standard --fix",
+      "git add"
+    ],
+    "*.{md,less}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
