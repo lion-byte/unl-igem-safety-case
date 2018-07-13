@@ -1,9 +1,8 @@
 import * as React from 'react'
 
-import Graph from '../../components/graph'
 import { Page } from '../../components/ui'
+import { asyncComponent } from '../../utils'
 
-/** @type {Goal} */
 const data = {
   type: 'goal',
   name: 'Root goal',
@@ -70,6 +69,10 @@ const data = {
     }
   ]
 }
+
+const Graph = asyncComponent(() =>
+  import(/* webpackChunkName: "graph" */ '../../components/graph')
+)
 
 export default class Example extends React.PureComponent {
   render () {
