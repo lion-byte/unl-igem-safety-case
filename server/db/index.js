@@ -1,3 +1,4 @@
+const diagram = require('./diagram')
 const user = require('./user')
 
-module.exports = { user }
+module.exports = { diagram, user }

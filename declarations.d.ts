@@ -25,14 +25,15 @@ type SafetyMechanism =
 
 // type Parameter = ''
 
-type Diagram = {
+type PublishStatus = 'private' | 'published' | 'draft'
+
+interface Diagram {
   description: string
-  dimensions: {
-    height: number
-    width: number
-  }
+  height: number
   rootGoal: Goal
+  status: PublishStatus
   title: string
+  width: number
 }
 
 type NodeType =
@@ -60,9 +61,15 @@ interface Goal {
   type: 'goal'
   name: string
   statement: string
-  children:
-    | Array<Assumption | Context | Goal | Justification | Strategy>
-    | Array<Context | Insufficient | Solution>
+  children: {
+    assumptions: Array<Assumption>
+    contexts: Array<Context>
+    goals: Array<Goal>
+    insufficients?: Array<Insufficient>
+    justifications: Array<Justification>
+    strategies?: Array<Strategy>
+    solutions?: Array<Solution>
+  }
 }
 
 interface Insufficient {
@@ -87,5 +94,11 @@ interface Strategy {
   type: 'strategy'
   name: string
   statement: string
-  children: Array<Assumption | Context | Justification | Goal>
+
+  children: {
+    assumptions: Array<Assumption>
+    contexts: Array<Context>
+    goals: Array<Goal>
+    justifications: Array<Justification>
+  }
 }
