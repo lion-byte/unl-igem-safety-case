@@ -98,7 +98,7 @@ const resolvers = {
           email: account.email
         },
         process.env.TOKEN_SECRET,
-        { expiresIn: '1d' }
+        { expiresIn: '1y' }
       )
     }
   }
@@ -106,6 +106,4 @@ const resolvers = {
 
 const accountSchema = makeExecutableSchema({ typeDefs, resolvers })
 
-module.exports = {
-  accountSchema
-}
+module.exports = { accountSchema }

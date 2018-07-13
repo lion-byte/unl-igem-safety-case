@@ -26,7 +26,6 @@ const createDiagram = async diagram => {
     description = '',
     height = 960,
     rootGoalId = null,
-    status = 'draft',
     title = 'Diagram',
     width = 1260
   } = diagram
@@ -38,7 +37,7 @@ const createDiagram = async diagram => {
     description,
     height,
     rootGoalId,
-    status,
+    status: 'draft',
     title,
     width
   })
