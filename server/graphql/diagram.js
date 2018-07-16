@@ -56,7 +56,7 @@ type Query {
 
   getNode (id: String!): DiagramNode
 
-  getNodes (type: DiagramNodeType!): [DiagramNode]
+  getNodes (type: DiagramNodeType): [DiagramNode]
 }
 
 type Mutation {
