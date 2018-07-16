@@ -202,7 +202,7 @@ const resolvers = {
     },
 
     deleteDiagram: async (_, { id }, { user: userToken }) => {
-      if (userToken) {
+      if (!userToken) {
         return null
       }
 
@@ -210,7 +210,7 @@ const resolvers = {
     },
 
     deleteNode: async (_, { id }, { user: userToken }) => {
-      if (userToken) {
+      if (!userToken) {
         return null
       }
 
