@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-export class ConditionNode extends React.PureComponent {
+export class ContextNode extends React.PureComponent {
   render () {
     const { height, fontSize, node, width } = this.props
 
@@ -32,14 +32,14 @@ export class ConditionNode extends React.PureComponent {
   }
 }
 
-ConditionNode.propTypes = {
+ContextNode.propTypes = {
   height: PropTypes.number,
   fontSize: PropTypes.number,
   node: PropTypes.any.isRequired,
   width: PropTypes.number
 }
 
-ConditionNode.defaultProps = {
+ContextNode.defaultProps = {
   height: 40,
   fontSize: 16,
   width: 160

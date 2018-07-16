@@ -25,10 +25,22 @@ type SafetyMechanism =
 
 // type Parameter = ''
 
+type PublishStatus = 'private' | 'published' | 'draft'
+
+interface Diagram {
+  description: string
+  height: number
+  rootGoal: Goal
+  status: PublishStatus
+  title: string
+  width: number
+}
+
 type NodeType =
   | 'assumption'
-  | 'condition'
+  | 'context'
   | 'goal'
+  | 'insufficient'
   | 'justification'
   | 'solution'
   | 'strategy'
@@ -36,39 +48,57 @@ type NodeType =
 interface Assumption {
   type: 'assumption'
   name: string
-  message: string
+  statement: string
 }
 
-interface Condition {
-  type: 'condition'
+interface Context {
+  type: 'context'
   name: string
-  message: string
+  statement: string
 }
 
 interface Goal {
   type: 'goal'
   name: string
-  message: string
-  children?:
-    | Array<Condition | Justification | Strategy>
-    | Array<Condition | Solution>
+  statement: string
+  children: {
+    assumptions: Array<Assumption>
+    contexts: Array<Context>
+    goals: Array<Goal>
+    insufficients?: Array<Insufficient>
+    justifications: Array<Justification>
+    strategies?: Array<Strategy>
+    solutions?: Array<Solution>
+  }
+}
+
+interface Insufficient {
+  type: 'insufficient'
+  name: string
+  statement: string
 }
 
 interface Justification {
   type: 'justification'
   name: string
-  message: string
+  statement: string
 }
 
 interface Solution {
   type: 'solution'
   name: string
-  message: string
+  statement: string
 }
 
 interface Strategy {
   type: 'strategy'
   name: string
-  message: string
-  children?: Array<Assumption | Condition | Justification | Goal>
+  statement: string
+
+  children: {
+    assumptions: Array<Assumption>
+    contexts: Array<Context>
+    goals: Array<Goal>
+    justifications: Array<Justification>
+  }
 }

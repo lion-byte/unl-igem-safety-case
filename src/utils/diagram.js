@@ -22,5 +22,5 @@ export const exportAsPNG = async (svg, filename = 'diagram.png') => {
     default: { saveSvgAsPng }
   } = await saveSvgLib()
 
-  saveSvgAsPng(svg, filename)
+  saveSvgAsPng(svg, filename, { scale: 2 })
 }
