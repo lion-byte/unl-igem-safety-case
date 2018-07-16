@@ -2,9 +2,10 @@ const { getConnection } = require('./connection')
 
 /**
  * @typedef {object} DBDiagram
+ * @property {string} [_id]
  * @property {string} [description]
  * @property {number} [height]
- * @property {any} [rootGoalId]
+ * @property {string} [rootGoalId]
  * @property {PublishStatus} [status]
  * @property {string} [title]
  * @property {number} [width]
@@ -12,10 +13,11 @@ const { getConnection } = require('./connection')
 
 /**
  * @typedef {object} DBDiagramNode
+ * @property {string} [_id]
  * @property {NodeType} [type]
  * @property {string} [name]
  * @property {string} [statement]
- * @property {Array<any>} [children]
+ * @property {Array<string>} [children]
  */
 
 /**
@@ -33,7 +35,7 @@ const createDiagram = async diagram => {
   const db = getConnection()
   const diagramCollection = db.get('diagrams')
 
-  await diagramCollection.insert({
+  const item = await diagramCollection.insert({
     description,
     height,
     rootGoalId,
@@ -43,7 +45,8 @@ const createDiagram = async diagram => {
   })
 
   db.close()
-  return true
+
+  return item ? item._id : null
 }
 
 /**
@@ -55,7 +58,7 @@ const createNode = async node => {
   const db = getConnection()
   const nodeCollection = db.get('diagramNodes')
 
-  await nodeCollection.insert({
+  const item = await nodeCollection.insert({
     type,
     name,
     statement,
@@ -64,7 +67,7 @@ const createNode = async node => {
 
   db.close()
 
-  return true
+  return item ? item._id : null
 }
 
 /**
@@ -74,7 +77,7 @@ const getAllDiagrams = async () => {
   const db = getConnection()
   const diagramCollection = db.get('diagrams')
 
-  const diagramList = await diagramCollection.find({})
+  const diagramList = await diagramCollection.find()
   db.close()
 
   return diagramList
@@ -94,7 +97,7 @@ const getAllNodes = async () => {
 }
 
 /**
- * @param {any} id
+ * @param {string} id
  * @returns {Promise<DBDiagram>}
  */
 const getDiagramById = async id => {
@@ -108,7 +111,7 @@ const getDiagramById = async id => {
 }
 
 /**
- * @param {any} id
+ * @param {string} id
  * @returns {Promise<DBDiagramNode>}
  */
 const getNodeById = async id => {
@@ -122,7 +125,7 @@ const getNodeById = async id => {
 }
 
 /**
- * @param {Array<any>} ids
+ * @param {Array<string>} ids
  * @returns {Promise<Array<DBDiagramNode>>}
  */
 const getNodeListByIds = async ids => {
@@ -139,8 +142,8 @@ const getNodeListByIds = async ids => {
 }
 
 /**
- * @param {any} parentId
- * @param {any} childId
+ * @param {string} parentId
+ * @param {string} childId
  */
 const addChildNode = async (parentId, childId) => {
   const [parent, child] = await getNodeListByIds([parentId, childId])
@@ -148,48 +151,54 @@ const addChildNode = async (parentId, childId) => {
   // Check for valid inputs
   if (!parent || !child) {
     return false
-  } else if (parent.type !== 'goal' && parent.type !== 'strategy') {
+  } else if (!Array.isArray(parent.children)) {
     return false
   }
 
   const db = getConnection()
   const nodeCollection = db.get('diagramNodes')
 
-  const newChildList =
-    parent.children === null ? [childId] : [...parent.children, childId]
+  const { _id, ...rest } = {
+    ...parent,
+    children: parent.children.concat([childId])
+  }
 
-  await nodeCollection.update({ _id: parentId }, { children: newChildList })
+  await nodeCollection.update({ _id: parentId }, { ...rest })
 
   db.close()
+
   return true
 }
 
 /**
- * @param {any} parentId
- * @param {any} childId
+ * @param {string} parentId
+ * @param {string} childId
  */
 const removeChildNode = async (parentId, childId) => {
   const parent = await getNodeById(parentId)
 
   if (!parent) {
     return false
-  } else if (parent.children === null) {
+  } else if (!Array.isArray(parent.children)) {
     return false
   }
 
   const db = getConnection()
   const nodeCollection = db.get('diagramNodes')
 
-  const newChildList = parent.children.filter(node => node.id !== childId)
+  const { _id, ...rest } = {
+    ...parent,
+    children: parent.children.filter(nodeId => nodeId !== childId)
+  }
 
-  await nodeCollection.update({ _id: parentId }, { children: newChildList })
+  await nodeCollection.update({ _id: parentId }, { ...rest })
 
   db.close()
   return true
 }
 
 /**
- * @param {any} id
+ * @param {string} id
  * @param {DBDiagram} updates
  */
 const updateDiagram = async (id, updates) => {
@@ -202,19 +211,20 @@ const updateDiagram = async (id, updates) => {
   const db = getConnection()
   const diagramCollection = db.get('diagrams')
 
-  const { description, height, rootGoalId, status, title, width } = diagram
+  const { _id, ...rest } = {
+    ...diagram,
+    ...updates
+  }
 
-  await diagramCollection.findOneAndUpdate(
-    { _id: id },
-    { description, height, rootGoalId, status, title, width }
-  )
+  await diagramCollection.findOneAndUpdate({ _id: id }, { ...rest })
 
   db.close()
+
   return true
 }
 
 /**
- * @param {any} id
+ * @param {string} id
  * @param {DBDiagramNode} updates
  */
 const updateNode = async (id, updates) => {
@@ -227,29 +237,32 @@ const updateNode = async (id, updates) => {
   const db = getConnection()
   const nodeCollection = db.get('diagramNodes')
 
-  const { name, statement } = node
+  const { _id, ...rest } = { ...node, ...updates }
 
-  nodeCollection.findOneAndUpdate({ _id: id }, { name, statement })
+  nodeCollection.findOneAndUpdate({ _id: id }, { ...rest })
 
   db.close()
+
   return true
 }
 
 /**
- * @param {any} id
+ * @param {string} id
  */
 const deleteDiagram = async id => {
   const db = getConnection()
   const diagramCollection = db.get('diagrams')
 
-  await diagramCollection.remove({ _id: id })
+  const { result } = await diagramCollection.remove({ _id: id })
+
+  console.log(result)
 
   db.close()
   return true
 }
 
 /**
- * @param {any} id
+ * @param {string} id
  */
 const deleteNode = async id => {
   const db = getConnection()
