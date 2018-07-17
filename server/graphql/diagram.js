@@ -56,7 +56,7 @@ type Query {
 
   getNode (id: String!): DiagramNode
 
-  getNodes (type: DiagramNodeType!): [DiagramNode]
+  getNodes (type: DiagramNodeType): [DiagramNode]
 }
 
 type Mutation {
@@ -169,12 +169,16 @@ const resolvers = {
       return diagram.removeChildNode(parentId, childId)
     },
 
-    createDiagram: async (_, { title, description }, { user: userToken }) => {
+    createDiagram: async (
+      _,
+      { title, description, rootGoalId },
+      { user: userToken }
+    ) => {
       if (!userToken) {
         return null
       }
 
-      return diagram.createDiagram({ title, description })
+      return diagram.createDiagram({ title, description, rootGoalId })
     },
 
     createNode: async (_, { type, name, statement }, { user: userToken }) => {
@@ -202,7 +206,7 @@ const resolvers = {
     },
 
     deleteDiagram: async (_, { id }, { user: userToken }) => {
-      if (userToken) {
+      if (!userToken) {
         return null
       }
 
@@ -210,7 +214,7 @@ const resolvers = {
     },
 
     deleteNode: async (_, { id }, { user: userToken }) => {
-      if (userToken) {
+      if (!userToken) {
         return null
       }
 
