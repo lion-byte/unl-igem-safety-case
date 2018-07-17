@@ -2,13 +2,12 @@ import * as React from 'react'
 
 export class Diagram extends React.PureComponent {
   render () {
-    const { title, description, rootGoal, status, height, width } = this.props
+    const { title, description, rootGoal, height, width } = this.props
 
     return (
       <section>
         <h3>
           {title}
-          <span className='label warning'>{status}</span>
           <span className='label'>
             {width} x {height}
           </span>
@@ -18,7 +17,7 @@ export class Diagram extends React.PureComponent {
 
         {rootGoal ? (
           <p>
-            Root goal ID: <u>{rootGoal.name}</u>
+            Root goal name: <u>{rootGoal.name}</u>
           </p>
         ) : null}
       </section>

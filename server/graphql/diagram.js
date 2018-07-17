@@ -169,12 +169,16 @@ const resolvers = {
       return diagram.removeChildNode(parentId, childId)
     },
 
-    createDiagram: async (_, { title, description }, { user: userToken }) => {
+    createDiagram: async (
+      _,
+      { title, description, rootGoalId },
+      { user: userToken }
+    ) => {
       if (!userToken) {
         return null
       }
 
-      return diagram.createDiagram({ title, description })
+      return diagram.createDiagram({ title, description, rootGoalId })
     },
 
     createNode: async (_, { type, name, statement }, { user: userToken }) => {

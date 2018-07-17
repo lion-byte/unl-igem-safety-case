@@ -14,6 +14,10 @@ export class DiagramListPresentation extends React.PureComponent {
       return null
     }
 
+    if (diagrams.length === 0) {
+      return <h3>No diagrams have been made</h3>
+    }
+
     return diagrams.map(info => <Diagram key={info.id} {...info} />)
   }
 }

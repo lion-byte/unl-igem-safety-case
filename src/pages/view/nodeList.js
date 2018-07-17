@@ -14,6 +14,10 @@ export class NodeListPresentation extends React.PureComponent {
       return null
     }
 
+    if (nodes.length === 0) {
+      return <h3>No nodes have been made</h3>
+    }
+
     return nodes.map(info => <DiagramNode key={info.id} {...info} />)
   }
 }
