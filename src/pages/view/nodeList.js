@@ -2,7 +2,7 @@ import * as React from 'react'
 import { graphql } from 'react-apollo'
 
 import { NODE_LIST_QUERY } from '../../queries'
-import { DiagramNode } from '../../components/DiagramNode'
+import { DiagramNode } from '../../components/diagramNode'
 
 export class NodeListPresentation extends React.PureComponent {
   render () {

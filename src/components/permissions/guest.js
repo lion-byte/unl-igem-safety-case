@@ -10,11 +10,11 @@ export class GuestPresentation extends React.PureComponent {
       data: { loading, error, permissions }
     } = this.props
 
-    if (loading || error) {
+    if (loading) {
       return null
     }
 
-    if (permissions.level === 'GUEST') {
+    if (error || permissions.level === 'GUEST') {
       return children
     } else {
       return null
