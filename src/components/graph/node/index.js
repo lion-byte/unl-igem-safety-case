@@ -15,30 +15,37 @@ export class Node extends React.PureComponent {
     let graphNode
 
     switch (node.data.type) {
+      case 'ASSUMPTION':
       case 'assumption':
         graphNode = <AssumptionNode node={node} />
         break
 
+      case 'CONTEXT':
       case 'context':
         graphNode = <ContextNode node={node} />
         break
 
+      case 'GOAL':
       case 'goal':
         graphNode = <GoalNode node={node} />
         break
 
+      case 'INSUFFICIENT':
       case 'insufficient':
         // TODO: Make InsufficientNode
         break
 
+      case 'JUSTIFICATION':
       case 'justification':
         graphNode = <JustificationNode node={node} />
         break
 
+      case 'SOLUTION':
       case 'solution':
         graphNode = <SolutionNode node={node} width={100} />
         break
 
+      case 'STRATEGY':
       case 'strategy':
         graphNode = <StrategyNode node={node} />
         break

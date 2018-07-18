@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page } from '../../components/ui'
-import { UserOnly, GuestOnly } from '../../components/permissions'
+import { GuestOnly, Page, UserOnly } from '../../components'
 
 export default class Account extends React.PureComponent {
   render () {

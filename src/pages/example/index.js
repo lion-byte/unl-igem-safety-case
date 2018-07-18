@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Page } from '../../components/ui'
+import { Page } from '../../components'
 import { asyncComponent } from '../../utils'
 
 const data = {

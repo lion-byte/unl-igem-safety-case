@@ -1,13 +1,15 @@
 import * as React from 'react'
+import { Link } from '@reach/router'
 
 export class DiagramNode extends React.PureComponent {
   render () {
-    const { type, name, subNodes, statement } = this.props
+    const { id, type, name, subNodes, statement } = this.props
 
     return (
       <section>
         <h3>
-          {name}
+          <Link to={`/view/node/${id}`}>{name}</Link>
+
           <span className='label'>{type}</span>
         </h3>
 

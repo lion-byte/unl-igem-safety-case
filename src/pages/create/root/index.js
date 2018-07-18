@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page } from '../../../components/ui'
+import { Page } from '../../../components'
 import { RootForm } from './form'
 
 export class Root extends React.PureComponent {

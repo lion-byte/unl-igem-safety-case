@@ -6,7 +6,8 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     compress: true,
-    contentBase: './dist'
+    contentBase: './dist',
+    historyApiFallback: true
   },
   mode: 'development'
 })

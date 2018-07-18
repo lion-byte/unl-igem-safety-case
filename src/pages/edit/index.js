@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Page } from '../../components/ui'
+import { Page } from '../../components'
 
 export default class Edit extends React.PureComponent {
   render () {

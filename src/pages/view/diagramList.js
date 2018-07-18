@@ -2,7 +2,7 @@ import * as React from 'react'
 import { graphql } from 'react-apollo'
 
 import { DIAGRAM_LIST_QUERY } from '../../queries'
-import { Diagram } from '../../components/diagram'
+import { Diagram } from '../../components'
 
 export class DiagramListPresentation extends React.PureComponent {
   render () {

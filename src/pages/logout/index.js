@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { getClient } from '../../client'
-import { Page } from '../../components/ui'
+import { Page } from '../../components'
 import { removeToken, getToken } from '../../utils'
 
 export default class Logout extends React.PureComponent {
