@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Redirect } from '@reach/router'
 import { graphql } from 'react-apollo'
 
+import { getClient } from '../../client'
 import {
   LOGIN_MUTATION,
   USERNAME_QUERY,
@@ -47,7 +48,7 @@ export class FormPresentation extends React.PureComponent {
     if (getToken()) {
       removeToken()
 
-      const { client } = await import('../../client')
+      const client = await getClient()
       await client.resetStore()
     }
 
