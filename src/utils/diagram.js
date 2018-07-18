@@ -1,3 +1,6 @@
+import { getClient } from '../client'
+import { DIAGRAM_QUERY, NODE_QUERY } from '../queries'
+
 const saveSvgLib = () =>
   import(/* webpackChunkName: "save-svg-as-png" */ 'save-svg-as-png')
 
@@ -23,4 +26,48 @@ export const exportAsPNG = async (svg, filename = 'diagram.png') => {
   } = await saveSvgLib()
 
   saveSvgAsPng(svg, filename, { scale: 2 })
+}
+
+export const fetchFullDiagram = async id => {
+  const client = await getClient()
+
+  const {
+    data: { diagram }
+  } = await client.query({
+    fetchPolicy: 'network-only',
+    query: DIAGRAM_QUERY,
+    variables: { id }
+  })
+
+  if (diagram === null || diagram.rootGoal === null) {
+    return diagram
+  } else {
+    return {
+      ...diagram,
+      rootGoal: await fetchNodesRecursively(diagram.rootGoal.id)
+    }
+  }
+}
+
+export const fetchNodesRecursively = async id => {
+  const client = await getClient()
+
+  const {
+    data: { node }
+  } = await client.query({
+    fetchPolicy: 'network-only',
+    query: NODE_QUERY,
+    variables: { id }
+  })
+
+  if (node === null || node.subNodes === null) {
+    return node
+  } else {
+    return {
+      ...node,
+      children: await Promise.all(
+        node.subNodes.map(sub => fetchNodesRecursively(sub.id))
+      )
+    }
+  }
 }
