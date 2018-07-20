@@ -36,6 +36,8 @@ const typeDefs = gql`
     name: String!
     owner: String!
     statement: String!
+    height: Int!
+    width: Int!
     children(type: DiagramNodeType): [DiagramNode]
   }
 
@@ -74,7 +76,13 @@ const typeDefs = gql`
       statement: String!
     ): String
 
-    updateNode(id: String!, name: String, statement: String): Boolean
+    updateNode(
+      id: String!
+      name: String
+      statement: String
+      height: Int
+      width: Int
+    ): Boolean
 
     addChildNode(parentId: String!, childId: String!): Boolean
 
@@ -151,7 +159,10 @@ const resolvers = {
         return null
       }
 
-      const childNodes = await diagram.getNodeListByIds(obj.children)
+      const childNodes = await diagram.getNodeListByIds({
+        ids: obj.children,
+        ownerId: userToken.id
+      })
 
       switch (obj.type) {
         case 'goal':

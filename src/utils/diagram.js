@@ -60,13 +60,13 @@ export const fetchNodesRecursively = async id => {
     variables: { id }
   })
 
-  if (node === null || node.subNodes === null) {
+  if (node === null || node.children === null) {
     return node
   } else {
     return {
       ...node,
       children: await Promise.all(
-        node.subNodes.map(sub => fetchNodesRecursively(sub.id))
+        node.children.map(sub => fetchNodesRecursively(sub.id))
       )
     }
   }

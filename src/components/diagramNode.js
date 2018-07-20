@@ -3,7 +3,9 @@ import { Link } from '@reach/router'
 
 export class DiagramNode extends React.PureComponent {
   render () {
-    const { id, type, name, subNodes, statement } = this.props
+    const {
+      data: { id, type, name, children, statement }
+    } = this.props
 
     return (
       <section>
@@ -15,9 +17,9 @@ export class DiagramNode extends React.PureComponent {
 
         <p>{statement}</p>
 
-        {Array.isArray(subNodes) ? (
+        {Array.isArray(children) ? (
           <p>
-            Children: [{subNodes.map(node => (
+            Children: [{children.map(node => (
               <React.Fragment key={node.id}>
                 <u>{node.name}</u>
               </React.Fragment>

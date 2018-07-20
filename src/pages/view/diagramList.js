@@ -18,7 +18,7 @@ export class DiagramListPresentation extends React.PureComponent {
       return <h3>No diagrams have been made</h3>
     }
 
-    return diagrams.map(info => <Diagram key={info.id} {...info} />)
+    return diagrams.map(info => <Diagram key={info.id} data={info} />)
   }
 }
 

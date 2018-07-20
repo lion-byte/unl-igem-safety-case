@@ -19,6 +19,8 @@ const { getConnection } = require('./connection')
  * @property {NodeType} [type]
  * @property {string} [name]
  * @property {string} [statement]
+ * @property {number} [height]
+ * @property {number} [width]
  * @property {Array<string>} [children]
  */
 
@@ -61,7 +63,14 @@ const createDiagram = async diagram => {
  * @param {DBDiagramNode} node
  */
 const createNode = async node => {
-  const { ownerId, type, name = '', statement = '' } = node
+  const {
+    ownerId,
+    type,
+    name = '',
+    statement = '',
+    height = 40,
+    width = 120
+  } = node
 
   if (!ownerId) {
     return false
@@ -75,6 +84,8 @@ const createNode = async node => {
     type,
     name,
     statement,
+    height,
+    width,
     children: type === 'goal' || type === 'strategy' ? [] : null
   })
 
