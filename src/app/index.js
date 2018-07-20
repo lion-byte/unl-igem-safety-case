@@ -56,10 +56,6 @@ export class App extends React.PureComponent {
             Create
           </Link>
 
-          <Link className='pseudo button' to='/edit'>
-            Edit
-          </Link>
-
           <Link className='pseudo button' to='/view'>
             View
           </Link>

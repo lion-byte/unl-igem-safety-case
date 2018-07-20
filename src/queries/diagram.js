@@ -50,6 +50,28 @@ export const DIAGRAM_QUERY = gql`
   }
 `
 
+export const UPDATE_DIAGRAM_MUTATION = gql`
+  mutation UpdateDiagram(
+    $id: String!
+    $description: String
+    $rootGoalId: String
+    $status: PublishStatus
+    $title: String
+    $height: Int
+    $width: Int
+  ) {
+    updateDiagram(
+      id: $id
+      description: $description
+      rootGoalId: $rootGoalId
+      status: $status
+      title: $title
+      height: $height
+      width: $width
+    )
+  }
+`
+
 export const CREATE_NODE_MUTATION = gql`
   mutation CreateNode(
     $type: DiagramNodeType!

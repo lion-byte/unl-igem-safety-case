@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from '@reach/router'
 
 import { fetchFullDiagram } from '../../../utils'
 import { Graph } from '../../../components'
@@ -43,17 +44,17 @@ export class DisplayDiagram extends React.PureComponent {
 
         {!fetching && data !== null ? (
           <React.Fragment>
+            <Link className='pseudo button' to={`/edit/diagram/${data.id}`}>
+              Edit
+            </Link>
+
             <section>
               <Graph
                 data={data.rootGoal}
                 height={data.height}
                 width={data.width}
-                style={{ width: '100%' }}
+                showExport
               />
-            </section>
-
-            <section>
-              <pre>{JSON.stringify(data, null, 2)}</pre>
             </section>
           </React.Fragment>
         ) : null}

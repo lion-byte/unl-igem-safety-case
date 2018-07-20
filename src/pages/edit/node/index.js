@@ -2,19 +2,16 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 
 import { Page } from '../../../components/ui'
-import { DisplayNode } from './display'
 
-export class ViewNode extends React.PureComponent {
+export class EditNode extends React.PureComponent {
   render () {
     const { id } = this.props
 
+    console.log({ id })
+
     return (
-      <Page title='View Node'>
+      <Page title='Edit Node'>
         <Link to='/view'>&laquo; View other nodes</Link>
-        <DisplayNode
-          // @ts-ignore
-          id={id}
-        />
       </Page>
     )
   }

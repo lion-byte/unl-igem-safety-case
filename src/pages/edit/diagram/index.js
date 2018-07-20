@@ -2,16 +2,17 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 
 import { Page } from '../../../components/ui'
-import { DisplayNode } from './display'
+import { ModifyDiagram } from './edit'
 
-export class ViewNode extends React.PureComponent {
+export class EditDiagram extends React.PureComponent {
   render () {
     const { id } = this.props
 
     return (
-      <Page title='View Node'>
-        <Link to='/view'>&laquo; View other nodes</Link>
-        <DisplayNode
+      <Page title='Edit Diagram'>
+        <Link to='/view'>&laquo; View other diagrams</Link>
+
+        <ModifyDiagram
           // @ts-ignore
           id={id}
         />

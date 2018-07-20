@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { graphql, compose } from 'react-apollo'
-import { Redirect } from '@reach/router'
+import { navigate } from '@reach/router'
 
 import {
   CREATE_NODE_MUTATION,
@@ -18,8 +18,7 @@ export class RootFormPresentation extends React.PureComponent {
       rootGoalId: '',
       name: '',
       statement: '',
-      sending: false,
-      success: false
+      sending: false
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -75,24 +74,21 @@ export class RootFormPresentation extends React.PureComponent {
 
       this.setState({ rootGoalId: id })
 
-      const result = await createDiagram({
+      const {
+        data: { createDiagram: diagramId }
+      } = await createDiagram({
         variables: { title, description, rootGoalId: id }
       })
 
-      console.log(result)
-
-      this.setState({ success: true, sending: false })
+      if (diagramId !== null) {
+        navigate(`/edit/diagram/${diagramId}`)
+      }
     } catch (error) {
-      this.setState({ sending: false })
       console.error(error)
     }
   }
 
   render () {
-    if (this.state.success) {
-      return <Redirect to='/view' noThrow />
-    }
-
     return (
       <form onSubmit={this.handleSubmit}>
         {this.state.sending ? <h2>Sending</h2> : null}
