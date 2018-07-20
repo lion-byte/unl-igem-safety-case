@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { ApolloProvider } from 'react-apollo'
 
 import { getClient } from './client'
-import { asyncComponent } from './utils'
+import { asyncComponent } from './utils/lazyload'
 
 const App = asyncComponent(() =>
   import(/* webpackChunkName: "app-router", webpackPreload: true */ './app')
