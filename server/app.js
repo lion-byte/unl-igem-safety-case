@@ -1,4 +1,4 @@
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express')
+const { ApolloServer } = require('apollo-server-express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
@@ -18,17 +18,25 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
+app.use(auth)
 
-app.use(
-  '/graphql',
-  bodyParser.json(),
-  auth,
-  graphqlExpress(req => ({
-    schema,
-    context: { user: req.user }
-  }))
-)
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
+const server = new ApolloServer({
+  schema,
+
+  context: ({ req }) => ({
+    user: req.user
+  }),
+
+  playground: {
+    settings: {
+      'editor.theme': 'light'
+    }
+  }
+})
+
+server.applyMiddleware({
+  app
+})
 
 app.use((req, res, next) => {
   const err = new Error('Not found')
@@ -40,9 +48,9 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
-  const { stack } = err
+  const errorCode = Number.parseInt(err.stack)
 
-  res.status(stack !== undefined ? Number.parseInt(stack) || 500 : 500)
+  res.status(Number.isNaN(errorCode) ? 500 : errorCode)
   res.send('Error')
 })
 

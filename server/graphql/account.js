@@ -1,38 +1,44 @@
-const { makeExecutableSchema } = require('graphql-tools')
+const { gql, makeExecutableSchema } = require('apollo-server-express')
 const { sign } = require('jsonwebtoken')
 
 const { user } = require('../db')
 
-const typeDefs = `
-enum PermissionLevel {
-  ADMIN
-  USER
-  GUEST
-}
+const typeDefs = gql`
+  enum PermissionLevel {
+    ADMIN
+    USER
+    GUEST
+  }
 
-type Permissions {
-  level: PermissionLevel!
-  canRead: Boolean!
-  canWrite: Boolean!
-}
+  type Permissions {
+    level: PermissionLevel!
+    canRead: Boolean!
+    canWrite: Boolean!
+  }
 
-type User {
-  username: String!
-  email: String!
-}
+  type User {
+    username: String!
+    email: String!
+  }
 
-type Query {
-  me: User
-  permissions: Permissions!
-}
+  type Query {
+    me: User
+    permissions: Permissions!
+  }
 
-type Mutation {
-  register (username: String!, email: String!, password: String!): String
-  login (email: String!, password: String!): String
-}
+  type Mutation {
+    register(username: String!, email: String!, password: String!): String
+    login(email: String!, password: String!): String
+  }
 `
 
 const resolvers = {
+  PermissionLevel: {
+    ADMIN: 'admin',
+    USER: 'user',
+    GUEST: 'guest'
+  },
+
   Query: {
     me: async (_, args, { user: userToken }) => {
       if (!userToken) {
@@ -46,7 +52,7 @@ const resolvers = {
 
     permissions: async (_, args, { user: userToken }) => {
       const guestPermissions = {
-        level: 'GUEST',
+        level: 'guest',
         canRead: true,
         canWrite: false
       }

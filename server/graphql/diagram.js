@@ -1,6 +1,88 @@
-const { makeExecutableSchema } = require('graphql-tools')
+const { gql, makeExecutableSchema } = require('apollo-server-express')
 
-const { diagram } = require('../db')
+const { user, diagram } = require('../db')
+
+const typeDefs = gql`
+  enum DiagramNodeType {
+    ASSUMPTION
+    CONTEXT
+    GOAL
+    INSUFFICIENT
+    JUSTIFICATION
+    SOLUTION
+    STRATEGY
+  }
+
+  enum PublishStatus {
+    DRAFT
+    PRIVATE
+    PUBLISHED
+  }
+
+  type Diagram {
+    id: String!
+    title: String!
+    description: String!
+    owner: String!
+    rootGoal: DiagramNode
+    status: PublishStatus!
+    height: Int!
+    width: Int!
+  }
+
+  type DiagramNode {
+    id: String!
+    type: DiagramNodeType!
+    name: String!
+    owner: String!
+    statement: String!
+    children(type: DiagramNodeType): [DiagramNode]
+  }
+
+  type Query {
+    getDiagram(id: String!): Diagram
+
+    getDiagrams: [Diagram]
+
+    getNode(id: String!): DiagramNode
+
+    getNodes(type: DiagramNodeType): [DiagramNode]
+  }
+
+  type Mutation {
+    createDiagram(
+      title: String!
+      description: String!
+      rootGoalId: String
+    ): String
+
+    updateDiagram(
+      id: String!
+      description: String
+      rootGoalId: String
+      status: PublishStatus
+      title: String
+      height: Int
+      width: Int
+    ): Boolean
+
+    deleteDiagram(id: String!): Boolean
+
+    createNode(
+      type: DiagramNodeType!
+      name: String!
+      statement: String!
+    ): String
+
+    updateNode(id: String!, name: String, statement: String): Boolean
+
+    addChildNode(parentId: String!, childId: String!): Boolean
+
+    removeChildeNode(parentId: String!, childId: String!): Boolean
+
+    deleteNode(id: String!): Boolean
+  }
+`
 
 /**
  * @param {Array<any>} list
@@ -13,70 +95,6 @@ const filterByType = (list, type = null) => {
 
   return list.filter(item => item.type === type)
 }
-
-const typeDefs = `
-enum DiagramNodeType {
-  ASSUMPTION
-  CONTEXT
-  GOAL
-  INSUFFICIENT
-  JUSTIFICATION
-  SOLUTION
-  STRATEGY
-}
-
-enum PublishStatus {
-  DRAFT
-  PRIVATE
-  PUBLISHED
-}
-
-type Diagram {
-  id: String!
-  title: String!
-  description: String!
-  rootGoal: DiagramNode
-  status: PublishStatus!
-  height: Int!
-  width: Int!
-}
-
-type DiagramNode {
-  id: String!
-  type: DiagramNodeType!
-  name: String!
-  statement: String!
-  children (type: DiagramNodeType): [DiagramNode]
-}
-
-type Query {
-  getDiagram (id: String!): Diagram
-
-  getDiagrams: [Diagram]
-
-  getNode (id: String!): DiagramNode
-
-  getNodes (type: DiagramNodeType): [DiagramNode]
-}
-
-type Mutation {
-  createDiagram (title: String!, description: String!, rootGoalId: String): String
-
-  updateDiagram (id: String!, description: String, rootGoalId: String, status: PublishStatus, title: String, height: Int, width: Int): Boolean
-
-  deleteDiagram (id: String!): Boolean
-
-  createNode (type: DiagramNodeType!, name: String!, statement: String!): String
-
-  updateNode (id: String!, name: String, statement: String): Boolean
-
-  addChildNode (parentId: String!, childId: String!): Boolean
-
-  removeChildeNode (parentId: String!, childId: String!): Boolean
-
-  deleteNode (id: String!): Boolean
-}
-`
 
 const resolvers = {
   DiagramNodeType: {
@@ -96,22 +114,34 @@ const resolvers = {
   },
 
   Diagram: {
-    id: async obj => {
+    id: async (obj, args, { user: userToken }) => {
       return obj._id
     },
 
-    rootGoal: async obj => {
+    owner: async (obj, args, { user: userToken }) => {
+      const { username } = await user.findById(obj.ownerId)
+
+      return username
+    },
+
+    rootGoal: async (obj, args, { user: userToken }) => {
       if (obj.rootGoalId === null) {
         return null
       }
 
-      return diagram.getNodeById(obj.rootGoalId)
+      return diagram.getNodeById({ id: obj.rootGoalId, ownerId: userToken.id })
     }
   },
 
   DiagramNode: {
-    id: async obj => {
+    id: async (obj, args, { user: userToken }) => {
       return obj._id
+    },
+
+    owner: async (obj, args, { user: userToken }) => {
+      const { username } = await user.findById(obj.ownerId)
+
+      return username
     },
 
     children: async (obj, { type }, { user: userToken }) => {
@@ -136,19 +166,22 @@ const resolvers = {
 
   Query: {
     getDiagram: async (_, { id }, { user: userToken }) => {
-      return diagram.getDiagramById(id)
+      return diagram.getDiagramById({ id, ownerId: userToken.id })
     },
 
     getDiagrams: async (_, args, { user: userToken }) => {
-      return diagram.getAllDiagrams()
+      return diagram.getAllDiagrams({ ownerId: userToken.id })
     },
 
     getNode: async (_, { id }, { user: userToken }) => {
-      return diagram.getNodeById(id)
+      return diagram.getNodeById({ id, ownerId: userToken.id })
     },
 
     getNodes: async (_, { type }, { user: userToken }) => {
-      return filterByType(await diagram.getAllNodes(), type)
+      return filterByType(
+        await diagram.getAllNodes({ ownerId: userToken.id }),
+        type
+      )
     }
   },
 
@@ -158,7 +191,7 @@ const resolvers = {
         return null
       }
 
-      return diagram.addChildNode(parentId, childId)
+      return diagram.addChildNode({ parentId, childId, ownerId: userToken.id })
     },
 
     removeChildeNode: async (_, { parentId, childId }, { user: userToken }) => {
@@ -166,7 +199,11 @@ const resolvers = {
         return null
       }
 
-      return diagram.removeChildNode(parentId, childId)
+      return diagram.removeChildNode({
+        parentId,
+        childId,
+        ownerId: userToken.id
+      })
     },
 
     createDiagram: async (
@@ -178,7 +215,12 @@ const resolvers = {
         return null
       }
 
-      return diagram.createDiagram({ title, description, rootGoalId })
+      return diagram.createDiagram({
+        ownerId: userToken.id,
+        title,
+        description,
+        rootGoalId
+      })
     },
 
     createNode: async (_, { type, name, statement }, { user: userToken }) => {
@@ -186,23 +228,36 @@ const resolvers = {
         return null
       }
 
-      return diagram.createNode({ type, name, statement })
+      return diagram.createNode({
+        ownerId: userToken.id,
+        type,
+        name,
+        statement
+      })
     },
 
-    updateDiagram: async (_, { id, ...updateInfo }, { user: userToken }) => {
+    updateDiagram: async (_, { id, ...updates }, { user: userToken }) => {
       if (!userToken) {
         return null
       }
 
-      return diagram.updateDiagram(id, updateInfo)
+      return diagram.updateDiagram({
+        id,
+        updates,
+        ownerId: userToken.id
+      })
     },
 
-    updateNode: async (_, { id, ...updateInfo }, { user: userToken }) => {
+    updateNode: async (_, { id, ...updates }, { user: userToken }) => {
       if (!userToken) {
         return null
       }
 
-      return diagram.updateNode(id, updateInfo)
+      return diagram.updateNode({
+        id,
+        updates,
+        ownerId: userToken.id
+      })
     },
 
     deleteDiagram: async (_, { id }, { user: userToken }) => {
@@ -210,7 +265,7 @@ const resolvers = {
         return null
       }
 
-      return diagram.deleteDiagram(id)
+      return diagram.deleteDiagram({ id, ownerId: userToken.id })
     },
 
     deleteNode: async (_, { id }, { user: userToken }) => {
@@ -218,7 +273,7 @@ const resolvers = {
         return null
       }
 
-      return diagram.deleteNode(id)
+      return diagram.deleteNode({ id, ownerId: userToken.id })
     }
   }
 }
