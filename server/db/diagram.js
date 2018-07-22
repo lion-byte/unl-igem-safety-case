@@ -41,22 +41,28 @@ const createDiagram = async diagram => {
     return false
   }
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  const item = await diagramCollection.insert({
-    ownerId,
-    description,
-    height,
-    rootGoalId,
-    status: 'draft',
-    title,
-    width
-  })
+    const item = await diagramCollection.insert({
+      ownerId,
+      description,
+      height,
+      rootGoalId,
+      status: 'draft',
+      title,
+      width
+    })
 
-  db.close()
+    await db.close()
 
-  return item ? item._id : null
+    return item ? item._id : null
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
@@ -76,22 +82,28 @@ const createNode = async node => {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const item = await nodeCollection.insert({
-    ownerId,
-    type,
-    name,
-    statement,
-    height,
-    width,
-    children: type === 'goal' || type === 'strategy' ? [] : null
-  })
+    const item = await nodeCollection.insert({
+      ownerId,
+      type,
+      name,
+      statement,
+      height,
+      width,
+      children: type === 'goal' || type === 'strategy' ? [] : null
+    })
 
-  db.close()
+    await db.close()
 
-  return item ? item._id : null
+    return item ? item._id : null
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
@@ -102,13 +114,20 @@ const createNode = async node => {
 const getAllDiagrams = async opts => {
   const { ownerId } = opts
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  const diagramList = await diagramCollection.find({ ownerId })
-  db.close()
+    const diagramList = await diagramCollection.find({ ownerId })
 
-  return diagramList
+    await db.close()
+
+    return diagramList
+  } catch (error) {
+    console.error(error)
+
+    return []
+  }
 }
 
 /**
@@ -119,13 +138,20 @@ const getAllDiagrams = async opts => {
 const getAllNodes = async opts => {
   const { ownerId } = opts
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const nodeList = await nodeCollection.find({ ownerId })
-  db.close()
+    const nodeList = await nodeCollection.find({ ownerId })
 
-  return nodeList
+    await db.close()
+
+    return nodeList
+  } catch (error) {
+    console.error(error)
+
+    return []
+  }
 }
 
 /**
@@ -137,13 +163,20 @@ const getAllNodes = async opts => {
 const getDiagramById = async opts => {
   const { id, ownerId } = opts
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  const diagram = await diagramCollection.findOne({ _id: id, ownerId })
-  db.close()
+    const diagram = await diagramCollection.findOne({ _id: id, ownerId })
 
-  return diagram
+    await db.close()
+
+    return diagram
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
@@ -154,13 +187,21 @@ const getDiagramById = async opts => {
  */
 const getNodeById = async opts => {
   const { id, ownerId } = opts
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
 
-  const node = await nodeCollection.findOne({ _id: id, ownerId })
-  db.close()
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  return node
+    const node = await nodeCollection.findOne({ _id: id, ownerId })
+
+    await db.close()
+
+    return node
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
@@ -172,16 +213,22 @@ const getNodeById = async opts => {
 const getNodeListByIds = async opts => {
   const { ids, ownerId } = opts
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const nodeList = await Promise.all(
-    ids.map(id => nodeCollection.findOne({ _id: id, ownerId }))
-  )
+    const nodeList = await Promise.all(
+      ids.map(id => nodeCollection.findOne({ _id: id, ownerId }))
+    )
 
-  db.close()
+    await db.close()
 
-  return nodeList.filter(node => node !== null)
+    return nodeList.filter(node => node !== null)
+  } catch (error) {
+    console.error(error)
+
+    return []
+  }
 }
 
 /**
@@ -205,19 +252,25 @@ const addChildNode = async opts => {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const { _id, ...rest } = {
-    ...parent,
-    children: parent.children.concat([childId])
+    const { _id, ...rest } = {
+      ...parent,
+      children: parent.children.concat([childId])
+    }
+
+    await nodeCollection.update({ _id: parentId }, { ...rest })
+
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
   }
-
-  await nodeCollection.update({ _id: parentId }, { ...rest })
-
-  db.close()
-
-  return true
 }
 
 /**
@@ -237,18 +290,25 @@ const removeChildNode = async opts => {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const { _id, ...rest } = {
-    ...parent,
-    children: parent.children.filter(nodeId => nodeId !== childId)
+    const { _id, ...rest } = {
+      ...parent,
+      children: parent.children.filter(nodeId => nodeId !== childId)
+    }
+
+    await nodeCollection.update({ _id: parentId }, { ...rest })
+
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
   }
-
-  await nodeCollection.update({ _id: parentId }, { ...rest })
-
-  db.close()
-  return true
 }
 
 /**
@@ -266,19 +326,24 @@ const updateDiagram = async opts => {
     return false
   }
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
-
   const { _id, ...rest } = {
     ...diagram,
     ...updates
   }
 
-  await diagramCollection.findOneAndUpdate({ _id: id, ownerId }, { ...rest })
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  db.close()
+    await diagramCollection.update({ _id: id, ownerId }, { ...rest })
 
-  return true
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }
 
 /**
@@ -296,16 +361,21 @@ const updateNode = async opts => {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
-
   const { _id, ...rest } = { ...node, ...updates }
 
-  nodeCollection.findOneAndUpdate({ _id: id, ownerId }, { ...rest })
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  db.close()
+    await nodeCollection.update({ _id: id, ownerId }, { ...rest })
 
-  return true
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }
 
 /**
@@ -316,15 +386,22 @@ const updateNode = async opts => {
 const deleteDiagram = async opts => {
   const { id, ownerId } = opts
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  const { result } = await diagramCollection.remove({ _id: id, ownerId })
+    const { result } = await diagramCollection.remove({ _id: id, ownerId })
 
-  console.log(result)
+    console.log(result)
 
-  db.close()
-  return true
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
+  }
 }
 
 /**
@@ -335,13 +412,20 @@ const deleteDiagram = async opts => {
 const deleteNode = async opts => {
   const { id, ownerId } = opts
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagramNodes')
 
-  await diagramCollection.remove({ _id: id, ownerId })
+    await diagramCollection.remove({ _id: id, ownerId })
 
-  db.close()
-  return true
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
+  }
 }
 
 module.exports = {

@@ -264,11 +264,17 @@ const resolvers = {
         return null
       }
 
-      return diagram.updateNode({
-        id,
-        updates,
-        ownerId: userToken.id
-      })
+      try {
+        return diagram.updateNode({
+          id,
+          updates,
+          ownerId: userToken.id
+        })
+      } catch (error) {
+        console.error(error)
+
+        return null
+      }
     },
 
     deleteDiagram: async (_, { id }, { user: userToken }) => {

@@ -17,11 +17,15 @@ export class ModifyDiagramPresentation extends React.PureComponent {
     }
 
     this.handleChange = this.handleChange.bind(this)
-    this.modify = this.modify.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   async componentDidMount () {
     const { id } = this.props
+
+    if (!id) {
+      return
+    }
 
     this.setState({ loading: true, error: null })
 
@@ -38,11 +42,11 @@ export class ModifyDiagramPresentation extends React.PureComponent {
   /**
    * @param {React.FormEvent<HTMLFormElement>} event
    */
-  async modify (event) {
+  async handleSubmit (event) {
     event.preventDefault()
 
     const {
-      props: { mutate },
+      props: { updateDiagram },
       state: { diagram }
     } = this
 
@@ -53,10 +57,13 @@ export class ModifyDiagramPresentation extends React.PureComponent {
     const { id, title, description, height, width } = diagram
 
     if (title.trim() === '' || description.trim() === '') {
+      return
     }
 
     try {
-      const updated = await mutate({
+      const {
+        data: { updateDiagram: updated }
+      } = await updateDiagram({
         variables: { id, title, description, height, width }
       })
 
@@ -74,10 +81,12 @@ export class ModifyDiagramPresentation extends React.PureComponent {
       target: { name, value }
     } = event
 
+    const numVal = Number.parseInt(value)
+
     this.setState(prevState => ({
       diagram: {
         ...prevState.diagram,
-        [name]: value
+        [name]: Number.isNaN(numVal) ? value : numVal
       }
     }))
   }
@@ -95,7 +104,7 @@ export class ModifyDiagramPresentation extends React.PureComponent {
 
     return (
       <div className='flex one two-1200'>
-        <form onSubmit={this.modify}>
+        <form onSubmit={this.handleSubmit}>
           <fieldset>
             <label>
               Title
@@ -157,6 +166,6 @@ export class ModifyDiagramPresentation extends React.PureComponent {
   }
 }
 
-export const ModifyDiagram = graphql(UPDATE_DIAGRAM_MUTATION)(
-  ModifyDiagramPresentation
-)
+export const ModifyDiagram = graphql(UPDATE_DIAGRAM_MUTATION, {
+  name: 'updateDiagram'
+})(ModifyDiagramPresentation)

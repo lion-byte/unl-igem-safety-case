@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from '@reach/router'
 import { graphql } from 'react-apollo'
 
 import { NODE_QUERY } from '../../../queries'
@@ -11,11 +12,19 @@ export class DisplayNodePresentation extends React.PureComponent {
       data: { node }
     } = this.props
 
-    if (loading || error) {
+    if (loading || error || !node) {
       return null
-    }
+    } else {
+      return (
+        <section>
+          <Link className='pseudo button' to={`/edit/node/${node.id}`}>
+            Edit
+          </Link>
 
-    return <pre>{JSON.stringify(node, null, 2)}</pre>
+          <pre>{JSON.stringify(node, null, 2)}</pre>
+        </section>
+      )
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { graphql } from 'react-apollo'
-import { Redirect } from '@reach/router'
+import { navigate } from '@reach/router'
 
 import { CREATE_NODE_MUTATION } from '../../../queries'
 
@@ -10,8 +10,7 @@ export class GoalFormPresentation extends React.PureComponent {
 
     this.state = {
       name: '',
-      statement: '',
-      success: false
+      statement: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -44,18 +43,19 @@ export class GoalFormPresentation extends React.PureComponent {
     console.log('Submitting', { name, statement })
 
     try {
-      await mutate({ variables: { type: 'GOAL', name, statement } })
-      this.setState({ success: true })
+      const {
+        data: { createNode: nodeId }
+      } = await mutate({ variables: { type: 'GOAL', name, statement } })
+
+      if (nodeId !== null) {
+        navigate(`/edit/node/${nodeId}`)
+      }
     } catch (e) {
       console.error(e)
     }
   }
 
   render () {
-    if (this.state.success) {
-      return <Redirect to='/view' noThrow />
-    }
-
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset className='flex one four-800'>

@@ -119,7 +119,19 @@ export const NODE_QUERY = gql`
 `
 
 export const UPDATE_NODE_MUTATION = gql`
-  mutation UpdateNode($id: String!, $name: String, $statement: String) {
-    updateNode(id: $id, name: $name, statement: $statement)
+  mutation UpdateNode(
+    $id: String!
+    $name: String
+    $statement: String
+    $height: Int
+    $width: Int
+  ) {
+    updateNode(
+      id: $id
+      name: $name
+      statement: $statement
+      height: $height
+      width: $width
+    )
   }
 `
