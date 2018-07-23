@@ -135,3 +135,9 @@ export const UPDATE_NODE_MUTATION = gql`
     )
   }
 `
+
+export const ADD_CHILD_NODE_MUTATION = gql`
+  mutation AddChildNode($parentId: String!, $childId: String!) {
+    addChildNode(parentId: $parentId, childId: $childId)
+  }
+`

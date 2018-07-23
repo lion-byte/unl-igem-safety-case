@@ -2,12 +2,14 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 
 import { Page, GuestOnly, UserOnly } from '../../../components'
-import { GoalForm } from './form'
+import { NodeForm } from './form'
 
-export class Goal extends React.PureComponent {
+export class Node extends React.PureComponent {
   render () {
+    const { id } = this.props
+
     return (
-      <Page title='Create a Sub-Goal'>
+      <Page title='Add a Sub-Node'>
         <GuestOnly>
           <h2>
             Please <Link to='/login'>log in</Link>
@@ -15,13 +17,7 @@ export class Goal extends React.PureComponent {
         </GuestOnly>
 
         <UserOnly>
-          <section>
-            <Link to='..'>&laquo; Back</Link>
-          </section>
-
-          <section>
-            <GoalForm />
-          </section>
+          <NodeForm id={id} />
         </UserOnly>
       </Page>
     )

@@ -16,7 +16,7 @@ export class Root extends React.PureComponent {
 
         <UserOnly>
           <section>
-            <Link to='..'>&laquo; Back</Link>
+            <Link to='/view'>&laquo; View other diagrams</Link>
           </section>
 
           <section>
