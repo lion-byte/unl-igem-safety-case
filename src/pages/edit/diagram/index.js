@@ -2,12 +2,14 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 
 import { Page, GuestOnly, UserOnly } from '../../../components'
-import { RootForm } from './form'
+import { ModifyDiagram } from './edit'
 
-export class Root extends React.PureComponent {
+export class EditDiagram extends React.PureComponent {
   render () {
+    const { id } = this.props
+
     return (
-      <Page title='Create a Root Goal'>
+      <Page title='Edit Diagram'>
         <GuestOnly>
           <h2>
             Please <Link to='/login'>log in</Link>
@@ -15,13 +17,12 @@ export class Root extends React.PureComponent {
         </GuestOnly>
 
         <UserOnly>
-          <section>
-            <Link to='..'>&laquo; Back</Link>
-          </section>
+          <Link to='/view'>&laquo; View other diagrams</Link>
 
-          <section>
-            <RootForm />
-          </section>
+          <ModifyDiagram
+            // @ts-ignore
+            id={id}
+          />
         </UserOnly>
       </Page>
     )

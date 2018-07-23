@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { Page } from '../../components/ui'
+import { getClient } from '../../client'
+import { Page } from '../../components'
 import { removeToken, getToken } from '../../utils'
 
 export default class Logout extends React.PureComponent {
@@ -15,7 +16,7 @@ export default class Logout extends React.PureComponent {
   async componentDidMount () {
     if (getToken()) {
       removeToken()
-      const { client } = await import('../../client')
+      const client = await getClient()
       await client.resetStore()
     }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Page } from '../../components/ui'
+import { Page } from '../../components'
 import { asyncComponent } from '../../utils'
 
 const data = {
@@ -79,12 +79,7 @@ export default class Example extends React.PureComponent {
     return (
       <Page title='Example'>
         <section>
-          <Graph
-            data={data}
-            height={640}
-            style={{ width: '100%' }}
-            width={1260}
-          />
+          <Graph data={data} height={640} width={1260} showExport />
         </section>
       </Page>
     )

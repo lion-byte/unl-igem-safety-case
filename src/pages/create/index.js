@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Router } from '@reach/router'
 
-import { Menu } from './menu'
 import { Root } from './root'
 import { Goal } from './sub-goal'
+import { Menu } from './menu'
 
 export default class Create extends React.PureComponent {
   render () {

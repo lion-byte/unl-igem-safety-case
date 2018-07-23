@@ -3,8 +3,25 @@ const { createHmac, randomBytes } = require('crypto')
 const { getConnection } = require('./connection')
 
 /**
+ * @typedef {object} DBUser
+ * @property {string} _id
+ * @property {string} username
+ * @property {string} email
+ * @property {string} passwordHash
+ * @property {string} salt
+ * @property {UserPermissions} permissions
+ */
+
+/**
+ * @typedef {object} UserPermissions
+ * @property {'user' | 'admin'} level
+ * @property {boolean} canRead
+ * @property {boolean} canWrite
+ */
+
+/**
  * @param {string} email
- * @returns {Promise<any>}
+ * @returns {Promise<DBUser>}
  */
 const findByEmail = async email => {
   const db = getConnection()
@@ -17,8 +34,8 @@ const findByEmail = async email => {
 }
 
 /**
- * @param {any} id
- * @returns {Promise<any>}
+ * @param {string} id
+ * @returns {Promise<DBUser>}
  */
 const findById = async id => {
   const db = getConnection()
@@ -32,7 +49,7 @@ const findById = async id => {
 
 /**
  * @param {string} username
- * @returns {Promise<any>}
+ * @returns {Promise<DBUser>}
  */
 const findByUsername = async username => {
   const db = getConnection()
@@ -83,7 +100,7 @@ const register = async (username, email, password) => {
   const passwordHash = hashPassword(password, salt)
 
   const permissions = {
-    level: 'USER',
+    level: 'user',
     canRead: true,
     canWrite: true
   }
@@ -104,7 +121,7 @@ const register = async (username, email, password) => {
 /**
  * @param {string} email
  * @param {string} password
- * @returns {Promise<{isValid: boolean, account: any}>}
+ * @returns {Promise<{isValid: boolean, account: DBUser}>}
  */
 const validate = async (email, password) => {
   const user = await findByEmail(email)

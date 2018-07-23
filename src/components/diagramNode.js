@@ -1,24 +1,28 @@
 import * as React from 'react'
+import { Link } from '@reach/router'
 
 export class DiagramNode extends React.PureComponent {
   render () {
-    const { type, name, subNodes, statement } = this.props
+    const {
+      data: { id, type, name, children, statement }
+    } = this.props
 
     return (
       <section>
         <h3>
-          {name}
+          <Link to={`/view/node/${id}`}>{name}</Link>
+
           <span className='label'>{type}</span>
         </h3>
 
         <p>{statement}</p>
 
-        {Array.isArray(subNodes) ? (
+        {Array.isArray(children) ? (
           <p>
-            Children: [{subNodes.map(node => (
-              <React.Fragment key={node.id}>
-                <u>{node.name}</u>
-              </React.Fragment>
+            Children: [{children.map(node => (
+              <Link key={node.id} to={`/view/node/${node.id}`}>
+                {node.name}
+              </Link>
             ))}]
           </p>
         ) : null}

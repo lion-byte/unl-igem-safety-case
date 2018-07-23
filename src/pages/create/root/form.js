@@ -1,12 +1,13 @@
 import * as React from 'react'
 import { graphql, compose } from 'react-apollo'
-import { Redirect } from '@reach/router'
+import { navigate } from '@reach/router'
 
 import {
   CREATE_NODE_MUTATION,
   CREATE_DIAGRAM_MUTATION,
   UPDATE_NODE_MUTATION
 } from '../../../queries'
+import { Input } from '../../../components'
 
 export class RootFormPresentation extends React.PureComponent {
   constructor (props) {
@@ -18,8 +19,7 @@ export class RootFormPresentation extends React.PureComponent {
       rootGoalId: '',
       name: '',
       statement: '',
-      sending: false,
-      success: false
+      sending: false
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -75,72 +75,63 @@ export class RootFormPresentation extends React.PureComponent {
 
       this.setState({ rootGoalId: id })
 
-      const result = await createDiagram({
+      const {
+        data: { createDiagram: diagramId }
+      } = await createDiagram({
         variables: { title, description, rootGoalId: id }
       })
 
-      console.log(result)
-
-      this.setState({ success: true, sending: false })
+      if (diagramId !== null) {
+        navigate(`/edit/diagram/${diagramId}`)
+      }
     } catch (error) {
-      this.setState({ sending: false })
       console.error(error)
     }
   }
 
   render () {
-    if (this.state.success) {
-      return <Redirect to='/view' noThrow />
-    }
-
     return (
       <form onSubmit={this.handleSubmit}>
         {this.state.sending ? <h2>Sending</h2> : null}
 
         <fieldset className='flex one four-800'>
-          <label>
-            Diagram title
-            <input
-              type='text'
-              name='title'
-              onChange={this.handleChange}
-              value={this.state.title}
-            />
-          </label>
+          <Input
+            label='Diagram Title'
+            type='text'
+            name='title'
+            onChange={this.handleChange}
+            value={this.state.title}
+          />
 
-          <label className='three-fourth-800'>
-            Diagram description
-            <input
-              type='text'
-              name='description'
-              onChange={this.handleChange}
-              value={this.state.description}
-            />
-          </label>
+          <Input
+            className='three-fourth-800'
+            label='Diagram Description'
+            type='text'
+            name='description'
+            onChange={this.handleChange}
+            value={this.state.description}
+          />
         </fieldset>
 
         <hr />
 
         <fieldset className='flex one four-800'>
-          <label>
-            Root goal name
-            <input
-              type='text'
-              name='name'
-              onChange={this.handleChange}
-              value={this.state.name}
-            />
-          </label>
+          <Input
+            label='Root Goal Name'
+            type='text'
+            name='name'
+            onChange={this.handleChange}
+            value={this.state.name}
+          />
 
-          <label className='three-fourth-800'>
-            Root goal statement
-            <input
-              type='text'
-              name='statement'
-              onChange={this.handleChange}
-              value={this.state.statement}
-            />
-          </label>
+          <Input
+            className='three-fourth-800'
+            label='Root Goal Statement'
+            type='text'
+            name='statement'
+            onChange={this.handleChange}
+            value={this.state.statement}
+          />
         </fieldset>
 
         {/* <fieldset className='flex one two-800'>

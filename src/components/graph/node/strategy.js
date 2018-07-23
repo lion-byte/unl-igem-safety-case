@@ -3,7 +3,12 @@ import * as PropTypes from 'prop-types'
 
 export class StrategyNode extends React.PureComponent {
   render () {
-    const { height, fontSize, node, width } = this.props
+    const {
+      fontSize,
+      node: {
+        data: { name, height = 40, width = 160 }
+      }
+    } = this.props
 
     return (
       <React.Fragment>
@@ -25,7 +30,7 @@ export class StrategyNode extends React.PureComponent {
           y={fontSize / 3}
           fill='white'
         >
-          {node.data.name}
+          {name}
         </text>
       </React.Fragment>
     )
@@ -33,14 +38,10 @@ export class StrategyNode extends React.PureComponent {
 }
 
 StrategyNode.propTypes = {
-  height: PropTypes.number,
   fontSize: PropTypes.number,
-  node: PropTypes.any.isRequired,
-  width: PropTypes.number
+  node: PropTypes.any.isRequired
 }
 
 StrategyNode.defaultProps = {
-  height: 40,
-  fontSize: 16,
-  width: 100
+  fontSize: 16
 }

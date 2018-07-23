@@ -3,6 +3,7 @@ const { getConnection } = require('./connection')
 /**
  * @typedef {object} DBDiagram
  * @property {string} [_id]
+ * @property {string} [ownerId]
  * @property {string} [description]
  * @property {number} [height]
  * @property {string} [rootGoalId]
@@ -14,9 +15,12 @@ const { getConnection } = require('./connection')
 /**
  * @typedef {object} DBDiagramNode
  * @property {string} [_id]
+ * @property {string} [ownerId]
  * @property {NodeType} [type]
  * @property {string} [name]
  * @property {string} [statement]
+ * @property {number} [height]
+ * @property {number} [width]
  * @property {Array<string>} [children]
  */
 
@@ -25,6 +29,7 @@ const { getConnection } = require('./connection')
  */
 const createDiagram = async diagram => {
   const {
+    ownerId,
     description = '',
     height = 960,
     rootGoalId = null,
@@ -32,121 +37,213 @@ const createDiagram = async diagram => {
     width = 1260
   } = diagram
 
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+  if (!ownerId) {
+    return false
+  }
 
-  const item = await diagramCollection.insert({
-    description,
-    height,
-    rootGoalId,
-    status: 'draft',
-    title,
-    width
-  })
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  db.close()
+    const item = await diagramCollection.insert({
+      ownerId,
+      description,
+      height,
+      rootGoalId,
+      status: 'draft',
+      title,
+      width
+    })
 
-  return item ? item._id : null
+    await db.close()
+
+    return item ? item._id : null
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
  * @param {DBDiagramNode} node
  */
 const createNode = async node => {
-  const { type, name = '', statement = '' } = node
-
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
-
-  const item = await nodeCollection.insert({
+  const {
+    ownerId,
     type,
-    name,
-    statement,
-    children: type === 'goal' || type === 'strategy' ? [] : null
-  })
+    name = '',
+    statement = '',
+    height = 40,
+    width = 120
+  } = node
 
-  db.close()
+  if (!ownerId) {
+    return false
+  }
 
-  return item ? item._id : null
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
+
+    const item = await nodeCollection.insert({
+      ownerId,
+      type,
+      name,
+      statement,
+      height,
+      width,
+      children: type === 'goal' || type === 'strategy' ? [] : null
+    })
+
+    await db.close()
+
+    return item ? item._id : null
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
+ * @param {object} opts
+ * @param {string} opts.ownerId
  * @returns {Promise<Array<DBDiagram>>}
  */
-const getAllDiagrams = async () => {
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+const getAllDiagrams = async opts => {
+  const { ownerId } = opts
 
-  const diagramList = await diagramCollection.find()
-  db.close()
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  return diagramList
+    const diagramList = await diagramCollection.find({ ownerId })
+
+    await db.close()
+
+    return diagramList
+  } catch (error) {
+    console.error(error)
+
+    return []
+  }
 }
 
 /**
+ * @param {object} opts
+ * @param {string} opts.ownerId
  * @returns {Promise<Array<DBDiagramNode>>}
  */
-const getAllNodes = async () => {
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+const getAllNodes = async opts => {
+  const { ownerId } = opts
 
-  const nodeList = await nodeCollection.find()
-  db.close()
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  return nodeList
+    const nodeList = await nodeCollection.find({ ownerId })
+
+    await db.close()
+
+    return nodeList
+  } catch (error) {
+    console.error(error)
+
+    return []
+  }
 }
 
 /**
- * @param {string} id
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
  * @returns {Promise<DBDiagram>}
  */
-const getDiagramById = async id => {
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+const getDiagramById = async opts => {
+  const { id, ownerId } = opts
 
-  const diagram = await diagramCollection.findOne({ _id: id })
-  db.close()
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  return diagram
+    const diagram = await diagramCollection.findOne({ _id: id, ownerId })
+
+    await db.close()
+
+    return diagram
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
- * @param {string} id
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
  * @returns {Promise<DBDiagramNode>}
  */
-const getNodeById = async id => {
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+const getNodeById = async opts => {
+  const { id, ownerId } = opts
 
-  const node = await nodeCollection.findOne({ _id: id })
-  db.close()
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  return node
+    const node = await nodeCollection.findOne({ _id: id, ownerId })
+
+    await db.close()
+
+    return node
+  } catch (error) {
+    console.error(error)
+
+    return null
+  }
 }
 
 /**
- * @param {Array<string>} ids
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {Array<string>} opts.ids
  * @returns {Promise<Array<DBDiagramNode>>}
  */
-const getNodeListByIds = async ids => {
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+const getNodeListByIds = async opts => {
+  const { ids, ownerId } = opts
 
-  const nodeList = await Promise.all(
-    ids.map(id => nodeCollection.findOne({ _id: id }))
-  )
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  db.close()
+    const nodeList = await Promise.all(
+      ids.map(id => nodeCollection.findOne({ _id: id, ownerId }))
+    )
 
-  return nodeList.filter(node => node !== null)
+    await db.close()
+
+    return nodeList.filter(node => node !== null)
+  } catch (error) {
+    console.error(error)
+
+    return []
+  }
 }
 
 /**
- * @param {string} parentId
- * @param {string} childId
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.parentId
+ * @param {string} opts.childId
  */
-const addChildNode = async (parentId, childId) => {
-  const [parent, child] = await getNodeListByIds([parentId, childId])
+const addChildNode = async opts => {
+  const { parentId, childId, ownerId } = opts
+
+  const [parent, child] = await getNodeListByIds({
+    ownerId,
+    ids: [parentId, childId]
+  })
 
   // Check for valid inputs
   if (!parent || !child) {
@@ -155,27 +252,37 @@ const addChildNode = async (parentId, childId) => {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const { _id, ...rest } = {
-    ...parent,
-    children: parent.children.concat([childId])
+    const { _id, ...rest } = {
+      ...parent,
+      children: parent.children.concat([childId])
+    }
+
+    await nodeCollection.update({ _id: parentId }, { ...rest })
+
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
   }
-
-  await nodeCollection.update({ _id: parentId }, { ...rest })
-
-  db.close()
-
-  return true
 }
 
 /**
- * @param {string} parentId
- * @param {string} childId
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.parentId
+ * @param {string} opts.childId
  */
-const removeChildNode = async (parentId, childId) => {
-  const parent = await getNodeById(parentId)
+const removeChildNode = async opts => {
+  const { parentId, childId, ownerId } = opts
+
+  const parent = await getNodeById({ ownerId, id: parentId })
 
   if (!parent) {
     return false
@@ -183,95 +290,142 @@ const removeChildNode = async (parentId, childId) => {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  const { _id, ...rest } = {
-    ...parent,
-    children: parent.children.filter(nodeId => nodeId !== childId)
+    const { _id, ...rest } = {
+      ...parent,
+      children: parent.children.filter(nodeId => nodeId !== childId)
+    }
+
+    await nodeCollection.update({ _id: parentId }, { ...rest })
+
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
   }
-
-  await nodeCollection.update({ _id: parentId }, { ...rest })
-
-  db.close()
-  return true
 }
 
 /**
- * @param {string} id
- * @param {DBDiagram} updates
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
+ * @param {DBDiagram} opts.updates
  */
-const updateDiagram = async (id, updates) => {
-  const diagram = await getDiagramById(id)
+const updateDiagram = async opts => {
+  const { id, updates, ownerId } = opts
+
+  const diagram = await getDiagramById({ ownerId, id })
 
   if (!diagram) {
     return false
   }
-
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
 
   const { _id, ...rest } = {
     ...diagram,
     ...updates
   }
 
-  await diagramCollection.findOneAndUpdate({ _id: id }, { ...rest })
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  db.close()
+    await diagramCollection.update({ _id: id, ownerId }, { ...rest })
 
-  return true
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }
 
 /**
- * @param {string} id
- * @param {DBDiagramNode} updates
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
+ * @param {DBDiagramNode} opts.updates
  */
-const updateNode = async (id, updates) => {
-  const node = await getNodeById(id)
+const updateNode = async opts => {
+  const { id, updates, ownerId } = opts
+
+  const node = await getNodeById({ ownerId, id })
 
   if (!node) {
     return false
   }
 
-  const db = getConnection()
-  const nodeCollection = db.get('diagramNodes')
-
   const { _id, ...rest } = { ...node, ...updates }
 
-  nodeCollection.findOneAndUpdate({ _id: id }, { ...rest })
+  try {
+    const db = getConnection()
+    const nodeCollection = db.get('diagramNodes')
 
-  db.close()
+    await nodeCollection.update({ _id: id, ownerId }, { ...rest })
 
-  return true
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }
 
 /**
- * @param {string} id
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
  */
-const deleteDiagram = async id => {
-  const db = getConnection()
-  const diagramCollection = db.get('diagrams')
+const deleteDiagram = async opts => {
+  const { id, ownerId } = opts
 
-  const { result } = await diagramCollection.remove({ _id: id })
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagrams')
 
-  console.log(result)
+    const { result } = await diagramCollection.remove({ _id: id, ownerId })
 
-  db.close()
-  return true
+    console.log(result)
+
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
+  }
 }
 
 /**
- * @param {string} id
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
  */
-const deleteNode = async id => {
-  const db = getConnection()
-  const diagramCollection = db.get('diagramNodes')
+const deleteNode = async opts => {
+  const { id, ownerId } = opts
 
-  await diagramCollection.remove({ _id: id })
+  try {
+    const db = getConnection()
+    const diagramCollection = db.get('diagramNodes')
 
-  db.close()
-  return true
+    await diagramCollection.remove({ _id: id, ownerId })
+
+    await db.close()
+
+    return true
+  } catch (error) {
+    console.error(error)
+
+    return false
+  }
 }
 
 module.exports = {

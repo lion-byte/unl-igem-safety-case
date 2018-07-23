@@ -1,7 +1,6 @@
 import * as React from 'react'
 
-import { Page } from '../../components/ui'
-import { GuestOnly, UserOnly } from '../../components/permissions'
+import { Page, GuestOnly, UserOnly } from '../../components'
 
 export default class Home extends React.PureComponent {
   render () {

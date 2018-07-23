@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
+import { DisplayDiagram } from './display'
 import { Page, GuestOnly, UserOnly } from '../../../components'
-import { RootForm } from './form'
 
-export class Root extends React.PureComponent {
+export class ViewDiagram extends React.PureComponent {
   render () {
+    const { id } = this.props
+
     return (
-      <Page title='Create a Root Goal'>
+      <Page title='View Diagram'>
         <GuestOnly>
           <h2>
             Please <Link to='/login'>log in</Link>
@@ -15,13 +17,9 @@ export class Root extends React.PureComponent {
         </GuestOnly>
 
         <UserOnly>
-          <section>
-            <Link to='..'>&laquo; Back</Link>
-          </section>
+          <Link to='/view'>&laquo; View other diagrams</Link>
 
-          <section>
-            <RootForm />
-          </section>
+          <DisplayDiagram id={id} />
         </UserOnly>
       </Page>
     )

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, Router } from '@reach/router'
 
-import { Navigation } from '../components/navigation'
+import { Navigation } from '../components'
 import { asyncPage } from '../utils'
 
 const Home = asyncPage(() =>
@@ -54,10 +54,6 @@ export class App extends React.PureComponent {
 
           <Link className='pseudo button' to='/create'>
             Create
-          </Link>
-
-          <Link className='pseudo button' to='/edit'>
-            Edit
           </Link>
 
           <Link className='pseudo button' to='/view'>

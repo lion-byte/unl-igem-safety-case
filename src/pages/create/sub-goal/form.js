@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { graphql } from 'react-apollo'
-import { Redirect } from '@reach/router'
+import { navigate } from '@reach/router'
 
 import { CREATE_NODE_MUTATION } from '../../../queries'
+import { Input } from '../../../components'
 
 export class GoalFormPresentation extends React.PureComponent {
   constructor (props) {
@@ -10,8 +11,7 @@ export class GoalFormPresentation extends React.PureComponent {
 
     this.state = {
       name: '',
-      statement: '',
-      success: false
+      statement: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -44,40 +44,38 @@ export class GoalFormPresentation extends React.PureComponent {
     console.log('Submitting', { name, statement })
 
     try {
-      await mutate({ variables: { type: 'GOAL', name, statement } })
-      this.setState({ success: true })
+      const {
+        data: { createNode: nodeId }
+      } = await mutate({ variables: { type: 'GOAL', name, statement } })
+
+      if (nodeId !== null) {
+        navigate(`/edit/node/${nodeId}`)
+      }
     } catch (e) {
       console.error(e)
     }
   }
 
   render () {
-    if (this.state.success) {
-      return <Redirect to='/view' noThrow />
-    }
-
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset className='flex one four-800'>
-          <label>
-            Name
-            <input
-              type='text'
-              name='name'
-              onChange={this.handleChange}
-              value={this.state.name}
-            />
-          </label>
+          <Input
+            label='Name'
+            type='text'
+            name='name'
+            onChange={this.handleChange}
+            value={this.state.name}
+          />
 
-          <label className='three-fourth-800'>
-            Statement
-            <input
-              type='text'
-              name='statement'
-              onChange={this.handleChange}
-              value={this.state.statement}
-            />
-          </label>
+          <Input
+            className='three-fourth-800'
+            label='Statement'
+            type='text'
+            name='statement'
+            onChange={this.handleChange}
+            value={this.state.statement}
+          />
         </fieldset>
 
         <button>Save</button>

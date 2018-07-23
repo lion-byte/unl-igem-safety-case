@@ -8,6 +8,7 @@ import {
   PERMISSIONS_QUERY
 } from '../../queries'
 import { setToken } from '../../utils'
+import { Input } from '../../components'
 
 export class FormPresentation extends React.PureComponent {
   constructor (props) {
@@ -68,49 +69,43 @@ export class FormPresentation extends React.PureComponent {
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset className='flex one two-800'>
-          <label className='full-800'>
-            Username
-            <input
-              name='username'
-              onChange={this.handleChange}
-              required
-              type='text'
-              value={username}
-            />
-          </label>
+          <Input
+            className='full-800'
+            label='Username'
+            name='username'
+            onChange={this.handleChange}
+            required
+            type='text'
+            value={username}
+          />
 
-          <label className='full-800'>
-            Email
-            <input
-              name='email'
-              onChange={this.handleChange}
-              required
-              type='text'
-              value={email}
-            />
-          </label>
+          <Input
+            className='full-800'
+            label='Email'
+            name='email'
+            onChange={this.handleChange}
+            required
+            type='text'
+            value={email}
+          />
 
-          <label>
-            Password
-            <input
-              name='password'
-              onChange={this.handleChange}
-              required
-              type='password'
-              value={password}
-            />
-          </label>
+          <Input
+            label='Password'
+            name='password'
+            onChange={this.handleChange}
+            required
+            type='password'
+            value={password}
+          />
 
-          <label>
-            Confirm Password
-            <input
-              name='confirmPassword'
-              onChange={this.handleChange}
-              required
-              type='password'
-              value={confirmPassword}
-            />
-          </label>
+          <Input
+            label='Confirm Password'
+            name='confirmPassword'
+            onChange={this.handleChange}
+            required
+            type='password'
+            value={confirmPassword}
+          />
         </fieldset>
 
         <button>Register</button>

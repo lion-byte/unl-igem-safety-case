@@ -3,7 +3,12 @@ import * as PropTypes from 'prop-types'
 
 export class SolutionNode extends React.PureComponent {
   render () {
-    const { height, fontSize, node, width } = this.props
+    const {
+      fontSize,
+      node: {
+        data: { name, height = 120, width = 120 }
+      }
+    } = this.props
 
     return (
       <React.Fragment>
@@ -22,7 +27,7 @@ export class SolutionNode extends React.PureComponent {
           y={fontSize / 3}
           fill='white'
         >
-          {node.data.name}
+          {name}
         </text>
       </React.Fragment>
     )
@@ -30,14 +35,10 @@ export class SolutionNode extends React.PureComponent {
 }
 
 SolutionNode.propTypes = {
-  height: PropTypes.number,
   fontSize: PropTypes.number,
-  node: PropTypes.any.isRequired,
-  width: PropTypes.number
+  node: PropTypes.any.isRequired
 }
 
 SolutionNode.defaultProps = {
-  height: 40,
-  fontSize: 16,
-  width: 60
+  fontSize: 16
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { graphql } from 'react-apollo'
 
 import { DIAGRAM_LIST_QUERY } from '../../queries'
-import { Diagram } from '../../components/diagram'
+import { Diagram } from '../../components'
 
 export class DiagramListPresentation extends React.PureComponent {
   render () {
@@ -18,7 +18,7 @@ export class DiagramListPresentation extends React.PureComponent {
       return <h3>No diagrams have been made</h3>
     }
 
-    return diagrams.map(info => <Diagram key={info.id} {...info} />)
+    return diagrams.map(info => <Diagram key={info.id} data={info} />)
   }
 }
 

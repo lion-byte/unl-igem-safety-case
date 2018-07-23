@@ -1,27 +1,18 @@
 import * as React from 'react'
+import { Router } from '@reach/router'
 
-import { Page } from '../../components/ui'
-import { DiagramList } from './diagramList'
-import { NodeList } from './nodeList'
+import { ViewDiagram } from './diagram'
+import { Menu } from './menu'
+import { ViewNode } from './node'
 
 export default class Edit extends React.PureComponent {
   render () {
     return (
-      <Page title='View'>
-        <h2>Diagrams</h2>
-        <section>
-          <DiagramList />
-        </section>
-
-        <section>
-          <hr />
-        </section>
-
-        <h2>Nodes</h2>
-        <section>
-          <NodeList />
-        </section>
-      </Page>
+      <Router>
+        <Menu path='/' />
+        <ViewDiagram path='diagram/:id' />
+        <ViewNode path='node/:id' />
+      </Router>
     )
   }
 }

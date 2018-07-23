@@ -1,13 +1,12 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page, GuestOnly, UserOnly } from '../../../components'
-import { RootForm } from './form'
+import { Page, GuestOnly, UserOnly } from '../../components'
 
-export class Root extends React.PureComponent {
+export class Menu extends React.PureComponent {
   render () {
     return (
-      <Page title='Create a Root Goal'>
+      <Page title='Edit'>
         <GuestOnly>
           <h2>
             Please <Link to='/login'>log in</Link>
@@ -16,11 +15,7 @@ export class Root extends React.PureComponent {
 
         <UserOnly>
           <section>
-            <Link to='..'>&laquo; Back</Link>
-          </section>
-
-          <section>
-            <RootForm />
+            <Link to='/create'>&laquo; Create</Link>
           </section>
         </UserOnly>
       </Page>

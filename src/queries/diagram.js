@@ -20,6 +20,7 @@ export const DIAGRAM_LIST_QUERY = gql`
       id
       title
       description
+      owner
       rootGoal {
         id
         name
@@ -37,6 +38,7 @@ export const DIAGRAM_QUERY = gql`
       id
       title
       description
+      owner
       rootGoal {
         id
         name
@@ -45,6 +47,28 @@ export const DIAGRAM_QUERY = gql`
       height
       width
     }
+  }
+`
+
+export const UPDATE_DIAGRAM_MUTATION = gql`
+  mutation UpdateDiagram(
+    $id: String!
+    $description: String
+    $rootGoalId: String
+    $status: PublishStatus
+    $title: String
+    $height: Int
+    $width: Int
+  ) {
+    updateDiagram(
+      id: $id
+      description: $description
+      rootGoalId: $rootGoalId
+      status: $status
+      title: $title
+      height: $height
+      width: $width
+    )
   }
 `
 
@@ -63,9 +87,12 @@ export const NODE_LIST_QUERY = gql`
     nodes: getNodes(type: $type) {
       id
       type
+      owner
       name
       statement
-      subNodes: children {
+      height
+      width
+      children {
         id
         name
       }
@@ -78,9 +105,12 @@ export const NODE_QUERY = gql`
     node: getNode(id: $id) {
       id
       type
+      owner
       name
       statement
-      subNodes: children {
+      height
+      width
+      children {
         id
         name
       }
@@ -89,7 +119,19 @@ export const NODE_QUERY = gql`
 `
 
 export const UPDATE_NODE_MUTATION = gql`
-  mutation UpdateNode($id: String!, $name: String, $statement: String) {
-    updateNode(id: $id, name: $name, statement: $statement)
+  mutation UpdateNode(
+    $id: String!
+    $name: String
+    $statement: String
+    $height: Int
+    $width: Int
+  ) {
+    updateNode(
+      id: $id
+      name: $name
+      statement: $statement
+      height: $height
+      width: $width
+    )
   }
 `

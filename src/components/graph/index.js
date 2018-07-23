@@ -34,12 +34,14 @@ export class Graph extends React.PureComponent {
       data: raw,
       height,
       margin = {
-        top: 80,
-        left: 30,
+        top: 60,
+        left: 40,
         right: 40,
         bottom: 80
       },
+      style,
       width,
+      showExport,
       ...others
     } = this.props
 
@@ -52,6 +54,7 @@ export class Graph extends React.PureComponent {
           height={height}
           width={width}
           viewBox={`0 0 ${width} ${height}`}
+          style={{ width: '100%', ...style }}
           {...others}
           ref={diagram => (this.diagram = diagram)}
         >
@@ -70,8 +73,12 @@ export class Graph extends React.PureComponent {
           />
         </svg>
 
-        <button onClick={this.saveSVG}>Save as SVG</button>
-        <button onClick={this.savePNG}>Save as PNG</button>
+        {showExport ? (
+          <React.Fragment>
+            <button onClick={this.saveSVG}>Save as SVG</button>
+            <button onClick={this.savePNG}>Save as PNG</button>
+          </React.Fragment>
+        ) : null}
       </React.Fragment>
     )
   }
@@ -80,7 +87,8 @@ export class Graph extends React.PureComponent {
 Graph.defaultProps = {
   data: {},
   height: 100,
-  width: 100
+  width: 100,
+  showExport: false
 }
 
 export default Graph
