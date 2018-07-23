@@ -1,20 +1,28 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page } from '../../../components'
+import { Page, GuestOnly, UserOnly } from '../../../components'
 import { RootForm } from './form'
 
 export class Root extends React.PureComponent {
   render () {
     return (
       <Page title='Create a Root Goal'>
-        <section>
-          <Link to='..'>&laquo; Back</Link>
-        </section>
+        <GuestOnly>
+          <h2>
+            Please <Link to='/login'>log in</Link>
+          </h2>
+        </GuestOnly>
 
-        <section>
-          <RootForm />
-        </section>
+        <UserOnly>
+          <section>
+            <Link to='..'>&laquo; Back</Link>
+          </section>
+
+          <section>
+            <RootForm />
+          </section>
+        </UserOnly>
       </Page>
     )
   }

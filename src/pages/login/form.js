@@ -9,6 +9,7 @@ import {
   PERMISSIONS_QUERY
 } from '../../queries'
 import { setToken, getToken, removeToken } from '../../utils'
+import { Input } from '../../components'
 
 export class FormPresentation extends React.PureComponent {
   constructor (props) {
@@ -72,27 +73,23 @@ export class FormPresentation extends React.PureComponent {
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset className='flex center one two-1400'>
-          <label>
-            Email
-            <input
-              name='email'
-              onChange={this.handleChange}
-              required
-              type='text'
-              value={email}
-            />
-          </label>
+          <Input
+            label='Email'
+            name='email'
+            onChange={this.handleChange}
+            required
+            type='text'
+            value={email}
+          />
 
-          <label>
-            Password
-            <input
-              name='password'
-              onChange={this.handleChange}
-              required
-              type='password'
-              value={password}
-            />
-          </label>
+          <Input
+            label='Password'
+            name='password'
+            onChange={this.handleChange}
+            required
+            type='password'
+            value={password}
+          />
         </fieldset>
 
         <button>Login</button>

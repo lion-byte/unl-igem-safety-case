@@ -20,9 +20,9 @@ export class DiagramNode extends React.PureComponent {
         {Array.isArray(children) ? (
           <p>
             Children: [{children.map(node => (
-              <React.Fragment key={node.id}>
-                <u>{node.name}</u>
-              </React.Fragment>
+              <Link key={node.id} to={`/view/node/${node.id}`}>
+                {node.name}
+              </Link>
             ))}]
           </p>
         ) : null}

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page } from '../../../components/ui'
 import { DisplayDiagram } from './display'
+import { Page, GuestOnly, UserOnly } from '../../../components'
 
 export class ViewDiagram extends React.PureComponent {
   render () {
@@ -10,9 +10,17 @@ export class ViewDiagram extends React.PureComponent {
 
     return (
       <Page title='View Diagram'>
-        <Link to='/view'>&laquo; View other diagrams</Link>
+        <GuestOnly>
+          <h2>
+            Please <Link to='/login'>log in</Link>
+          </h2>
+        </GuestOnly>
 
-        <DisplayDiagram id={id} />
+        <UserOnly>
+          <Link to='/view'>&laquo; View other diagrams</Link>
+
+          <DisplayDiagram id={id} />
+        </UserOnly>
       </Page>
     )
   }

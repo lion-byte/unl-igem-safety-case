@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo'
 import { navigate } from '@reach/router'
 
 import { CREATE_NODE_MUTATION } from '../../../queries'
+import { Input } from '../../../components'
 
 export class GoalFormPresentation extends React.PureComponent {
   constructor (props) {
@@ -59,25 +60,22 @@ export class GoalFormPresentation extends React.PureComponent {
     return (
       <form onSubmit={this.handleSubmit}>
         <fieldset className='flex one four-800'>
-          <label>
-            Name
-            <input
-              type='text'
-              name='name'
-              onChange={this.handleChange}
-              value={this.state.name}
-            />
-          </label>
+          <Input
+            label='Name'
+            type='text'
+            name='name'
+            onChange={this.handleChange}
+            value={this.state.name}
+          />
 
-          <label className='three-fourth-800'>
-            Statement
-            <input
-              type='text'
-              name='statement'
-              onChange={this.handleChange}
-              value={this.state.statement}
-            />
-          </label>
+          <Input
+            className='three-fourth-800'
+            label='Statement'
+            type='text'
+            name='statement'
+            onChange={this.handleChange}
+            value={this.state.statement}
+          />
         </fieldset>
 
         <button>Save</button>

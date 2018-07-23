@@ -21,7 +21,8 @@ export class Diagram extends React.PureComponent {
 
         {rootGoal ? (
           <p>
-            Root goal name: <u>{rootGoal.name}</u>
+            Root goal:{' '}
+            <Link to={`/view/node/${rootGoal.id}`}>{rootGoal.name}</Link>
           </p>
         ) : null}
       </section>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page } from '../../../components/ui'
+import { Page, GuestOnly, UserOnly } from '../../../components'
 import { ModifyNode } from './edit'
 
 export class EditNode extends React.PureComponent {
@@ -10,12 +10,20 @@ export class EditNode extends React.PureComponent {
 
     return (
       <Page title='Edit Node'>
-        <Link to='/view'>&laquo; View other nodes</Link>
+        <GuestOnly>
+          <h2>
+            Please <Link to='/login'>log in</Link>
+          </h2>
+        </GuestOnly>
 
-        <ModifyNode
-          // @ts-ignore
-          id={id}
-        />
+        <UserOnly>
+          <Link to='/view'>&laquo; View other nodes</Link>
+
+          <ModifyNode
+            // @ts-ignore
+            id={id}
+          />
+        </UserOnly>
       </Page>
     )
   }

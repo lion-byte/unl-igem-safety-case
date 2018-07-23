@@ -4,7 +4,7 @@ import { navigate } from '@reach/router'
 
 import { UPDATE_DIAGRAM_MUTATION } from '../../../queries'
 import { fetchFullDiagram } from '../../../utils'
-import { Graph } from '../../../components'
+import { Graph, Input } from '../../../components'
 
 export class ModifyDiagramPresentation extends React.PureComponent {
   constructor (props) {
@@ -106,53 +106,45 @@ export class ModifyDiagramPresentation extends React.PureComponent {
       <div className='flex one two-1200'>
         <form onSubmit={this.handleSubmit}>
           <fieldset>
-            <label>
-              Title
-              <input
-                type='text'
-                name='title'
-                onChange={this.handleChange}
-                value={title}
-              />
-            </label>
+            <Input
+              label='Title'
+              name='title'
+              type='text'
+              onChange={this.handleChange}
+              value={title}
+            />
 
-            <label>
-              Description
-              <input
-                type='text'
-                name='description'
-                onChange={this.handleChange}
-                value={description}
-              />
-            </label>
+            <Input
+              label='Description'
+              type='text'
+              name='description'
+              onChange={this.handleChange}
+              value={description}
+            />
           </fieldset>
 
           <hr />
 
           <fieldset>
-            <label>
-              Height
-              <input
-                type='number'
-                name='height'
-                onChange={this.handleChange}
-                min={200}
-                step={10}
-                value={height}
-              />
-            </label>
+            <Input
+              label='Height'
+              type='number'
+              name='height'
+              onChange={this.handleChange}
+              min={200}
+              step={10}
+              value={height}
+            />
 
-            <label>
-              Width
-              <input
-                type='number'
-                name='width'
-                onChange={this.handleChange}
-                min={250}
-                step={10}
-                value={width}
-              />
-            </label>
+            <Input
+              label='Width'
+              type='number'
+              name='width'
+              onChange={this.handleChange}
+              min={250}
+              step={10}
+              value={width}
+            />
           </fieldset>
 
           <button>Save</button>

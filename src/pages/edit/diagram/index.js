@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page } from '../../../components/ui'
+import { Page, GuestOnly, UserOnly } from '../../../components'
 import { ModifyDiagram } from './edit'
 
 export class EditDiagram extends React.PureComponent {
@@ -10,12 +10,20 @@ export class EditDiagram extends React.PureComponent {
 
     return (
       <Page title='Edit Diagram'>
-        <Link to='/view'>&laquo; View other diagrams</Link>
+        <GuestOnly>
+          <h2>
+            Please <Link to='/login'>log in</Link>
+          </h2>
+        </GuestOnly>
 
-        <ModifyDiagram
-          // @ts-ignore
-          id={id}
-        />
+        <UserOnly>
+          <Link to='/view'>&laquo; View other diagrams</Link>
+
+          <ModifyDiagram
+            // @ts-ignore
+            id={id}
+          />
+        </UserOnly>
       </Page>
     )
   }

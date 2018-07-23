@@ -2,7 +2,7 @@ import * as React from 'react'
 import { navigate } from '@reach/router'
 import { compose, graphql } from 'react-apollo'
 
-import { Graph } from '../../../components'
+import { Graph, Input } from '../../../components'
 import { UPDATE_NODE_MUTATION, NODE_QUERY } from '../../../queries'
 import { sleep } from '../../../utils'
 
@@ -106,51 +106,43 @@ export class ModifyNodePresentation extends React.PureComponent {
           <section className='flex one two-1200'>
             <form onSubmit={this.handleSubmit}>
               <fieldset>
-                <label>
-                  Name
-                  <input
-                    name='name'
-                    type='text'
-                    onChange={this.handleChange}
-                    value={name}
-                  />
-                </label>
+                <Input
+                  label='Name'
+                  name='name'
+                  type='text'
+                  onChange={this.handleChange}
+                  value={name}
+                />
 
-                <label>
-                  Statement
-                  <input
-                    name='statement'
-                    type='text'
-                    onChange={this.handleChange}
-                    value={statement}
-                  />
-                </label>
+                <Input
+                  label='Statement'
+                  name='statement'
+                  type='text'
+                  onChange={this.handleChange}
+                  value={statement}
+                />
               </fieldset>
 
               <fieldset>
-                <label>
-                  Height
-                  <input
-                    name='height'
-                    type='number'
-                    onChange={this.handleChange}
-                    value={height}
-                    min={40}
-                    step={5}
-                  />
-                </label>
+                <Input
+                  label='Height'
+                  name='height'
+                  type='number'
+                  onChange={this.handleChange}
+                  value={height}
+                  min={40}
+                  step={5}
+                />
 
-                <label>
-                  Width
-                  <input
-                    name='width'
-                    type='number'
-                    onChange={this.handleChange}
-                    value={width}
-                    min={50}
-                    step={5}
-                  />
-                </label>
+                <Input
+                  label='Width'
+                  name='width'
+                  type='number'
+                  onChange={this.handleChange}
+                  value={width}
+                  min={50}
+                  step={5}
+                />
               </fieldset>
 
               <button>Save</button>
