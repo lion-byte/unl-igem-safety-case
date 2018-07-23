@@ -2,6 +2,7 @@ import * as React from 'react'
 import { navigate } from '@reach/router'
 import { compose, graphql } from 'react-apollo'
 
+import { Graph } from '../../../components'
 import { UPDATE_NODE_MUTATION, NODE_QUERY } from '../../../queries'
 import { sleep } from '../../../utils'
 
@@ -156,7 +157,7 @@ export class ModifyNodePresentation extends React.PureComponent {
             </form>
 
             <section>
-              <pre>{JSON.stringify(info, null, 2)}</pre>
+              <Graph data={info} height={height + 160} width={width + 80} />
             </section>
           </section>
         </React.Fragment>

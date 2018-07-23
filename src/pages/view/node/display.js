@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 import { graphql } from 'react-apollo'
 
+import { Graph } from '../../../components'
 import { NODE_QUERY } from '../../../queries'
 
 export class DisplayNodePresentation extends React.PureComponent {
@@ -21,7 +22,11 @@ export class DisplayNodePresentation extends React.PureComponent {
             Edit
           </Link>
 
-          <pre>{JSON.stringify(node, null, 2)}</pre>
+          <Graph
+            data={node}
+            height={node.height + 160}
+            width={node.width + 80}
+          />
         </section>
       )
     }
