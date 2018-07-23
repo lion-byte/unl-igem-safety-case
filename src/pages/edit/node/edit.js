@@ -149,7 +149,11 @@ export class ModifyNodePresentation extends React.PureComponent {
             </form>
 
             <section>
-              <Graph data={info} height={height + 160} width={width + 80} />
+              <Graph
+                data={{ ...info, children: null }}
+                height={height + 160}
+                width={width + 80}
+              />
             </section>
           </section>
         </React.Fragment>

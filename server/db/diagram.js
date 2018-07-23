@@ -392,11 +392,9 @@ const deleteDiagram = async opts => {
 
     const { result } = await diagramCollection.remove({ _id: id, ownerId })
 
-    console.log(result)
-
     await db.close()
 
-    return true
+    return result.ok === 1
   } catch (error) {
     console.error(error)
 
@@ -416,11 +414,11 @@ const deleteNode = async opts => {
     const db = getConnection()
     const diagramCollection = db.get('diagramNodes')
 
-    await diagramCollection.remove({ _id: id, ownerId })
+    const { result } = await diagramCollection.remove({ _id: id, ownerId })
 
     await db.close()
 
-    return true
+    return result.ok === 1
   } catch (error) {
     console.error(error)
 

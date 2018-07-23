@@ -72,6 +72,12 @@ export const UPDATE_DIAGRAM_MUTATION = gql`
   }
 `
 
+export const DELETE_DIAGRAM_MUTATION = gql`
+  mutation DeleteDiagram($id: String!) {
+    deleteDiagram(id: $id)
+  }
+`
+
 export const CREATE_NODE_MUTATION = gql`
   mutation CreateNode(
     $type: DiagramNodeType!
@@ -133,6 +139,12 @@ export const UPDATE_NODE_MUTATION = gql`
       height: $height
       width: $width
     )
+  }
+`
+
+export const DELETE_NODE_DIAGRAM = gql`
+  mutation DeleteNode($id: String!) {
+    deleteNode(id: $id)
   }
 `
 
