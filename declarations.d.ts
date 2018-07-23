@@ -61,15 +61,10 @@ interface Goal {
   type: 'goal'
   name: string
   statement: string
-  children: {
-    assumptions: Array<Assumption>
-    contexts: Array<Context>
-    goals: Array<Goal>
-    insufficients?: Array<Insufficient>
-    justifications: Array<Justification>
-    strategies?: Array<Strategy>
-    solutions?: Array<Solution>
-  }
+  children:
+    | Array<Assumption | Context | Goal | Justification | Strategy>
+    | Array<Context | Insufficient>
+    | Array<Context | Solution>
 }
 
 interface Insufficient {
@@ -94,11 +89,5 @@ interface Strategy {
   type: 'strategy'
   name: string
   statement: string
-
-  children: {
-    assumptions: Array<Assumption>
-    contexts: Array<Context>
-    goals: Array<Goal>
-    justifications: Array<Justification>
-  }
+  children: Array<Assumption | Context | Justification | Goal>
 }

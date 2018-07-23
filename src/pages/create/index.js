@@ -2,16 +2,14 @@ import * as React from 'react'
 import { Router } from '@reach/router'
 
 import { Root } from './root'
-import { Goal } from './sub-goal'
-import { Menu } from './menu'
+import { Node } from './sub-node'
 
 export default class Create extends React.PureComponent {
   render () {
     return (
       <Router>
-        <Menu path='/' />
-        <Root path='root' />
-        <Goal path='sub-goal' />
+        <Root path='/' />
+        <Node path='sub-node/:id' />
       </Router>
     )
   }

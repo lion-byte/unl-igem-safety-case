@@ -21,6 +21,10 @@ const Edit = asyncPage(() =>
   import(/* webpackChunkName: "edit", webpackPrefetch: true */ '../pages/edit')
 )
 
+const Delete = asyncPage(() =>
+  import(/* webpackChunkName: "delete", webpackPrefetch: true */ '../pages/delete')
+)
+
 const Example = asyncPage(() =>
   import(/* webpackChunkName: "example", webpackPrefetch: true */ '../pages/example')
 )
@@ -75,6 +79,7 @@ export class App extends React.PureComponent {
             <Account path='/account' />
             <Create path='/create/*' />
             <Edit path='/edit/*' />
+            <Delete path='/delete/*' />
             <Example path='/example' />
             <Login path='/login' />
             <Logout path='/logout' />

@@ -44,10 +44,6 @@ export class DisplayDiagram extends React.PureComponent {
 
         {!fetching && data !== null ? (
           <React.Fragment>
-            <Link className='pseudo button' to={`/edit/diagram/${data.id}`}>
-              Edit
-            </Link>
-
             <section>
               <Graph
                 data={data.rootGoal}
@@ -56,6 +52,23 @@ export class DisplayDiagram extends React.PureComponent {
                 showExport
               />
             </section>
+
+            <div className='flex one'>
+              <div className='clearfix'>
+                <section className='float-right'>
+                  <Link
+                    className='button error'
+                    to={`/delete/diagram/${data.id}`}
+                  >
+                    Delete
+                  </Link>
+
+                  <Link className='button edit' to={`/edit/diagram/${data.id}`}>
+                    Edit
+                  </Link>
+                </section>
+              </div>
+            </div>
           </React.Fragment>
         ) : null}
       </section>

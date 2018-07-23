@@ -7,6 +7,7 @@ import { SolutionNode } from './solution'
 import { ContextNode } from './context'
 import { AssumptionNode } from './assumption'
 import { JustificationNode } from './justification'
+import { InsufficientNode } from './insufficient'
 
 export class Node extends React.PureComponent {
   render () {
@@ -32,7 +33,7 @@ export class Node extends React.PureComponent {
 
       case 'INSUFFICIENT':
       case 'insufficient':
-        // TODO: Make InsufficientNode
+        graphNode = <InsufficientNode node={node} />
         break
 
       case 'JUSTIFICATION':
