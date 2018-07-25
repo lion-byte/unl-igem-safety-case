@@ -1,7 +1,7 @@
-export const getClient = async () => {
-  const {
-    client
-  } = await import(/* webpackChunkName: "client", webpackPreload: true */ './client')
-
-  return client
+export const getClient = () => {
+  return import(/* webpackChunkName: "client", webpackPreload: true */ './client')
+    .then(({ client }) => client)
+    .catch(err => {
+      throw err
+    })
 }

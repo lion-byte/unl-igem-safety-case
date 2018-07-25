@@ -38,7 +38,7 @@ export class DisplayDiagram extends React.PureComponent {
 
     return (
       <section>
-        {fetching && <h2>Fetching</h2>}
+        {fetching && <h2>Loading...</h2>}
 
         {!fetching && error !== null && <h2>Error</h2>}
 
@@ -63,7 +63,10 @@ export class DisplayDiagram extends React.PureComponent {
                     Delete
                   </Link>
 
-                  <Link className='button edit' to={`/edit/diagram/${data.id}`}>
+                  <Link
+                    className='button warning'
+                    to={`/edit/diagram/${data.id}`}
+                  >
                     Edit
                   </Link>
                 </section>

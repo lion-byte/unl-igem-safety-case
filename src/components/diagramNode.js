@@ -19,11 +19,15 @@ export class DiagramNode extends React.PureComponent {
 
         {Array.isArray(children) ? (
           <p>
-            Children: [{children.map(node => (
-              <Link key={node.id} to={`/view/node/${node.id}`}>
-                {node.name}
-              </Link>
-            ))}]
+            Children: [
+            <span className='link-list-separation'>
+              {children.map(node => (
+                <Link key={node.id} to={`/view/node/${node.id}`}>
+                  {node.name}
+                </Link>
+              ))}
+            </span>
+            ]
           </p>
         ) : null}
       </section>

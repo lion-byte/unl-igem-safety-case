@@ -13,7 +13,9 @@ export class DisplayNodePresentation extends React.PureComponent {
       data: { node }
     } = this.props
 
-    if (loading || error || !node) {
+    if (loading) {
+      return <h2>Loading...</h2>
+    } else if (error || !node) {
       return null
     } else {
       return (
@@ -61,7 +63,7 @@ export class DisplayNodePresentation extends React.PureComponent {
                   Delete
                 </Link>
 
-                <Link className='button edit' to={`/edit/node/${node.id}`}>
+                <Link className='button warning' to={`/edit/node/${node.id}`}>
                   Edit
                 </Link>
 

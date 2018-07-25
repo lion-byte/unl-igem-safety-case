@@ -45,7 +45,7 @@ export class RemoveDiagramPresentation extends React.PureComponent {
 
           <Diagram data={diagram} />
 
-          <button className='warning' onClick={this.confirmDelete}>
+          <button className='error' onClick={this.confirmDelete}>
             Delete Diagram
           </button>
 
