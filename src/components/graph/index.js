@@ -54,7 +54,7 @@ export class Graph extends React.PureComponent {
           height={height}
           width={width}
           viewBox={`0 0 ${width} ${height}`}
-          style={{ width: '100%', ...style }}
+          style={{ width: '100%', height: '100%', ...style }}
           {...others}
           ref={diagram => (this.diagram = diagram)}
         >

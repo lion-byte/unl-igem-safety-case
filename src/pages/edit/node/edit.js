@@ -92,7 +92,9 @@ export class ModifyNodePresentation extends React.PureComponent {
       state: { init, info }
     } = this
 
-    if (loading || error || !node) {
+    if (loading) {
+      return <h2>Loading...</h2>
+    } else if (error || !node) {
       return null
     } else if (!init) {
       this.singleCall(node)
@@ -153,6 +155,7 @@ export class ModifyNodePresentation extends React.PureComponent {
                 data={{ ...info, children: null }}
                 height={height + 160}
                 width={width + 80}
+                style={{ height: undefined }}
               />
             </section>
           </section>

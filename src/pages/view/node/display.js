@@ -24,6 +24,7 @@ export class DisplayNodePresentation extends React.PureComponent {
             data={{ ...node, children: null }}
             height={node.height + 160}
             width={node.width + 80}
+            style={{ height: undefined }}
           />
 
           <div className='flex one two-1200'>
