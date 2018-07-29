@@ -31,10 +31,10 @@ const createDiagram = async diagram => {
   const {
     ownerId,
     description = '',
-    height = 960,
+    height = 400,
     rootGoalId = null,
     title = 'Diagram',
-    width = 1260
+    width = 400
   } = diagram
 
   if (!ownerId) {

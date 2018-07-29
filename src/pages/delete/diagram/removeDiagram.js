@@ -2,8 +2,8 @@ import * as React from 'react'
 import { navigate, Link } from '@reach/router'
 import { compose, graphql } from 'react-apollo'
 
-import { DELETE_DIAGRAM_MUTATION, DIAGRAM_QUERY } from '../../../queries'
 import { Diagram } from '../../../components'
+import { DELETE_DIAGRAM_MUTATION, DIAGRAM_QUERY } from '../../../queries'
 
 export class RemoveDiagramPresentation extends React.PureComponent {
   constructor (props) {

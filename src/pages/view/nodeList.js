@@ -10,20 +10,18 @@ export class NodeListPresentation extends React.PureComponent {
       data: { loading, error, nodes }
     } = this.props
 
-    if (loading || error) {
+    if (loading) {
+      return <h3>Loading...</h3>
+    } else if (error) {
       return null
-    }
-
-    if (nodes.length === 0) {
+    } else if (nodes.length === 0) {
       return <h3>No nodes have been made</h3>
+    } else {
+      return nodes.map(info => <DiagramNode key={info.id} data={info} />)
     }
-
-    return nodes.map(info => <DiagramNode key={info.id} data={info} />)
   }
 }
 
 export const NodeList = graphql(NODE_LIST_QUERY, {
-  options: {
-    fetchPolicy: 'network-only'
-  }
+  options: { fetchPolicy: 'network-only' }
 })(NodeListPresentation)

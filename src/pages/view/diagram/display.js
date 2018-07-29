@@ -36,45 +36,42 @@ export class DisplayDiagram extends React.PureComponent {
   render () {
     const { fetching, error, data } = this.state
 
-    return (
-      <section>
-        {fetching && <h2>Loading...</h2>}
+    if (fetching) {
+      return <h2>Loading...</h2>
+    } else if (error || !data || !data.rootGoal) {
+      return <h2>Error</h2>
+    } else {
+      return (
+        <section>
+          <section>
+            <Graph
+              data={data.rootGoal}
+              height={data.height}
+              width={data.width}
+              showExport
+            />
+          </section>
+          <div className='flex one'>
+            <div className='clearfix'>
+              <section className='float-right'>
+                <Link
+                  className='button error'
+                  to={`/delete/diagram/${data.id}`}
+                >
+                  Delete
+                </Link>
 
-        {!fetching && error !== null && <h2>Error</h2>}
-
-        {!fetching && data !== null ? (
-          <React.Fragment>
-            <section>
-              <Graph
-                data={data.rootGoal}
-                height={data.height}
-                width={data.width}
-                showExport
-              />
-            </section>
-
-            <div className='flex one'>
-              <div className='clearfix'>
-                <section className='float-right'>
-                  <Link
-                    className='button error'
-                    to={`/delete/diagram/${data.id}`}
-                  >
-                    Delete
-                  </Link>
-
-                  <Link
-                    className='button warning'
-                    to={`/edit/diagram/${data.id}`}
-                  >
-                    Edit
-                  </Link>
-                </section>
-              </div>
+                <Link
+                  className='button warning'
+                  to={`/edit/diagram/${data.id}`}
+                >
+                  Edit
+                </Link>
+              </section>
             </div>
-          </React.Fragment>
-        ) : null}
-      </section>
-    )
+          </div>
+        </section>
+      )
+    }
   }
 }

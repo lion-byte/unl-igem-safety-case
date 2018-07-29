@@ -2,9 +2,9 @@ import * as React from 'react'
 import { graphql } from 'react-apollo'
 import { navigate } from '@reach/router'
 
-import { UPDATE_DIAGRAM_MUTATION } from '../../../queries'
-import { fetchFullDiagram } from '../../../utils'
 import { Graph, Input } from '../../../components'
+import { fetchFullDiagram } from '../../../utils'
+import { UPDATE_DIAGRAM_MUTATION } from '../../../queries'
 
 export class ModifyDiagramPresentation extends React.PureComponent {
   constructor (props) {
@@ -96,7 +96,7 @@ export class ModifyDiagramPresentation extends React.PureComponent {
       state: { loading, error, diagram }
     } = this
 
-    if (loading || error || diagram === null) {
+    if (loading || error || diagram === null || diagram.rootGoal === null) {
       return null
     }
 
