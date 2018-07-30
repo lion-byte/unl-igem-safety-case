@@ -43,14 +43,30 @@ export class DisplayDiagram extends React.PureComponent {
     } else {
       return (
         <section>
-          <section>
-            <Graph
-              data={data.rootGoal}
-              height={data.height}
-              width={data.width}
-              showExport
-            />
-          </section>
+          <Graph
+            data={data.rootGoal}
+            height={data.height}
+            width={data.width}
+            style={{ maxHeight: '60vh' }}
+            showExport
+          />
+
+          <div className='flex one two-1200'>
+            <section>
+              <h3>Title: {data.title}</h3>
+
+              <p>Description: {data.description}</p>
+            </section>
+
+            <section>
+              <h3>Root Goal</h3>
+
+              <Link to={`/view/node/${data.rootGoal.id}`}>
+                {data.rootGoal.name}
+              </Link>
+            </section>
+          </div>
+
           <div className='flex one'>
             <div className='clearfix'>
               <section className='float-right'>

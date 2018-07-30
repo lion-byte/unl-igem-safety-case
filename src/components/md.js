@@ -12,9 +12,15 @@ export class MD extends React.PureComponent {
       parsing: false,
       html: ''
     }
+
+    this.convertMd = this.convertMd.bind(this)
   }
 
-  async componentDidMount () {
+  componentDidMount () {
+    this.convertMd()
+  }
+
+  async convertMd () {
     const { content } = this.props
 
     this.setState({ parsing: true })

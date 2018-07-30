@@ -38,25 +38,37 @@ export class DisplayNodePresentation extends React.PureComponent {
               <p>Statement: {node.statement}</p>
             </div>
 
-            {Array.isArray(node.children) ? (
-              <div>
-                <h3>Child nodes</h3>
+            <div>
+              {node.parent ? (
+                <React.Fragment>
+                  <h3>Parent</h3>
 
-                {node.children.length === 0 ? (
-                  <p>None yet</p>
-                ) : (
-                  <ul>
-                    {node.children.map(subNode => (
-                      <li key={subNode.id}>
-                        <Link to={`/view/node/${subNode.id}`}>
-                          {subNode.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ) : null}
+                  <Link to={`/view/node/${node.parent.id}`}>
+                    {node.parent.name}
+                  </Link>
+                </React.Fragment>
+              ) : null}
+
+              {Array.isArray(node.children) ? (
+                <React.Fragment>
+                  <h3>Child nodes</h3>
+
+                  {node.children.length === 0 ? (
+                    <p>None yet</p>
+                  ) : (
+                    <ul>
+                      {node.children.map(subNode => (
+                        <li key={subNode.id}>
+                          <Link to={`/view/node/${subNode.id}`}>
+                            {subNode.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </React.Fragment>
+              ) : null}
+            </div>
 
             <div className='clearfix full-1200'>
               <div className='float-right'>

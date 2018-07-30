@@ -112,6 +112,10 @@ export const NODE_QUERY = gql`
       statement
       height
       width
+      parent {
+        id
+        name
+      }
       children {
         id
         name
