@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
 import { Page } from './page'
+import { LoaderEllipsis } from './spinners'
 
 export class Loading extends React.PureComponent {
   render () {
@@ -22,7 +23,12 @@ export class Loading extends React.PureComponent {
         </div>
       )
     } else if (pastDelay) {
-      return <div className={className}>Loading...</div>
+      return (
+        <div className={className}>
+          Loading...
+          <LoaderEllipsis />
+        </div>
+      )
     } else {
       return null
     }

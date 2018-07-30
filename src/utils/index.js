@@ -1,6 +1,7 @@
 export * from './diagram'
 export * from './env'
 export * from './lazyload'
+export * from './text'
 export * from './token'
 
 /**
