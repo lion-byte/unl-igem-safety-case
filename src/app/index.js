@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Helmet } from 'react-helmet'
 import { Link, Router } from '@reach/router'
 
-import { Navigation } from '../components/navigation'
 import { asyncPage } from '../utils/lazyload'
+import { Navigation } from './navigation'
 
 const Home = asyncPage(() =>
   import(/* webpackChunkName: "home", webpackPrefetch: true */ '../pages/home')

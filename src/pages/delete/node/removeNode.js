@@ -2,8 +2,8 @@ import * as React from 'react'
 import { navigate, Link } from '@reach/router'
 import { compose, graphql } from 'react-apollo'
 
-import { DELETE_NODE_DIAGRAM, NODE_QUERY } from '../../../queries'
 import { DiagramNode } from '../../../components'
+import { DELETE_NODE_DIAGRAM, NODE_QUERY } from '../../../queries'
 
 export class RemoveNodePresentation extends React.PureComponent {
   constructor (props) {
@@ -45,7 +45,7 @@ export class RemoveNodePresentation extends React.PureComponent {
 
           <DiagramNode data={node} />
 
-          <button className='warning' onClick={this.confirmDelete}>
+          <button className='danger' onClick={this.confirmDelete}>
             Delete Node
           </button>
 

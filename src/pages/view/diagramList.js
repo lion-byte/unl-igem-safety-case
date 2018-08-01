@@ -10,20 +10,18 @@ export class DiagramListPresentation extends React.PureComponent {
       data: { loading, error, diagrams }
     } = this.props
 
-    if (loading || error) {
+    if (loading) {
+      return <h3>Loading...</h3>
+    } else if (error) {
       return null
-    }
-
-    if (diagrams.length === 0) {
+    } else if (diagrams.length === 0) {
       return <h3>No diagrams have been made</h3>
+    } else {
+      return diagrams.map(info => <Diagram key={info.id} data={info} />)
     }
-
-    return diagrams.map(info => <Diagram key={info.id} data={info} />)
   }
 }
 
 export const DiagramList = graphql(DIAGRAM_LIST_QUERY, {
-  options: {
-    fetchPolicy: 'network-only'
-  }
+  options: { fetchPolicy: 'network-only' }
 })(DiagramListPresentation)

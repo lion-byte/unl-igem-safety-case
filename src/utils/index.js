@@ -1,8 +1,8 @@
 export * from './diagram'
+export * from './env'
 export * from './lazyload'
+export * from './text'
 export * from './token'
-
-export const isProduction = () => process.env.NODE_ENV === 'production'
 
 /**
  * @param {number} ms

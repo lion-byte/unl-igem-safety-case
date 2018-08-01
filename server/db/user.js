@@ -3,23 +3,6 @@ const { createHmac, randomBytes } = require('crypto')
 const { getConnection } = require('./connection')
 
 /**
- * @typedef {object} DBUser
- * @property {string} _id
- * @property {string} username
- * @property {string} email
- * @property {string} passwordHash
- * @property {string} salt
- * @property {UserPermissions} permissions
- */
-
-/**
- * @typedef {object} UserPermissions
- * @property {'user' | 'admin'} level
- * @property {boolean} canRead
- * @property {boolean} canWrite
- */
-
-/**
  * @param {string} email
  * @returns {Promise<DBUser>}
  */
@@ -28,7 +11,8 @@ const findByEmail = async email => {
   const userCollection = db.get('users')
 
   const account = await userCollection.findOne({ email })
-  db.close()
+
+  await db.close()
 
   return account
 }
@@ -42,7 +26,8 @@ const findById = async id => {
   const userCollection = db.get('users')
 
   const account = await userCollection.findOne({ _id: id })
-  db.close()
+
+  await db.close()
 
   return account
 }
@@ -56,7 +41,8 @@ const findByUsername = async username => {
   const userCollection = db.get('users')
 
   const account = await userCollection.findOne({ username })
-  db.close()
+
+  await db.close()
 
   return account
 }
@@ -89,7 +75,10 @@ const hashPassword = (password, salt) => {
  * @returns {Promise<boolean>}
  */
 const register = async (username, email, password) => {
-  if ((await findByEmail(email)) !== null) {
+  if (
+    (await findByEmail(email)) !== null ||
+    (await findByUsername(username)) !== null
+  ) {
     return false
   }
 
@@ -105,7 +94,7 @@ const register = async (username, email, password) => {
     canWrite: true
   }
 
-  await userCollection.insert({
+  const newUser = await userCollection.insert({
     username,
     email,
     passwordHash,
@@ -113,9 +102,9 @@ const register = async (username, email, password) => {
     permissions
   })
 
-  db.close()
+  await db.close()
 
-  return true
+  return newUser !== null
 }
 
 /**

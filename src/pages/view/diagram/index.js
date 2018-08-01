@@ -17,7 +17,9 @@ export class ViewDiagram extends React.PureComponent {
         </GuestOnly>
 
         <UserOnly>
-          <Link to='/view'>&laquo; View other diagrams</Link>
+          <section>
+            <Link to='/view'>&laquo; View other diagrams</Link>
+          </section>
 
           <DisplayDiagram id={id} />
         </UserOnly>

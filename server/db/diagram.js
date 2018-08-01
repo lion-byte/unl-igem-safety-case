@@ -1,40 +1,16 @@
 const { getConnection } = require('./connection')
 
 /**
- * @typedef {object} DBDiagram
- * @property {string} [_id]
- * @property {string} [ownerId]
- * @property {string} [description]
- * @property {number} [height]
- * @property {string} [rootGoalId]
- * @property {PublishStatus} [status]
- * @property {string} [title]
- * @property {number} [width]
- */
-
-/**
- * @typedef {object} DBDiagramNode
- * @property {string} [_id]
- * @property {string} [ownerId]
- * @property {NodeType} [type]
- * @property {string} [name]
- * @property {string} [statement]
- * @property {number} [height]
- * @property {number} [width]
- * @property {Array<string>} [children]
- */
-
-/**
  * @param {DBDiagram} diagram
  */
 const createDiagram = async diagram => {
   const {
     ownerId,
-    description = '',
-    height = 960,
-    rootGoalId = null,
     title = 'Diagram',
-    width = 1260
+    description = '',
+    rootGoalId = null,
+    height = 400,
+    width = 400
   } = diagram
 
   if (!ownerId) {
@@ -48,10 +24,10 @@ const createDiagram = async diagram => {
     const item = await diagramCollection.insert({
       ownerId,
       description,
-      height,
-      rootGoalId,
-      status: 'draft',
       title,
+      rootGoalId,
+      status: 'published',
+      height,
       width
     })
 
@@ -74,7 +50,8 @@ const createNode = async node => {
     type,
     name = '',
     statement = '',
-    height = 40,
+    parent = null,
+    height = 50,
     width = 120
   } = node
 
@@ -91,9 +68,10 @@ const createNode = async node => {
       type,
       name,
       statement,
+      parent,
+      children: type === 'goal' || type === 'strategy' ? [] : null,
       height,
-      width,
-      children: type === 'goal' || type === 'strategy' ? [] : null
+      width
     })
 
     await db.close()
@@ -256,16 +234,20 @@ const addChildNode = async opts => {
     const db = getConnection()
     const nodeCollection = db.get('diagramNodes')
 
-    const { _id, ...rest } = {
+    const { _id, ...restParent } = {
       ...parent,
       children: parent.children.concat([childId])
     }
+    const { _id: __id, ...restChild } = { ...child, parent: parentId }
 
-    await nodeCollection.update({ _id: parentId }, { ...rest })
+    const [parentResult, childResult] = await Promise.all([
+      nodeCollection.update({ _id: parentId }, { ...restParent }),
+      nodeCollection.update({ _id: childId }, { ...restChild })
+    ])
 
     await db.close()
 
-    return true
+    return parentResult.ok === 1 && childResult.ok === 1
   } catch (error) {
     console.error(error)
 
@@ -282,9 +264,12 @@ const addChildNode = async opts => {
 const removeChildNode = async opts => {
   const { parentId, childId, ownerId } = opts
 
-  const parent = await getNodeById({ ownerId, id: parentId })
+  const [parent, child] = await getNodeListByIds({
+    ownerId,
+    ids: [parentId, childId]
+  })
 
-  if (!parent) {
+  if (!parent || !child) {
     return false
   } else if (!Array.isArray(parent.children)) {
     return false
@@ -294,16 +279,21 @@ const removeChildNode = async opts => {
     const db = getConnection()
     const nodeCollection = db.get('diagramNodes')
 
-    const { _id, ...rest } = {
+    const { _id, ...parentRest } = {
       ...parent,
       children: parent.children.filter(nodeId => nodeId !== childId)
     }
 
-    await nodeCollection.update({ _id: parentId }, { ...rest })
+    const { _id: __id, ...childRest } = { ...child, parent: null }
+
+    const [parentResult, childResult] = await Promise.all([
+      nodeCollection.update({ _id: parentId }, { ...parentRest }),
+      nodeCollection.update({ _id: childId }, { ...childRest })
+    ])
 
     await db.close()
 
-    return true
+    return parentResult.ok === 1 && childResult.ok === 1
   } catch (error) {
     console.error(error)
 
@@ -342,6 +332,7 @@ const updateDiagram = async opts => {
     return true
   } catch (error) {
     console.error(error)
+
     return false
   }
 }
@@ -374,6 +365,7 @@ const updateNode = async opts => {
     return true
   } catch (error) {
     console.error(error)
+
     return false
   }
 }
@@ -385,6 +377,17 @@ const updateNode = async opts => {
  */
 const deleteDiagram = async opts => {
   const { id, ownerId } = opts
+
+  const diagram = await getDiagramById({ ownerId, id })
+
+  if (!diagram) {
+    return false
+  }
+
+  if (diagram.rootGoalId) {
+    // Delete the nodes associated with this diagram
+    await deleteBranchRecursive({ ownerId, id: diagram.rootGoalId })
+  }
 
   try {
     const db = getConnection()
@@ -410,11 +413,51 @@ const deleteDiagram = async opts => {
 const deleteNode = async opts => {
   const { id, ownerId } = opts
 
+  const { parent } = await getNodeById({ ownerId, id })
+
+  if (typeof parent === 'string') {
+    // Detaches branch from the diagram before deleting
+    await removeChildNode({ ownerId, parentId: parent, childId: id })
+  } else {
+    // Deletes entire diagram if the root node is being deleted
+    try {
+      const db = getConnection()
+      const diagramCollection = db.get('diagrams')
+
+      await diagramCollection.remove({
+        ownerId,
+        rootGoalId: id
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return deleteBranchRecursive({ ownerId, id })
+}
+
+/**
+ * Recursively deletes the node and any children below it
+ * @param {object} opts
+ * @param {string} opts.ownerId
+ * @param {string} opts.id
+ */
+const deleteBranchRecursive = async opts => {
+  const { id, ownerId } = opts
+
+  const { children } = await getNodeById({ ownerId, id })
+
+  if (Array.isArray(children)) {
+    await Promise.all(
+      children.map(childId => deleteBranchRecursive({ ownerId, id: childId }))
+    )
+  }
+
   try {
     const db = getConnection()
-    const diagramCollection = db.get('diagramNodes')
+    const nodeCollection = db.get('diagramNodes')
 
-    const { result } = await diagramCollection.remove({ _id: id, ownerId })
+    const { result } = await nodeCollection.remove({ _id: id, ownerId })
 
     await db.close()
 

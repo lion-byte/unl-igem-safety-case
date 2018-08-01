@@ -36,42 +36,58 @@ export class DisplayDiagram extends React.PureComponent {
   render () {
     const { fetching, error, data } = this.state
 
-    return (
-      <section>
-        {fetching && <h2>Fetching</h2>}
+    if (fetching) {
+      return <h2>Loading...</h2>
+    } else if (error || !data || !data.rootGoal) {
+      return <h2>Error</h2>
+    } else {
+      return (
+        <section>
+          <Graph
+            data={data.rootGoal}
+            height={data.height}
+            width={data.width}
+            style={{ maxHeight: '60vh' }}
+            showExport
+          />
 
-        {!fetching && error !== null && <h2>Error</h2>}
-
-        {!fetching && data !== null ? (
-          <React.Fragment>
+          <div className='flex one two-1200'>
             <section>
-              <Graph
-                data={data.rootGoal}
-                height={data.height}
-                width={data.width}
-                showExport
-              />
+              <h3>Title: {data.title}</h3>
+
+              <p>Description: {data.description}</p>
             </section>
 
-            <div className='flex one'>
-              <div className='clearfix'>
-                <section className='float-right'>
-                  <Link
-                    className='button error'
-                    to={`/delete/diagram/${data.id}`}
-                  >
-                    Delete
-                  </Link>
+            <section>
+              <h3>Root Goal</h3>
 
-                  <Link className='button edit' to={`/edit/diagram/${data.id}`}>
-                    Edit
-                  </Link>
-                </section>
-              </div>
+              <Link to={`/view/node/${data.rootGoal.id}`}>
+                {data.rootGoal.name}
+              </Link>
+            </section>
+          </div>
+
+          <div className='flex one'>
+            <div className='clearfix'>
+              <section className='float-right'>
+                <Link
+                  className='button error'
+                  to={`/delete/diagram/${data.id}`}
+                >
+                  Delete
+                </Link>
+
+                <Link
+                  className='button warning'
+                  to={`/edit/diagram/${data.id}`}
+                >
+                  Edit
+                </Link>
+              </section>
             </div>
-          </React.Fragment>
-        ) : null}
-      </section>
-    )
+          </div>
+        </section>
+      )
+    }
   }
 }

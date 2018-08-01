@@ -1,39 +1,54 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
+import { MultiLineText } from '../multiLineText'
+
 export class InsufficientNode extends React.PureComponent {
   render () {
     const {
       fontSize,
       node: {
-        data: { name, height = 120, width = 120 }
+        data: { name, statement, height = 120, width = 120 }
       }
     } = this.props
 
-    const max = Math.max(height, width)
+    const side = Math.max(height, width)
+    const hypotenuse = Math.sqrt(2) * side
 
     return (
       <React.Fragment>
         <rect
           fill='#ffffff'
-          height={max}
+          height={side}
+          width={side}
           stroke='#000000'
           strokeWidth={1}
-          width={max}
           transform='rotate(45)'
-          x={-max / 2}
-          y={-max / 2}
+          x={-side / 2}
+          y={-side / 2}
         />
 
         <text
           style={{ pointerEvents: 'none' }}
           textAnchor='middle'
           fontSize={fontSize}
+          fontWeight='bold'
           x={0}
-          y={fontSize / 3}
+          y={-hypotenuse / 3 + fontSize}
           fill='black'
         >
           {name}
+        </text>
+
+        <text
+          style={{ pointerEvents: 'none' }}
+          textAnchor='middle'
+          fontSize={fontSize}
+          x={0}
+          y={fontSize}
+          fill='black'
+        >
+          <MultiLineText text={statement} x={0} dy={fontSize} />
         </text>
       </React.Fragment>
     )

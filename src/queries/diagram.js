@@ -20,7 +20,6 @@ export const DIAGRAM_LIST_QUERY = gql`
       id
       title
       description
-      owner
       rootGoal {
         id
         name
@@ -38,7 +37,6 @@ export const DIAGRAM_QUERY = gql`
       id
       title
       description
-      owner
       rootGoal {
         id
         name
@@ -93,7 +91,6 @@ export const NODE_LIST_QUERY = gql`
     nodes: getNodes(type: $type) {
       id
       type
-      owner
       name
       statement
       height
@@ -111,13 +108,18 @@ export const NODE_QUERY = gql`
     node: getNode(id: $id) {
       id
       type
-      owner
       name
       statement
       height
       width
+      parent {
+        id
+        type
+        name
+      }
       children {
         id
+        type
         name
       }
     }

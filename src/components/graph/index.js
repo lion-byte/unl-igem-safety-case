@@ -41,27 +41,26 @@ export class Graph extends React.PureComponent {
       },
       style,
       width,
-      showExport,
-      ...others
+      middle,
+      showExport
     } = this.props
 
     const data = hierarchy(raw)
 
     return (
-      <React.Fragment>
+      <section>
         <svg
           className={className}
           height={height}
           width={width}
           viewBox={`0 0 ${width} ${height}`}
-          style={{ width: '100%', ...style }}
-          {...others}
+          style={{ width: '100%', height: '100%', ...style }}
           ref={diagram => (this.diagram = diagram)}
         >
           <rect width={width} height={height} rx={16} fill='#272b4d' />
 
           <Tree
-            top={margin.top}
+            top={middle ? height / 2 : margin.top}
             left={margin.left}
             root={data}
             size={[
@@ -79,7 +78,7 @@ export class Graph extends React.PureComponent {
             <button onClick={this.savePNG}>Save as PNG</button>
           </React.Fragment>
         ) : null}
-      </React.Fragment>
+      </section>
     )
   }
 }
@@ -88,6 +87,7 @@ Graph.defaultProps = {
   data: {},
   height: 100,
   width: 100,
+  middle: false,
   showExport: false
 }
 

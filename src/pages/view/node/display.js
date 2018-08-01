@@ -13,7 +13,9 @@ export class DisplayNodePresentation extends React.PureComponent {
       data: { node }
     } = this.props
 
-    if (loading || error || !node) {
+    if (loading) {
+      return <h2>Loading...</h2>
+    } else if (error || !node) {
       return null
     } else {
       return (
@@ -22,6 +24,8 @@ export class DisplayNodePresentation extends React.PureComponent {
             data={{ ...node, children: null }}
             height={node.height + 160}
             width={node.width + 80}
+            middle
+            style={{ height: undefined }}
           />
 
           <div className='flex one two-1200'>
@@ -35,25 +39,39 @@ export class DisplayNodePresentation extends React.PureComponent {
               <p>Statement: {node.statement}</p>
             </div>
 
-            {Array.isArray(node.children) ? (
-              <div>
-                <h3>Child nodes</h3>
+            <div>
+              {node.parent ? (
+                <React.Fragment>
+                  <h3>Parent</h3>
 
-                {node.children.length === 0 ? (
-                  <p>None yet</p>
-                ) : (
-                  <ul>
-                    {node.children.map(subNode => (
-                      <li key={subNode.id}>
-                        <Link to={`/view/node/${subNode.id}`}>
-                          {subNode.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ) : null}
+                  <Link to={`/view/node/${node.parent.id}`}>
+                    {node.parent.name}
+                    <span className='label'>{node.parent.type}</span>
+                  </Link>
+                </React.Fragment>
+              ) : null}
+
+              {Array.isArray(node.children) ? (
+                <React.Fragment>
+                  <h3>Child nodes</h3>
+
+                  {node.children.length === 0 ? (
+                    <p>None yet</p>
+                  ) : (
+                    <ul>
+                      {node.children.map(subNode => (
+                        <li key={subNode.id}>
+                          <Link to={`/view/node/${subNode.id}`}>
+                            {subNode.name}
+                            <span className='label'>{subNode.type}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </React.Fragment>
+              ) : null}
+            </div>
 
             <div className='clearfix full-1200'>
               <div className='float-right'>
@@ -61,7 +79,7 @@ export class DisplayNodePresentation extends React.PureComponent {
                   Delete
                 </Link>
 
-                <Link className='button edit' to={`/edit/node/${node.id}`}>
+                <Link className='button warning' to={`/edit/node/${node.id}`}>
                   Edit
                 </Link>
 

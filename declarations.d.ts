@@ -1,29 +1,17 @@
-// type ContainmentFacility = 1 | 2 | 3 | 4
+interface DBUser {
+  _id: string
+  username: string
+  email: string
+  passwordHash: string
+  salt: string
+  permissions: UserPermissions
+}
 
-// type RiskGroup = 1 | 2 | 3 | 4
-
-// type Hazard = 1 | 2 | 3 | 4
-
-type SafetyMechanism =
-  | 'Kill-switch'
-  | 'Auxotrophy'
-  | 'Degradation'
-  | 'Sterility'
-
-// type Usage = 'SEBO' | 'SEBO outputs'
-
-// type Environment =
-//   | 'Soil'
-//   | 'Water table'
-//   | 'specific habitat'
-//   | 'Atmosphere'
-//   | 'Rivers'
-//   | 'Freshwater'
-//   | 'Saltwater'
-//   | 'Human body'
-//   | 'Non-human body'
-
-// type Parameter = ''
+interface UserPermissions {
+  level: 'guest' | 'user' | 'admin'
+  canRead: boolean
+  canWrite: boolean
+}
 
 type PublishStatus = 'private' | 'published' | 'draft'
 
@@ -45,49 +33,72 @@ type NodeType =
   | 'solution'
   | 'strategy'
 
-interface Assumption {
-  type: 'assumption'
-  name: string
-  statement: string
+interface DBDiagram {
+  _id?: string
+  ownerId?: string
+  title?: string
+  description?: string
+  rootGoalId?: string
+  status?: PublishStatus
+  height?: number
+  width?: number
 }
 
-interface Context {
-  type: 'context'
-  name: string
-  statement: string
+interface DBDiagramNode {
+  _id?: string
+  ownerId?: string
+  type?: NodeType
+  name?: string
+  statement?: string
+  parent?: string
+  children?: Array<string>
+  height?: number
+  width?: number
 }
 
-interface Goal {
-  type: 'goal'
-  name: string
-  statement: string
-  children:
-    | Array<Assumption | Context | Goal | Justification | Strategy>
-    | Array<Context | Insufficient>
-    | Array<Context | Solution>
-}
+// interface Assumption {
+//   type: 'assumption'
+//   name: string
+//   statement: string
+// }
 
-interface Insufficient {
-  type: 'insufficient'
-  name: string
-  statement: string
-}
+// interface Context {
+//   type: 'context'
+//   name: string
+//   statement: string
+// }
 
-interface Justification {
-  type: 'justification'
-  name: string
-  statement: string
-}
+// interface Goal {
+//   type: 'goal'
+//   name: string
+//   statement: string
+//   children:
+//     | Array<Assumption | Context | Goal | Justification | Strategy>
+//     | Array<Context | Insufficient>
+//     | Array<Context | Solution>
+// }
 
-interface Solution {
-  type: 'solution'
-  name: string
-  statement: string
-}
+// interface Insufficient {
+//   type: 'insufficient'
+//   name: string
+//   statement: string
+// }
 
-interface Strategy {
-  type: 'strategy'
-  name: string
-  statement: string
-  children: Array<Assumption | Context | Justification | Goal>
-}
+// interface Justification {
+//   type: 'justification'
+//   name: string
+//   statement: string
+// }
+
+// interface Solution {
+//   type: 'solution'
+//   name: string
+//   statement: string
+// }
+
+// interface Strategy {
+//   type: 'strategy'
+//   name: string
+//   statement: string
+//   children: Array<Assumption | Context | Justification | Goal>
+// }

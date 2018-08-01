@@ -38,6 +38,7 @@ const typeDefs = gql`
     statement: String!
     height: Int!
     width: Int!
+    parent: DiagramNode
     children(type: DiagramNodeType): [DiagramNode]
   }
 
@@ -152,10 +153,16 @@ const resolvers = {
       return username
     },
 
-    children: async (obj, { type }, { user: userToken }) => {
-      if (!obj) {
+    parent: async (obj, args, { user: userToken }) => {
+      if (!obj || !obj.parent) {
         return null
-      } else if (!Array.isArray(obj.children)) {
+      }
+
+      return diagram.getNodeById({ id: obj.parent, ownerId: userToken.id })
+    },
+
+    children: async (obj, { type }, { user: userToken }) => {
+      if (!obj || !Array.isArray(obj.children)) {
         return null
       }
 

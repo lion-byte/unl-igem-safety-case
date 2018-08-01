@@ -5,7 +5,6 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    common: path.join(__dirname, './src/common.js'),
     app: path.join(__dirname, './src/index.js')
   },
 

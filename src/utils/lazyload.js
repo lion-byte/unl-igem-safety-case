@@ -1,7 +1,7 @@
 // @ts-ignore
 import Loadable from 'react-loadable'
 
-import { Loading, LoadingPage } from '../components/ui'
+import { Loading, LoadingPage } from '../components/ui/loading'
 
 /**
  * Lazy loads a component

@@ -16,21 +16,38 @@ export class Input extends React.PureComponent {
       value
     } = this.props
 
-    return (
-      <label className={className}>
-        {label}
-        <input
-          type={type}
-          min={min}
-          max={max}
-          step={step}
-          name={name}
-          onChange={onChange}
-          required={required}
-          value={value}
-        />
-      </label>
-    )
+    if (type === 'textarea') {
+      return (
+        <label className={className}>
+          {label}
+
+          <textarea
+            name={name}
+            onChange={onChange}
+            required={required}
+            value={value}
+            style={{ resize: 'vertical' }}
+          />
+        </label>
+      )
+    } else {
+      return (
+        <label className={className}>
+          {label}
+
+          <input
+            type={type}
+            min={min}
+            max={max}
+            step={step}
+            name={name}
+            onChange={onChange}
+            required={required}
+            value={value}
+          />
+        </label>
+      )
+    }
   }
 }
 
@@ -44,6 +61,6 @@ Input.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   required: PropTypes.bool,
-  type: PropTypes.oneOf(['text', 'number', 'password']),
+  type: PropTypes.oneOf(['textarea', 'text', 'number', 'password']),
   value: PropTypes.any
 }

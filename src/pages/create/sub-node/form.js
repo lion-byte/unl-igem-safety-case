@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { compose, graphql } from 'react-apollo'
-import { navigate } from '@reach/router'
+import { Link, navigate } from '@reach/router'
 
 import { DiagramNode, Input } from '../../../components'
 import {
@@ -93,7 +93,7 @@ export class NodeFormPresentation extends React.PureComponent {
 
     if (loading) {
       return <h2>Loading</h2>
-    } else if (error) {
+    } else if (error || !node) {
       return null
     } else {
       return (
@@ -126,13 +126,17 @@ export class NodeFormPresentation extends React.PureComponent {
               <Input
                 label='Statement'
                 name='statement'
-                type='text'
+                type='textarea'
                 onChange={this.handleChange}
                 value={statement}
               />
             </fieldset>
 
             <button>Save</button>
+
+            <Link className='pseudo button' to={`/view/node/${node.id}`}>
+              Cancel
+            </Link>
           </form>
 
           <section>
