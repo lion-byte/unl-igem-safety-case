@@ -41,6 +41,7 @@ export class Graph extends React.PureComponent {
       },
       style,
       width,
+      middle,
       showExport
     } = this.props
 
@@ -59,7 +60,7 @@ export class Graph extends React.PureComponent {
           <rect width={width} height={height} rx={16} fill='#272b4d' />
 
           <Tree
-            top={margin.top}
+            top={middle ? height / 2 : margin.top}
             left={margin.left}
             root={data}
             size={[
@@ -86,6 +87,7 @@ Graph.defaultProps = {
   data: {},
   height: 100,
   width: 100,
+  middle: false,
   showExport: false
 }
 

@@ -119,7 +119,7 @@ export class ModifyNodePresentation extends React.PureComponent {
                 <Input
                   label='Statement'
                   name='statement'
-                  type='text'
+                  type='textarea'
                   onChange={this.handleChange}
                   value={statement}
                 />
@@ -155,6 +155,7 @@ export class ModifyNodePresentation extends React.PureComponent {
                 data={{ ...info, children: null }}
                 height={height + 160}
                 width={width + 80}
+                middle
                 style={{ height: undefined }}
               />
             </section>

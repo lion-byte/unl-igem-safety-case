@@ -26,7 +26,7 @@ const createDiagram = async diagram => {
       description,
       title,
       rootGoalId,
-      status: 'draft',
+      status: 'published',
       height,
       width
     })

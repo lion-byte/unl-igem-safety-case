@@ -114,10 +114,12 @@ export const NODE_QUERY = gql`
       width
       parent {
         id
+        type
         name
       }
       children {
         id
+        type
         name
       }
     }

@@ -94,45 +94,47 @@ export class RootFormPresentation extends React.PureComponent {
       <form onSubmit={this.handleSubmit}>
         {this.state.sending ? <h2>Sending</h2> : null}
 
-        <fieldset className='flex one four-800'>
-          <Input
-            label='Diagram Title'
-            type='text'
-            name='title'
-            onChange={this.handleChange}
-            value={this.state.title}
-          />
+        <div className='flex one two-800'>
+          <div className='half-800'>
+            <fieldset>
+              <Input
+                label='Diagram Title'
+                type='text'
+                name='title'
+                onChange={this.handleChange}
+                value={this.state.title}
+              />
 
-          <Input
-            className='three-fourth-800'
-            label='Diagram Description'
-            type='text'
-            name='description'
-            onChange={this.handleChange}
-            value={this.state.description}
-          />
-        </fieldset>
+              <Input
+                label='Diagram Description'
+                type='textarea'
+                name='description'
+                onChange={this.handleChange}
+                value={this.state.description}
+              />
+            </fieldset>
+          </div>
 
-        <hr />
+          <div className='half-800'>
+            <fieldset>
+              <Input
+                label='Root Goal Name'
+                type='text'
+                name='name'
+                onChange={this.handleChange}
+                value={this.state.name}
+              />
 
-        <fieldset className='flex one four-800'>
-          <Input
-            label='Root Goal Name'
-            type='text'
-            name='name'
-            onChange={this.handleChange}
-            value={this.state.name}
-          />
-
-          <Input
-            className='three-fourth-800'
-            label='Root Goal Statement'
-            type='text'
-            name='statement'
-            onChange={this.handleChange}
-            value={this.state.statement}
-          />
-        </fieldset>
+              <Input
+                label='Root Goal Statement'
+                type='textarea'
+                name='statement'
+                onChange={this.handleChange}
+                value={this.state.statement}
+              />
+            </fieldset>
+          </div>
+        </div>
 
         {/* <fieldset className='flex one two-800'>
           <label>
@@ -204,7 +206,9 @@ export class RootFormPresentation extends React.PureComponent {
           </label>
         </fieldset> */}
 
-        <button>Save</button>
+        <div>
+          <button>Save</button>
+        </div>
       </form>
     )
   }

@@ -24,6 +24,7 @@ export class DisplayNodePresentation extends React.PureComponent {
             data={{ ...node, children: null }}
             height={node.height + 160}
             width={node.width + 80}
+            middle
             style={{ height: undefined }}
           />
 
@@ -45,6 +46,7 @@ export class DisplayNodePresentation extends React.PureComponent {
 
                   <Link to={`/view/node/${node.parent.id}`}>
                     {node.parent.name}
+                    <span className='label'>{node.parent.type}</span>
                   </Link>
                 </React.Fragment>
               ) : null}
@@ -61,6 +63,7 @@ export class DisplayNodePresentation extends React.PureComponent {
                         <li key={subNode.id}>
                           <Link to={`/view/node/${subNode.id}`}>
                             {subNode.name}
+                            <span className='label'>{subNode.type}</span>
                           </Link>
                         </li>
                       ))}
