@@ -1,6 +1,6 @@
 const { gql, makeExecutableSchema } = require('apollo-server-express')
 
-const { user, diagram } = require('../db')
+const { diagram } = require('../db')
 
 const typeDefs = gql`
   enum DiagramNodeType {
@@ -23,7 +23,6 @@ const typeDefs = gql`
     id: String!
     title: String!
     description: String!
-    owner: String!
     rootGoal: DiagramNode
     status: PublishStatus!
     height: Int!
@@ -34,7 +33,6 @@ const typeDefs = gql`
     id: String!
     type: DiagramNodeType!
     name: String!
-    owner: String!
     statement: String!
     height: Int!
     width: Int!
@@ -127,12 +125,6 @@ const resolvers = {
       return obj._id
     },
 
-    owner: async (obj, args, { user: userToken }) => {
-      const { username } = await user.findById(obj.ownerId)
-
-      return username
-    },
-
     rootGoal: async (obj, args, { user: userToken }) => {
       if (obj.rootGoalId === null) {
         return null
@@ -145,12 +137,6 @@ const resolvers = {
   DiagramNode: {
     id: async (obj, args, { user: userToken }) => {
       return obj._id
-    },
-
-    owner: async (obj, args, { user: userToken }) => {
-      const { username } = await user.findById(obj.ownerId)
-
-      return username
     },
 
     parent: async (obj, args, { user: userToken }) => {
