@@ -1,12 +1,14 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
+import { MultiLineText } from '../multiLineText'
+
 export class StrategyNode extends React.PureComponent {
   render () {
     const {
       fontSize,
       node: {
-        data: { name, height = 40, width = 160 }
+        data: { name, statement, height = 80, width = 190 }
       }
     } = this.props
 
@@ -24,13 +26,25 @@ export class StrategyNode extends React.PureComponent {
 
         <text
           style={{ pointerEvents: 'none' }}
+          fill='white'
+          textAnchor='middle'
+          fontSize={fontSize}
+          fontWeight='bold'
+          x={0}
+          y={-height / 3 + fontSize}
+        >
+          {name}
+        </text>
+
+        <text
+          style={{ pointerEvents: 'none' }}
           textAnchor='middle'
           fontSize={fontSize}
           x={0}
-          y={fontSize / 3}
+          y={fontSize}
           fill='white'
         >
-          {name}
+          <MultiLineText text={statement} x={0} dy={fontSize} />
         </text>
       </React.Fragment>
     )

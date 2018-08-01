@@ -17,7 +17,9 @@ export class EditNode extends React.PureComponent {
         </GuestOnly>
 
         <UserOnly>
-          <Link to='/view'>&laquo; View other nodes</Link>
+          <section>
+            <Link to='/view'>&laquo; View other nodes</Link>
+          </section>
 
           <ModifyNode
             // @ts-ignore

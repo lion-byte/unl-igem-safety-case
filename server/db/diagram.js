@@ -51,7 +51,7 @@ const createNode = async node => {
     name = '',
     statement = '',
     parent = null,
-    height = 40,
+    height = 50,
     width = 120
   } = node
 

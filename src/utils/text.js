@@ -1,7 +1,7 @@
 const markedLib = () => import(/* webpackChunkName: "marked" */ 'marked')
 
 /**
- *
+ * Render markdown string as html
  * @param {string} md
  * @returns {Promise<string>} html string
  */

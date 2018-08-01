@@ -21,7 +21,7 @@ const data = {
     {
       type: 'strategy',
       name: 'Root strategy',
-      statement: 'Argument over the safety of the product',
+      statement: 'Argument over the\nsafety of the product',
       children: [
         {
           type: 'justification',
@@ -79,7 +79,7 @@ export default class Example extends React.PureComponent {
     return (
       <Page title='Example'>
         <section>
-          <Graph data={data} height={640} width={1260} showExport />
+          <Graph data={data} height={720} width={1600} showExport />
         </section>
       </Page>
     )

@@ -17,7 +17,7 @@ export class DiagramNode extends React.PureComponent {
 
         <p>{statement}</p>
 
-        {Array.isArray(children) ? (
+        {Array.isArray(children) && (
           <p>
             Children: [
             <span className='link-list-separation'>
@@ -29,7 +29,7 @@ export class DiagramNode extends React.PureComponent {
             </span>
             ]
           </p>
-        ) : null}
+        )}
       </section>
     )
   }
