@@ -24,7 +24,6 @@ export const DIAGRAM_LIST_QUERY = gql`
         id
         name
       }
-      status
       height
       width
     }
@@ -41,7 +40,6 @@ export const DIAGRAM_QUERY = gql`
         id
         name
       }
-      status
       height
       width
     }

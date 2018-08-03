@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { GuestOnly, Page, UserOnly } from '../../components'
+import { GuestOnly, Page, UserOnly, AdminOnly } from '../../components'
 
 export default class Account extends React.PureComponent {
   render () {
@@ -15,9 +15,19 @@ export default class Account extends React.PureComponent {
           </GuestOnly>
 
           <UserOnly>
-            <Link className='button warning' to='/logout'>
-              Logout
-            </Link>
+            <AdminOnly>
+              <div>
+                <Link className='button' to='/admin'>
+                  Admin View
+                </Link>
+              </div>
+            </AdminOnly>
+
+            <div>
+              <Link className='button warning' to='/logout'>
+                Logout
+              </Link>
+            </div>
           </UserOnly>
         </section>
       </Page>

@@ -9,6 +9,10 @@ const Home = asyncPage(() =>
   import(/* webpackChunkName: "home", webpackPrefetch: true */ '../pages/home')
 )
 
+const Admin = asyncPage(() =>
+  import(/* webpackChunkName: "admin", webpackPrefetch: true */ '../pages/admin')
+)
+
 const Account = asyncPage(() =>
   import(/* webpackChunkName: "account", webpackPrefetch: true */ '../pages/account')
 )
@@ -76,11 +80,12 @@ export class App extends React.PureComponent {
         <section className='container'>
           <Router>
             <Home path='/' />
+            <Admin path='/admin/*' />
             <Account path='/account' />
             <Create path='/create/*' />
             <Edit path='/edit/*' />
-            <Delete path='/delete/*' />
             <Example path='/example' />
+            <Delete path='/delete/*' />
             <Login path='/login' />
             <Logout path='/logout' />
             <Register path='/register' />
