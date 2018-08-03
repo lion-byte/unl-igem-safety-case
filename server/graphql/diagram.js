@@ -147,11 +147,20 @@ const resolvers = {
     },
 
     rootGoal: async (obj, args, { user: userToken }) => {
-      if (obj.rootGoalId === null) {
+      if (!obj.rootGoalId) {
         return null
       }
 
-      return diagram.getNodeById({ id: obj.rootGoalId, ownerId: userToken.id })
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getNodeById(obj.rootGoalId)
+      } else {
+        return diagram.getNodeById({
+          id: obj.rootGoalId,
+          ownerId: userToken.id
+        })
+      }
     }
   },
 
@@ -175,7 +184,13 @@ const resolvers = {
         return null
       }
 
-      return diagram.getNodeById({ id: obj.parent, ownerId: userToken.id })
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getNodeById(obj.parent)
+      } else {
+        return diagram.getNodeById({ id: obj.parent, ownerId: userToken.id })
+      }
     },
 
     children: async (obj, { type }, { user: userToken }) => {
@@ -183,15 +198,25 @@ const resolvers = {
         return null
       }
 
-      const childNodes = await diagram.getNodeListByIds({
-        ids: obj.children,
-        ownerId: userToken.id
-      })
-
       switch (obj.type) {
         case 'goal':
         case 'strategy':
-          return filterByType(childNodes, type)
+          const isAdmin = await admin.isAdmin(userToken.id)
+
+          if (isAdmin) {
+            return filterByType(
+              await admin.getNodeListByIds(obj.children),
+              type
+            )
+          } else {
+            return filterByType(
+              await diagram.getNodeListByIds({
+                ids: obj.children,
+                ownerId: userToken.id
+              }),
+              type
+            )
+          }
 
         default:
           return null
