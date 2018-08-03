@@ -17,3 +17,9 @@ A **Strategy** is then used to break that Goal down into smaller sub-Goals that 
 
 If a creator of a Safety Case wishes to convey that a certain Goal or Strategy is not fully developed and needs more consideration before finalization, they attach a **diamond** onto the unit. A diamond on a Goal can denote a need to think of more Strategies, and a diamond on a Strategy can denote a need to think of more sub-Goals. Diamonds do not necessarily mean that a creator did not think about a branch of a Safety Case. It only means that the creator of the Safety Case is addressing a need for more consideration.
 `
+
+export const acknowledgment = `
+## Acknowledgment
+
+This work is supported in part by NSF grant CCF-1745775.  Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
+`

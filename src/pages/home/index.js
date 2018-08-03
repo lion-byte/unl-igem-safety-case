@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { Page, GuestOnly, UserOnly, MD } from '../../components'
-import { description } from './description'
+import { Page, GuestOnly, UserOnly, MD, Image } from '../../components'
+import { description, acknowledgment } from './description'
 
 export default class Home extends React.PureComponent {
   render () {
@@ -18,6 +18,15 @@ export default class Home extends React.PureComponent {
 
         <section>
           <MD content={description} />
+
+          <MD content={acknowledgment} />
+
+          <Image
+            src='/img/nsf-logo.png'
+            alt='NSF Logo'
+            height={128}
+            width={128}
+          />
         </section>
       </Page>
     )
