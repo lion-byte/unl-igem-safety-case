@@ -57,13 +57,9 @@ const resolvers = {
         canWrite: false
       }
 
-      if (!userToken) {
-        return guestPermissions
-      }
-
       const account = await user.findById(userToken.id)
 
-      if (account === null) {
+      if (!userToken || !account) {
         return guestPermissions
       }
 
@@ -76,7 +72,7 @@ const resolvers = {
       const success = await user.register(username, email, password)
 
       if (!success) {
-        throw Error('Email already in use')
+        throw Error('Email/Username already in use')
       }
 
       const account = await user.findByEmail(email)

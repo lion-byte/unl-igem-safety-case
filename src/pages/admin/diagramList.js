@@ -2,7 +2,7 @@ import * as React from 'react'
 import { graphql } from 'react-apollo'
 
 import { Diagram } from '../../components'
-import { DIAGRAM_LIST_QUERY } from '../../queries'
+import { ADMIN_DIAGRAM_LIST_QUERY } from '../../queries'
 
 export class DiagramListPresentation extends React.PureComponent {
   render () {
@@ -17,11 +17,11 @@ export class DiagramListPresentation extends React.PureComponent {
     } else if (diagrams.length === 0) {
       return <h3>No diagrams have been made</h3>
     } else {
-      return diagrams.map(info => <Diagram key={info.id} data={info} />)
+      return diagrams.map(info => <Diagram key={info.id} data={info} admin />)
     }
   }
 }
 
-export const DiagramList = graphql(DIAGRAM_LIST_QUERY, {
+export const DiagramList = graphql(ADMIN_DIAGRAM_LIST_QUERY, {
   options: { fetchPolicy: 'network-only' }
 })(DiagramListPresentation)

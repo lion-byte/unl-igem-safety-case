@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page, UserOnly, GuestOnly } from '../../../components'
+import { Page, AdminOnly, GuestOnly } from '../../../components'
 import { DisplayNode } from './display'
 
 export class ViewNode extends React.PureComponent {
@@ -16,16 +16,16 @@ export class ViewNode extends React.PureComponent {
           </h2>
         </GuestOnly>
 
-        <UserOnly>
+        <AdminOnly>
           <section>
-            <Link to='/view'>&laquo; View other nodes</Link>
+            <Link to='/admin'>&laquo; View other nodes</Link>
           </section>
 
           <DisplayNode
             // @ts-ignore
             id={id}
           />
-        </UserOnly>
+        </AdminOnly>
       </Page>
     )
   }

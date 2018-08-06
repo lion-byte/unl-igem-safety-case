@@ -1,6 +1,6 @@
 const { gql, makeExecutableSchema } = require('apollo-server-express')
 
-const { user, diagram } = require('../db')
+const { admin, diagram, user } = require('../db')
 
 const typeDefs = gql`
   enum DiagramNodeType {
@@ -21,9 +21,9 @@ const typeDefs = gql`
 
   type Diagram {
     id: String!
+    owner: String!
     title: String!
     description: String!
-    owner: String!
     rootGoal: DiagramNode
     status: PublishStatus!
     height: Int!
@@ -32,9 +32,9 @@ const typeDefs = gql`
 
   type DiagramNode {
     id: String!
+    owner: String!
     type: DiagramNodeType!
     name: String!
-    owner: String!
     statement: String!
     height: Int!
     width: Int!
@@ -43,6 +43,14 @@ const typeDefs = gql`
   }
 
   type Query {
+    adminGetDiagram(id: String!): Diagram
+
+    adminGetDiagrams: [Diagram]
+
+    adminGetNode(id: String!): DiagramNode
+
+    adminGetNodes(type: DiagramNodeType): [DiagramNode]
+
     getDiagram(id: String!): Diagram
 
     getDiagrams: [Diagram]
@@ -94,8 +102,9 @@ const typeDefs = gql`
 `
 
 /**
- * @param {Array<any>} list
+ * @param {Array<DBDiagramNode>} list
  * @param {NodeType} type
+ * @returns {Array<DBDiagramNode>}
  */
 const filterByType = (list, type = null) => {
   if (type === null) {
@@ -128,17 +137,30 @@ const resolvers = {
     },
 
     owner: async (obj, args, { user: userToken }) => {
-      const { username } = await user.findById(obj.ownerId)
+      const account = await user.findById(obj.ownerId)
 
-      return username
+      if (account) {
+        return account.username
+      } else {
+        return null
+      }
     },
 
     rootGoal: async (obj, args, { user: userToken }) => {
-      if (obj.rootGoalId === null) {
+      if (!obj.rootGoalId) {
         return null
       }
 
-      return diagram.getNodeById({ id: obj.rootGoalId, ownerId: userToken.id })
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getNodeById(obj.rootGoalId)
+      } else {
+        return diagram.getNodeById({
+          id: obj.rootGoalId,
+          ownerId: userToken.id
+        })
+      }
     }
   },
 
@@ -148,9 +170,13 @@ const resolvers = {
     },
 
     owner: async (obj, args, { user: userToken }) => {
-      const { username } = await user.findById(obj.ownerId)
+      const account = await user.findById(obj.ownerId)
 
-      return username
+      if (account) {
+        return account.username
+      } else {
+        return null
+      }
     },
 
     parent: async (obj, args, { user: userToken }) => {
@@ -158,7 +184,13 @@ const resolvers = {
         return null
       }
 
-      return diagram.getNodeById({ id: obj.parent, ownerId: userToken.id })
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getNodeById(obj.parent)
+      } else {
+        return diagram.getNodeById({ id: obj.parent, ownerId: userToken.id })
+      }
     },
 
     children: async (obj, { type }, { user: userToken }) => {
@@ -166,15 +198,25 @@ const resolvers = {
         return null
       }
 
-      const childNodes = await diagram.getNodeListByIds({
-        ids: obj.children,
-        ownerId: userToken.id
-      })
-
       switch (obj.type) {
         case 'goal':
         case 'strategy':
-          return filterByType(childNodes, type)
+          const isAdmin = await admin.isAdmin(userToken.id)
+
+          if (isAdmin) {
+            return filterByType(
+              await admin.getNodeListByIds(obj.children),
+              type
+            )
+          } else {
+            return filterByType(
+              await diagram.getNodeListByIds({
+                ids: obj.children,
+                ownerId: userToken.id
+              }),
+              type
+            )
+          }
 
         default:
           return null
@@ -183,6 +225,46 @@ const resolvers = {
   },
 
   Query: {
+    adminGetDiagram: async (_, { id }, { user: userToken }) => {
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getDiagramById(id)
+      } else {
+        return null
+      }
+    },
+
+    adminGetDiagrams: async (_, args, { user: userToken }) => {
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getAllDiagrams()
+      } else {
+        return []
+      }
+    },
+
+    adminGetNode: async (_, { id }, { user: userToken }) => {
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return admin.getNodeById(id)
+      } else {
+        return null
+      }
+    },
+
+    adminGetNodes: async (_, { type }, { user: userToken }) => {
+      const isAdmin = await admin.isAdmin(userToken.id)
+
+      if (isAdmin) {
+        return filterByType(await admin.getAllNodes(), type)
+      } else {
+        return []
+      }
+    },
+
     getDiagram: async (_, { id }, { user: userToken }) => {
       return diagram.getDiagramById({ id, ownerId: userToken.id })
     },

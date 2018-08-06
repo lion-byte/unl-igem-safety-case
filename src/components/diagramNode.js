@@ -1,18 +1,26 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 
 export class DiagramNode extends React.PureComponent {
   render () {
     const {
-      data: { id, type, name, children, statement }
+      admin,
+      data: { id, owner, type, name, children, statement }
     } = this.props
 
     return (
       <section>
         <h3>
-          <Link to={`/view/node/${id}`}>{name}</Link>
+          <Link to={admin ? `/admin/node/${id}` : `/view/node/${id}`}>
+            {name}
+          </Link>
 
           <span className='label'>{type}</span>
+
+          {admin ? (
+            <span className='label success'>Made by {owner}</span>
+          ) : null}
         </h3>
 
         <p>{statement}</p>
@@ -22,7 +30,12 @@ export class DiagramNode extends React.PureComponent {
             Children: [
             <span className='link-list-separation'>
               {children.map(node => (
-                <Link key={node.id} to={`/view/node/${node.id}`}>
+                <Link
+                  key={node.id}
+                  to={
+                    admin ? `/admin/node/${node.id}` : `/view/node/${node.id}`
+                  }
+                >
                   {node.name}
                 </Link>
               ))}
@@ -33,4 +46,12 @@ export class DiagramNode extends React.PureComponent {
       </section>
     )
   }
+}
+
+DiagramNode.propTypes = {
+  admin: PropTypes.bool
+}
+
+DiagramNode.defaultProps = {
+  admin: false
 }

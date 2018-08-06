@@ -3,7 +3,7 @@ import { Link } from '@reach/router'
 import { graphql } from 'react-apollo'
 
 import { Graph } from '../../../components'
-import { NODE_QUERY } from '../../../queries'
+import { ADMIN_NODE_QUERY } from '../../../queries'
 
 export class DisplayNodePresentation extends React.PureComponent {
   render () {
@@ -28,7 +28,10 @@ export class DisplayNodePresentation extends React.PureComponent {
 
           <div className='flex one two-1200'>
             <div>
-              <h3>Name: {node.name}</h3>
+              <h3>
+                Name: {node.name}
+                <span className='label success'>Made by {node.owner}</span>
+              </h3>
 
               <p>
                 Type: <span className='label'>{node.type}</span>
@@ -42,7 +45,7 @@ export class DisplayNodePresentation extends React.PureComponent {
                 <React.Fragment>
                   <h3>Parent</h3>
 
-                  <Link to={`/view/node/${node.parent.id}`}>
+                  <Link to={`/admin/node/${node.parent.id}`}>
                     {node.parent.name}
                     <span className='label'>{node.parent.type}</span>
                   </Link>
@@ -59,7 +62,7 @@ export class DisplayNodePresentation extends React.PureComponent {
                     <ul>
                       {node.children.map(subNode => (
                         <li key={subNode.id}>
-                          <Link to={`/view/node/${subNode.id}`}>
+                          <Link to={`/admin/node/${subNode.id}`}>
                             {subNode.name}
                             <span className='label'>{subNode.type}</span>
                           </Link>
@@ -70,24 +73,6 @@ export class DisplayNodePresentation extends React.PureComponent {
                 </React.Fragment>
               ) : null}
             </div>
-
-            <div className='clearfix full-1200'>
-              <div className='float-right'>
-                <Link className='button error' to={`/delete/node/${node.id}`}>
-                  Delete
-                </Link>
-
-                <Link className='button warning' to={`/edit/node/${node.id}`}>
-                  Edit
-                </Link>
-
-                {Array.isArray(node.children) ? (
-                  <Link className='button' to={`/create/sub-node/${node.id}`}>
-                    Add child node
-                  </Link>
-                ) : null}
-              </div>
-            </div>
           </div>
         </section>
       )
@@ -95,7 +80,7 @@ export class DisplayNodePresentation extends React.PureComponent {
   }
 }
 
-export const DisplayNode = graphql(NODE_QUERY, {
+export const DisplayNode = graphql(ADMIN_NODE_QUERY, {
   options: props => ({
     // @ts-ignore
     variables: { id: props.id },
