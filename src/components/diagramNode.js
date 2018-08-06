@@ -1,10 +1,12 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 
 export class DiagramNode extends React.PureComponent {
   render () {
     const {
-      data: { id, type, name, children, statement }
+      admin,
+      data: { id, owner, type, name, children, statement }
     } = this.props
 
     return (
@@ -13,6 +15,10 @@ export class DiagramNode extends React.PureComponent {
           <Link to={`/view/node/${id}`}>{name}</Link>
 
           <span className='label'>{type}</span>
+
+          {admin ? (
+            <span className='label success'>Made by {owner}</span>
+          ) : null}
         </h3>
 
         <p>{statement}</p>
@@ -33,4 +39,12 @@ export class DiagramNode extends React.PureComponent {
       </section>
     )
   }
+}
+
+DiagramNode.propTypes = {
+  admin: PropTypes.bool
+}
+
+DiagramNode.defaultProps = {
+  admin: false
 }

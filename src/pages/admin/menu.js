@@ -1,21 +1,21 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { Page, UserOnly, GuestOnly } from '../../components'
+import { Page, GuestOnly, AdminOnly } from '../../components'
 import { DiagramList } from './diagramList'
 import { NodeList } from './nodeList'
 
 export class Menu extends React.PureComponent {
   render () {
     return (
-      <Page title='View'>
+      <Page title='Admin'>
         <GuestOnly>
           <h2>
             Please <Link to='/login'>log in</Link>
           </h2>
         </GuestOnly>
 
-        <UserOnly>
+        <AdminOnly>
           <h2>Diagrams</h2>
 
           <section>
@@ -27,10 +27,11 @@ export class Menu extends React.PureComponent {
           </section>
 
           <h2>Nodes</h2>
+
           <section>
             <NodeList />
           </section>
-        </UserOnly>
+        </AdminOnly>
       </Page>
     )
   }

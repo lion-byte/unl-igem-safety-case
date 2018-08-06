@@ -1,9 +1,14 @@
 import * as React from 'react'
+import { Router } from '@reach/router'
 
-import { Page } from '../../components'
+import { Menu } from './menu'
 
 export default class Admin extends React.PureComponent {
   render () {
-    return <Page title='Admin' />
+    return (
+      <Router>
+        <Menu path='/' />
+      </Router>
+    )
   }
 }
