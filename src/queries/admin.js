@@ -56,8 +56,9 @@ export const ADMIN_NODE_LIST_QUERY = gql`
 
 export const ADMIN_NODE_QUERY = gql`
   query AdminNode($id: String!) {
-    node: getNode(id: $id) {
+    node: adminGetNode(id: $id) {
       id
+      owner
       type
       name
       statement

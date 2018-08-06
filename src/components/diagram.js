@@ -12,7 +12,9 @@ export class Diagram extends React.PureComponent {
     return (
       <section>
         <h3>
-          <Link to={`/view/diagram/${id}`}>{title}</Link>
+          <Link to={admin ? `/admin/diagram/${id}` : `/view/diagram/${id}`}>
+            {title}
+          </Link>
 
           <span className='label'>
             {width} x {height}
@@ -28,7 +30,11 @@ export class Diagram extends React.PureComponent {
         {rootGoal ? (
           <p>
             Root goal:{' '}
-            <Link to={`/view/node/${rootGoal.id}`}>{rootGoal.name}</Link>
+            <Link
+              to={admin ? `/admin/node/${id}` : `/view/node/${rootGoal.id}`}
+            >
+              {rootGoal.name}
+            </Link>
           </p>
         ) : null}
       </section>

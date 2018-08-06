@@ -49,7 +49,7 @@ export const adminFetchFullDiagram = async id => {
   })
 
   if (!diagram || !diagram.rootGoal) {
-    return diagram
+    return null
   } else {
     return {
       ...diagram,
@@ -73,7 +73,7 @@ export const adminFetchNodesRecursively = async id => {
     variables: { id }
   })
 
-  if (!node || !node.children) {
+  if (node === null || node.children === null) {
     return node
   } else {
     return {
@@ -100,8 +100,8 @@ export const fetchFullDiagram = async id => {
     variables: { id }
   })
 
-  if (diagram === null || diagram.rootGoal === null) {
-    return diagram
+  if (!diagram || !diagram.rootGoal) {
+    return null
   } else {
     return {
       ...diagram,

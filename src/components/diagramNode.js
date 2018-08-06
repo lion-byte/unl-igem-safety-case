@@ -12,7 +12,9 @@ export class DiagramNode extends React.PureComponent {
     return (
       <section>
         <h3>
-          <Link to={`/view/node/${id}`}>{name}</Link>
+          <Link to={admin ? `/admin/node/${id}` : `/view/node/${id}`}>
+            {name}
+          </Link>
 
           <span className='label'>{type}</span>
 
@@ -28,7 +30,12 @@ export class DiagramNode extends React.PureComponent {
             Children: [
             <span className='link-list-separation'>
               {children.map(node => (
-                <Link key={node.id} to={`/view/node/${node.id}`}>
+                <Link
+                  key={node.id}
+                  to={
+                    admin ? `/admin/node/${node.id}` : `/view/node/${node.id}`
+                  }
+                >
                   {node.name}
                 </Link>
               ))}

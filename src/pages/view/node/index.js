@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Link } from '@reach/router'
 
-import { DisplayNode } from './display'
 import { Page, UserOnly, GuestOnly } from '../../../components'
+import { DisplayNode } from './display'
 
 export class ViewNode extends React.PureComponent {
   render () {
