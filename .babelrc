@@ -10,8 +10,7 @@
         }
       }
     ],
-    "@babel/preset-react",
-    "@babel/preset-stage-3"
+    "@babel/preset-react"
   ],
   "plugins": ["@babel/plugin-syntax-dynamic-import"],
   "env": {
@@ -21,14 +20,13 @@
           "@babel/preset-env",
           {
             "modules": "commonjs",
-            "useBuiltIns": false,
+            "useBuiltIns": "usage",
             "targets": {
               "node": "current"
             }
           }
         ],
-        "@babel/preset-react",
-        "@babel/preset-stage-3"
+        "@babel/preset-react"
       ],
       "plugins": ["dynamic-import-node"]
     }
