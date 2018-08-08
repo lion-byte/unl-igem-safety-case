@@ -4,10 +4,20 @@
 @import './loading';
 @import './utils';
 
+nav {
+  @media (min-width: 961px) {
+    position: initial;
+  }
+}
+
 .container {
   margin: 0 auto;
   max-width: 1200px;
   padding: 80px 2em;
+
+  @media (min-width: 961px) {
+    padding: 40px 2em 80px 2em;
+  }
 }
 
 main {

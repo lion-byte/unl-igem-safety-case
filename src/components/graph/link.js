@@ -6,7 +6,7 @@ export class Link extends React.PureComponent {
     const { link } = this.props
 
     return (
-      <LinkVertical data={link} stroke='#374469' strokeWidth={2} fill='none' />
+      <LinkVertical data={link} stroke='#8794a9' strokeWidth={2} fill='none' />
     )
   }
 }

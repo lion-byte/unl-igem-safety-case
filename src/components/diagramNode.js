@@ -25,24 +25,28 @@ export class DiagramNode extends React.PureComponent {
 
         <p>{statement}</p>
 
-        {Array.isArray(children) && (
-          <p>
-            Children: [
-            <span className='link-list-separation'>
-              {children.map(node => (
-                <Link
-                  key={node.id}
-                  to={
-                    admin ? `/admin/node/${node.id}` : `/view/node/${node.id}`
-                  }
-                >
-                  {node.name}
-                </Link>
-              ))}
-            </span>
-            ]
-          </p>
-        )}
+        {Array.isArray(children) &&
+          children.length !== 0 && (
+            <p>
+              Children: [
+              <span className='link-list-separation'>
+                {children.map(node => (
+                  <Link
+                    key={node.id}
+                    to={
+                      admin ? `/admin/node/${node.id}` : `/view/node/${node.id}`
+                    }
+                  >
+                    {node.name}
+                  </Link>
+                ))}
+              </span>
+              ]
+            </p>
+          )}
+
+        {Array.isArray(children) &&
+          children.length === 0 && <p>Children: None yet</p>}
       </section>
     )
   }

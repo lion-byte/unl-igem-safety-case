@@ -154,7 +154,7 @@ export class ModifyNodePresentation extends React.PureComponent {
               <Graph
                 data={{ ...info, children: null }}
                 height={height + 160}
-                width={width + 80}
+                width={width + 120}
                 middle
                 style={{ height: undefined }}
               />

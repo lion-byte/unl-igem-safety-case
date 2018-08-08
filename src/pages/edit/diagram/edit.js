@@ -96,65 +96,67 @@ export class ModifyDiagramPresentation extends React.PureComponent {
       state: { loading, error, diagram }
     } = this
 
-    if (loading || error || diagram === null || diagram.rootGoal === null) {
+    if (loading) {
+      return <h2>Loading...</h2>
+    } else if (error || diagram === null || diagram.rootGoal === null) {
       return null
+    } else {
+      const { title, description, rootGoal, height, width } = diagram
+
+      return (
+        <div className='flex one two-1200'>
+          <form onSubmit={this.handleSubmit}>
+            <fieldset>
+              <Input
+                label='Title'
+                name='title'
+                type='text'
+                onChange={this.handleChange}
+                value={title}
+              />
+
+              <Input
+                label='Description'
+                type='text'
+                name='description'
+                onChange={this.handleChange}
+                value={description}
+              />
+            </fieldset>
+
+            <hr />
+
+            <fieldset>
+              <Input
+                label='Height'
+                type='number'
+                name='height'
+                onChange={this.handleChange}
+                min={200}
+                step={10}
+                value={height}
+              />
+
+              <Input
+                label='Width'
+                type='number'
+                name='width'
+                onChange={this.handleChange}
+                min={250}
+                step={10}
+                value={width}
+              />
+            </fieldset>
+
+            <button>Save</button>
+          </form>
+
+          <section>
+            <Graph data={rootGoal} height={height} width={width} />
+          </section>
+        </div>
+      )
     }
-
-    const { title, description, rootGoal, height, width } = diagram
-
-    return (
-      <div className='flex one two-1200'>
-        <form onSubmit={this.handleSubmit}>
-          <fieldset>
-            <Input
-              label='Title'
-              name='title'
-              type='text'
-              onChange={this.handleChange}
-              value={title}
-            />
-
-            <Input
-              label='Description'
-              type='text'
-              name='description'
-              onChange={this.handleChange}
-              value={description}
-            />
-          </fieldset>
-
-          <hr />
-
-          <fieldset>
-            <Input
-              label='Height'
-              type='number'
-              name='height'
-              onChange={this.handleChange}
-              min={200}
-              step={10}
-              value={height}
-            />
-
-            <Input
-              label='Width'
-              type='number'
-              name='width'
-              onChange={this.handleChange}
-              min={250}
-              step={10}
-              value={width}
-            />
-          </fieldset>
-
-          <button>Save</button>
-        </form>
-
-        <section>
-          <Graph data={rootGoal} height={height} width={width} />
-        </section>
-      </div>
-    )
   }
 }
 

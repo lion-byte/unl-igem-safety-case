@@ -47,7 +47,7 @@ export class DisplayDiagram extends React.PureComponent {
             data={data.rootGoal}
             height={data.height}
             width={data.width}
-            style={{ maxHeight: '60vh' }}
+            style={{ maxHeight: '85vh' }}
             showExport
           />
 

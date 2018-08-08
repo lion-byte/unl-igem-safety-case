@@ -34,7 +34,7 @@ export class InsufficientNode extends React.PureComponent {
           fontSize={fontSize}
           fontWeight='bold'
           x={0}
-          y={-hypotenuse / 3 + fontSize}
+          y={-hypotenuse / 3 + 2 * fontSize}
           fill='black'
         >
           {name}
@@ -45,7 +45,7 @@ export class InsufficientNode extends React.PureComponent {
           textAnchor='middle'
           fontSize={fontSize}
           x={0}
-          y={fontSize}
+          y={-hypotenuse / 3 + 3.5 * fontSize}
           fill='black'
         >
           <MultiLineText text={statement} x={0} dy={fontSize} />

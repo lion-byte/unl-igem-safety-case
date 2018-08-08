@@ -34,10 +34,10 @@ export class Graph extends React.PureComponent {
       data: raw,
       height,
       margin = {
-        top: 60,
+        top: 120,
         left: 40,
         right: 40,
-        bottom: 80
+        bottom: 120
       },
       style,
       width,

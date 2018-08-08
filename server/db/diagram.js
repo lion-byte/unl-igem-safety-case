@@ -51,8 +51,8 @@ const createNode = async node => {
     name = '',
     statement = '',
     parent = null,
-    height = 50,
-    width = 120
+    height = 150,
+    width = 200
   } = node
 
   if (!ownerId) {
