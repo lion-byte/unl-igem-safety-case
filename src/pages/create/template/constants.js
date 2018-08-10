@@ -1,15 +1,17 @@
 /**
- * @typedef {object} SafetyFeature
+ * @typedef {object} SafetyFeatureTemplate
+ * @property {string} label
  * @property {Option} root
  * @property {Option} argument
  * @property {Array<Option>} subGoals
  */
 
 /**
- * @type {Array<SafetyFeature>}
+ * @type {Array<SafetyFeatureTemplate>}
  */
-export const safetyFeature = [
+export const safetyFeatures = [
   {
+    label: 'Kill-Switch',
     root: { value: 'Our kill-switch is safe, secure, and effective.' },
     argument: {
       value:
@@ -25,6 +27,7 @@ export const safetyFeature = [
     ]
   },
   {
+    label: 'Auxotrophy',
     root: { value: 'Our auxotrophy design is safe, secure, and effective.' },
     argument: {
       value:
@@ -40,6 +43,7 @@ export const safetyFeature = [
     ]
   },
   {
+    label: 'Degredation',
     root: { value: 'Our degredation design is safe, secure, and effective.' },
     argument: {
       value:
@@ -76,7 +80,7 @@ export const generalAssumptions = [
 /**
  * @type {Array<Option>}
  */
-export const expectedGeneralEnvironment = [
+export const generalEnvironments = [
   { value: 'Only in the lab.' },
   { value: 'An industrial bioractor' },
   { value: 'The general enviornment' },
