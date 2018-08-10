@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
+import { ErrorBoundary } from './error'
 
 export class Page extends React.PureComponent {
   render () {
@@ -14,7 +15,7 @@ export class Page extends React.PureComponent {
 
         <h1>{title}</h1>
 
-        {children}
+        <ErrorBoundary>{children}</ErrorBoundary>
       </main>
     )
   }

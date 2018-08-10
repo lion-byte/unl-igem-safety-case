@@ -56,49 +56,30 @@ interface DBDiagramNode {
   width?: number
 }
 
-// interface Assumption {
-//   type: 'assumption'
-//   name: string
-//   statement: string
-// }
+interface Diagram {
+  id?: string
+  owner?: string
+  title?: string
+  description?: string
+  rootGoal?: DiagramNode
+  status?: PublishStatus
+  height?: number
+  width?: number
+}
 
-// interface Context {
-//   type: 'context'
-//   name: string
-//   statement: string
-// }
+interface DiagramNode {
+  id?: string
+  owner?: string
+  type?: NodeType
+  name?: string
+  statement?: string
+  parent?: DiagramNode
+  children?: Array<DiagramNode>
+  height?: number
+  width?: number
+}
 
-// interface Goal {
-//   type: 'goal'
-//   name: string
-//   statement: string
-//   children:
-//     | Array<Assumption | Context | Goal | Justification | Strategy>
-//     | Array<Context | Insufficient>
-//     | Array<Context | Solution>
-// }
-
-// interface Insufficient {
-//   type: 'insufficient'
-//   name: string
-//   statement: string
-// }
-
-// interface Justification {
-//   type: 'justification'
-//   name: string
-//   statement: string
-// }
-
-// interface Solution {
-//   type: 'solution'
-//   name: string
-//   statement: string
-// }
-
-// interface Strategy {
-//   type: 'strategy'
-//   name: string
-//   statement: string
-//   children: Array<Assumption | Context | Justification | Goal>
-// }
+type Option = {
+  label?: string
+  value?: string | number
+}
