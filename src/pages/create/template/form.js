@@ -1,16 +1,22 @@
 import * as React from 'react'
+import { navigate } from '@reach/router'
 
+import { Input } from '../../../components'
 import {
   safetyFeatures,
   generalAssumptions,
   generalEnvironments,
   generalJustifications,
   specificAssumptions,
-  specificJustifications
-} from './constants'
+  specificJustifications,
+  createTemplate
+} from '../../../diagram/template'
 
 /**
  * @typedef {object} DiagramTemplateInfo
+ * @property {string} title
+ * @property {string} description
+
  * @property {number} safetyFeature
  * @property {number} generalAssumption
  * @property {number} generalJustification
@@ -29,6 +35,8 @@ export class TemplateForm extends React.PureComponent {
      * @type {DiagramTemplateInfo}
      */
     this.state = {
+      title: '',
+      description: '',
       safetyFeature: 0,
       generalAssumption: 0,
       generalJustification: 0,
@@ -55,12 +63,46 @@ export class TemplateForm extends React.PureComponent {
   /**
    * @param {React.FormEvent<HTMLFormElement>} event
    */
-  handleSubmit (event) {
+  async handleSubmit (event) {
     event.preventDefault()
+
+    const {
+      title,
+      description,
+      safetyFeature,
+      generalAssumption,
+      generalJustification,
+      generalEnvironment,
+      subGoal,
+      specificAssumption,
+      specificJustification
+    } = this.state
+
+    if (!title.trim() || !description.trim()) {
+      return
+    }
+
+    const diagramId = await createTemplate({
+      title,
+      description,
+      safetyFeature,
+      generalAssumption,
+      generalJustification,
+      generalEnvironment,
+      subGoal,
+      specificAssumption,
+      specificJustification
+    })
+
+    if (diagramId) {
+      navigate(`/edit/diagram/${diagramId}`)
+    }
   }
 
   render () {
     const {
+      title,
+      description,
       safetyFeature,
       generalAssumption,
       generalJustification,
@@ -75,6 +117,24 @@ export class TemplateForm extends React.PureComponent {
         <form onSubmit={this.handleSubmit}>
           <div>
             <fieldset>
+              <Input
+                type='text'
+                label='Title'
+                name='title'
+                required
+                value={title}
+                onChange={this.handleChange}
+              />
+
+              <Input
+                type='text'
+                label='Description'
+                name='description'
+                required
+                value={description}
+                onChange={this.handleChange}
+              />
+
               <label>
                 Safety Feature
                 <select
@@ -95,6 +155,8 @@ export class TemplateForm extends React.PureComponent {
           </div>
 
           <div>
+            <hr />
+
             <fieldset>
               <label>
                 General Assumption
@@ -146,6 +208,8 @@ export class TemplateForm extends React.PureComponent {
           </div>
 
           <div>
+            <hr />
+
             <fieldset>
               <label>
                 Goal
@@ -192,8 +256,10 @@ export class TemplateForm extends React.PureComponent {
                 </select>
               </label>
             </fieldset>
+          </div>
 
-            <hr />
+          <div>
+            <button>Save</button>
           </div>
         </form>
       </div>

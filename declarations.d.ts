@@ -24,7 +24,7 @@ interface Diagram {
   width: number
 }
 
-type NodeType =
+type DBNodeType =
   | 'assumption'
   | 'context'
   | 'goal'
@@ -32,6 +32,15 @@ type NodeType =
   | 'justification'
   | 'solution'
   | 'strategy'
+
+type NodeType =
+  | 'ASSUMPTION'
+  | 'CONTEXT'
+  | 'GOAL'
+  | 'INSUFFICIENT'
+  | 'JUSTIFICATION'
+  | 'SOLUTION'
+  | 'STRATEGY'
 
 interface DBDiagram {
   _id?: string
@@ -47,7 +56,7 @@ interface DBDiagram {
 interface DBDiagramNode {
   _id?: string
   ownerId?: string
-  type?: NodeType
+  type?: DBNodeType
   name?: string
   statement?: string
   parent?: string

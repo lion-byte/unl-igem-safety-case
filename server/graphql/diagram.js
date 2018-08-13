@@ -104,7 +104,7 @@ const typeDefs = gql`
 
 /**
  * @param {Array<DBDiagramNode>} list
- * @param {NodeType} type
+ * @param {DBNodeType} type
  * @returns {Array<DBDiagramNode>}
  */
 const filterByType = (list, type = null) => {

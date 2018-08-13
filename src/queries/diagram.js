@@ -79,8 +79,14 @@ export const CREATE_NODE_MUTATION = gql`
     $type: DiagramNodeType!
     $name: String!
     $statement: String!
+    $parentId: String
   ) {
-    createNode(type: $type, name: $name, statement: $statement)
+    createNode(
+      type: $type
+      name: $name
+      statement: $statement
+      parentId: $parentId
+    )
   }
 `
 
