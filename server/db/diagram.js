@@ -14,7 +14,7 @@ const createDiagram = async diagram => {
   } = diagram
 
   if (!ownerId) {
-    return false
+    return null
   }
 
   try {
@@ -56,7 +56,7 @@ const createNode = async node => {
   } = node
 
   if (!ownerId) {
-    return false
+    return null
   }
 
   try {
@@ -76,7 +76,13 @@ const createNode = async node => {
 
     await db.close()
 
-    return item ? item._id : null
+    const id = item ? item._id : null
+
+    if (parent && id) {
+      await addChildNode({ ownerId, parentId: parent, childId: id })
+    }
+
+    return id
   } catch (error) {
     console.error(error)
 

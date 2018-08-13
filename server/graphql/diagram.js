@@ -83,6 +83,7 @@ const typeDefs = gql`
       type: DiagramNodeType!
       name: String!
       statement: String!
+      parentId: String
     ): String
 
     updateNode(
@@ -323,7 +324,11 @@ const resolvers = {
       })
     },
 
-    createNode: async (_, { type, name, statement }, { user: userToken }) => {
+    createNode: async (
+      _,
+      { type, name, statement, parentId: parent },
+      { user: userToken }
+    ) => {
       if (!userToken) {
         return null
       }
@@ -332,7 +337,8 @@ const resolvers = {
         ownerId: userToken.id,
         type,
         name,
-        statement
+        statement,
+        parent
       })
     },
 
