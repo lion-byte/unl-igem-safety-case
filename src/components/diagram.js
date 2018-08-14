@@ -31,7 +31,11 @@ export class Diagram extends React.PureComponent {
           <p>
             Root goal:{' '}
             <Link
-              to={admin ? `/admin/node/${id}` : `/view/node/${rootGoal.id}`}
+              to={
+                admin
+                  ? `/admin/node/${rootGoal.id}`
+                  : `/view/node/${rootGoal.id}`
+              }
             >
               {rootGoal.name}
             </Link>

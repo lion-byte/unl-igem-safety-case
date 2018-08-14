@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import { navigate } from '@reach/router'
 
 import { Graph, Input } from '../../../components'
-import { fetchFullDiagram } from '../../../utils'
+import { fetchFullDiagram } from '../../../diagram'
 import { UPDATE_DIAGRAM_MUTATION } from '../../../queries'
 
 export class ModifyDiagramPresentation extends React.PureComponent {

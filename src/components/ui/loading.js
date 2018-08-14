@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as PropTypes from 'prop-types'
 
-import { Page } from './page'
 import { LoaderEllipsis } from './spinners'
 
 export class Loading extends React.PureComponent {
@@ -49,25 +48,25 @@ export class LoadingPage extends React.PureComponent {
 
     if (error) {
       return (
-        <Page useDefaultTitle>
+        <main className='flex one center'>
           <h2>Error!</h2>
 
           <button onClick={retry}>Retry</button>
-        </Page>
+        </main>
       )
     } else if (timedOut) {
       return (
-        <Page useDefaultTitle>
+        <main className='flex one center'>
           <h2>Taking a while...</h2>
 
           <button onClick={retry}>Retry</button>
-        </Page>
+        </main>
       )
     } else if (pastDelay) {
       return (
-        <Page useDefaultTitle>
+        <main className='flex one center'>
           <h2>Loading...</h2>
-        </Page>
+        </main>
       )
     } else {
       return null
