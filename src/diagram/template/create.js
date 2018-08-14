@@ -55,7 +55,13 @@ export const createTemplate = async opts => {
       statement: root.value.toString()
     })
 
-    const diagramId = await createDiagram({ title, description, rootGoalId })
+    const diagramId = await createDiagram({
+      title,
+      description,
+      rootGoalId,
+      height: 760,
+      width: 1080
+    })
 
     const rootChildren = await createMultipleSubNodes({
       subNodes: [

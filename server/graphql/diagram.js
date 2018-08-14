@@ -65,6 +65,8 @@ const typeDefs = gql`
       title: String!
       description: String!
       rootGoalId: String
+      height: Int
+      width: Int
     ): String
 
     updateDiagram(
@@ -84,6 +86,8 @@ const typeDefs = gql`
       name: String!
       statement: String!
       parentId: String
+      height: Int
+      width: Int
     ): String
 
     updateNode(
@@ -309,7 +313,7 @@ const resolvers = {
 
     createDiagram: async (
       _,
-      { title, description, rootGoalId },
+      { title, description, rootGoalId, height, width },
       { user: userToken }
     ) => {
       if (!userToken) {
@@ -320,13 +324,15 @@ const resolvers = {
         ownerId: userToken.id,
         title,
         description,
-        rootGoalId
+        rootGoalId,
+        height,
+        width
       })
     },
 
     createNode: async (
       _,
-      { type, name, statement, parentId: parent },
+      { type, name, statement, parentId: parent, height, width },
       { user: userToken }
     ) => {
       if (!userToken) {
@@ -338,7 +344,9 @@ const resolvers = {
         type,
         name,
         statement,
-        parent
+        parent,
+        height,
+        width
       })
     },
 

@@ -5,11 +5,15 @@ export const CREATE_DIAGRAM_MUTATION = gql`
     $title: String!
     $description: String!
     $rootGoalId: String
+    $height: Int
+    $width: Int
   ) {
     createDiagram(
       title: $title
       description: $description
       rootGoalId: $rootGoalId
+      height: $height
+      width: $width
     )
   }
 `
@@ -80,12 +84,16 @@ export const CREATE_NODE_MUTATION = gql`
     $name: String!
     $statement: String!
     $parentId: String
+    $height: Int
+    $width: Int
   ) {
     createNode(
       type: $type
       name: $name
       statement: $statement
       parentId: $parentId
+      height: $height
+      width: $width
     )
   }
 `

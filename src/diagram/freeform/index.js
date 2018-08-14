@@ -9,10 +9,12 @@ import {
  * @param {string} opts.title
  * @param {string} opts.description
  * @param {string} opts.rootGoalId
+ * @param {number} [opts.height]
+ * @param {number} [opts.width]
  * @returns {Promise<string>}
  */
 export const createDiagram = async opts => {
-  const { title, description, rootGoalId } = opts
+  const { title, description, rootGoalId, height, width } = opts
 
   const client = await getClient()
 
@@ -21,7 +23,7 @@ export const createDiagram = async opts => {
       data: { createDiagram: resultId }
     } = await client.mutate({
       mutation: CREATE_DIAGRAM_MUTATION,
-      variables: { title, description, rootGoalId }
+      variables: { title, description, rootGoalId, height, width }
     })
 
     return resultId
@@ -38,6 +40,8 @@ export const createDiagram = async opts => {
  * @property {string} name
  * @property {string} statement
  * @property {string} [parentId]
+ * @property {number} [height]
+ * @property {number} [width]
  */
 
 /**
@@ -45,7 +49,7 @@ export const createDiagram = async opts => {
  * @returns {Promise<string>}
  */
 export const createNode = async opts => {
-  const { type, name, statement, parentId } = opts
+  const { type, name, statement, parentId, height, width } = opts
 
   const client = await getClient()
 
@@ -58,7 +62,9 @@ export const createNode = async opts => {
         type,
         name,
         statement,
-        parentId
+        parentId,
+        height,
+        width
       }
     })
 
