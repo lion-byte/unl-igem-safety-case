@@ -24,7 +24,7 @@ interface Diagram {
   width: number
 }
 
-type NodeType =
+type DBNodeType =
   | 'assumption'
   | 'context'
   | 'goal'
@@ -32,6 +32,15 @@ type NodeType =
   | 'justification'
   | 'solution'
   | 'strategy'
+
+type NodeType =
+  | 'ASSUMPTION'
+  | 'CONTEXT'
+  | 'GOAL'
+  | 'INSUFFICIENT'
+  | 'JUSTIFICATION'
+  | 'SOLUTION'
+  | 'STRATEGY'
 
 interface DBDiagram {
   _id?: string
@@ -47,7 +56,7 @@ interface DBDiagram {
 interface DBDiagramNode {
   _id?: string
   ownerId?: string
-  type?: NodeType
+  type?: DBNodeType
   name?: string
   statement?: string
   parent?: string
@@ -56,49 +65,30 @@ interface DBDiagramNode {
   width?: number
 }
 
-// interface Assumption {
-//   type: 'assumption'
-//   name: string
-//   statement: string
-// }
+interface Diagram {
+  id?: string
+  owner?: string
+  title?: string
+  description?: string
+  rootGoal?: DiagramNode
+  status?: PublishStatus
+  height?: number
+  width?: number
+}
 
-// interface Context {
-//   type: 'context'
-//   name: string
-//   statement: string
-// }
+interface DiagramNode {
+  id?: string
+  owner?: string
+  type?: NodeType
+  name?: string
+  statement?: string
+  parent?: DiagramNode
+  children?: Array<DiagramNode>
+  height?: number
+  width?: number
+}
 
-// interface Goal {
-//   type: 'goal'
-//   name: string
-//   statement: string
-//   children:
-//     | Array<Assumption | Context | Goal | Justification | Strategy>
-//     | Array<Context | Insufficient>
-//     | Array<Context | Solution>
-// }
-
-// interface Insufficient {
-//   type: 'insufficient'
-//   name: string
-//   statement: string
-// }
-
-// interface Justification {
-//   type: 'justification'
-//   name: string
-//   statement: string
-// }
-
-// interface Solution {
-//   type: 'solution'
-//   name: string
-//   statement: string
-// }
-
-// interface Strategy {
-//   type: 'strategy'
-//   name: string
-//   statement: string
-//   children: Array<Assumption | Context | Justification | Goal>
-// }
+type Option = {
+  label?: string
+  value?: string | number
+}

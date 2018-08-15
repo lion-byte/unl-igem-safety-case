@@ -8,7 +8,7 @@ export class SolutionNode extends React.PureComponent {
     const {
       fontSize,
       node: {
-        data: { name, statement, height = 120, width = 120 }
+        data: { name, statement, height = 110, width = 110 }
       }
     } = this.props
 
@@ -41,7 +41,7 @@ export class SolutionNode extends React.PureComponent {
           fill='white'
           fontSize={fontSize}
           x={0}
-          y={fontSize}
+          y={-diameter / 3 + 2.5 * fontSize}
         >
           <MultiLineText text={statement} x={0} dy={fontSize} />
         </text>

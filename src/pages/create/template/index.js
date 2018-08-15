@@ -2,12 +2,12 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 
 import { Page, GuestOnly, UserOnly } from '../../../components'
-import { RootForm } from './form'
+import { TemplateForm } from './form'
 
-export class Root extends React.PureComponent {
+export class Template extends React.PureComponent {
   render () {
     return (
-      <Page title='Create a Root Goal'>
+      <Page title='Create From Template'>
         <GuestOnly>
           <h2>
             Please <Link to='/login'>log in</Link>
@@ -20,7 +20,7 @@ export class Root extends React.PureComponent {
           </section>
 
           <section>
-            <RootForm />
+            <TemplateForm />
           </section>
         </UserOnly>
       </Page>

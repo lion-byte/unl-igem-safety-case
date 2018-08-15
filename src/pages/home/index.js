@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Page, GuestOnly, UserOnly, MD, Image } from '../../components'
+import { Page, MD, Image } from '../../components'
 import { description, acknowledgment } from './description'
 
 export default class Home extends React.PureComponent {
@@ -8,12 +8,7 @@ export default class Home extends React.PureComponent {
     return (
       <Page title='Home' useDefaultTitle>
         <div>
-          <h2>
-            Welcome
-            <GuestOnly>, esteemed guest</GuestOnly>
-            <UserOnly>, dear user</UserOnly>
-            !
-          </h2>
+          <h2>Welcome!</h2>
         </div>
 
         <section>

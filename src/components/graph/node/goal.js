@@ -8,7 +8,7 @@ export class GoalNode extends React.PureComponent {
     const {
       fontSize,
       node: {
-        data: { name, statement, height = 60, width = 190 }
+        data: { name, statement, height = 80, width = 190 }
       }
     } = this.props
 
@@ -40,7 +40,7 @@ export class GoalNode extends React.PureComponent {
           fill='white'
           fontSize={fontSize}
           x={0}
-          y={fontSize}
+          y={-height / 3 + 2.5 * fontSize}
         >
           <MultiLineText text={statement} x={0} dy={fontSize} />
         </text>

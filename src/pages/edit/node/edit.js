@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { navigate } from '@reach/router'
+import { navigate, Link } from '@reach/router'
 import { compose, graphql } from 'react-apollo'
 
 import { Graph, Input } from '../../../components'
@@ -148,13 +148,17 @@ export class ModifyNodePresentation extends React.PureComponent {
               </fieldset>
 
               <button>Save</button>
+
+              <Link className='pseudo button' to={`/view/node/${info.id}`}>
+                Cancel
+              </Link>
             </form>
 
             <section>
               <Graph
                 data={{ ...info, children: null }}
                 height={height + 160}
-                width={width + 80}
+                width={width + 120}
                 middle
                 style={{ height: undefined }}
               />

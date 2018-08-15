@@ -65,6 +65,8 @@ const typeDefs = gql`
       title: String!
       description: String!
       rootGoalId: String
+      height: Int
+      width: Int
     ): String
 
     updateDiagram(
@@ -83,6 +85,9 @@ const typeDefs = gql`
       type: DiagramNodeType!
       name: String!
       statement: String!
+      parentId: String
+      height: Int
+      width: Int
     ): String
 
     updateNode(
@@ -103,7 +108,7 @@ const typeDefs = gql`
 
 /**
  * @param {Array<DBDiagramNode>} list
- * @param {NodeType} type
+ * @param {DBNodeType} type
  * @returns {Array<DBDiagramNode>}
  */
 const filterByType = (list, type = null) => {
@@ -308,7 +313,7 @@ const resolvers = {
 
     createDiagram: async (
       _,
-      { title, description, rootGoalId },
+      { title, description, rootGoalId, height, width },
       { user: userToken }
     ) => {
       if (!userToken) {
@@ -319,11 +324,17 @@ const resolvers = {
         ownerId: userToken.id,
         title,
         description,
-        rootGoalId
+        rootGoalId,
+        height,
+        width
       })
     },
 
-    createNode: async (_, { type, name, statement }, { user: userToken }) => {
+    createNode: async (
+      _,
+      { type, name, statement, parentId: parent, height, width },
+      { user: userToken }
+    ) => {
       if (!userToken) {
         return null
       }
@@ -332,7 +343,10 @@ const resolvers = {
         ownerId: userToken.id,
         type,
         name,
-        statement
+        statement,
+        parent,
+        height,
+        width
       })
     },
 

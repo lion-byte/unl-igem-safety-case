@@ -8,7 +8,7 @@ export class StrategyNode extends React.PureComponent {
     const {
       fontSize,
       node: {
-        data: { name, statement, height = 80, width = 190 }
+        data: { name, statement, height = 100, width = 190 }
       }
     } = this.props
 
@@ -41,7 +41,7 @@ export class StrategyNode extends React.PureComponent {
           textAnchor='middle'
           fontSize={fontSize}
           x={0}
-          y={fontSize}
+          y={-height / 3 + 2.5 * fontSize}
           fill='white'
         >
           <MultiLineText text={statement} x={0} dy={fontSize} />

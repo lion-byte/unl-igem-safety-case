@@ -8,7 +8,7 @@ export class AssumptionNode extends React.PureComponent {
     const {
       fontSize,
       node: {
-        data: { name, statement, height = 60, width = 160 }
+        data: { name, statement, height = 80, width = 160 }
       }
     } = this.props
 
@@ -40,7 +40,7 @@ export class AssumptionNode extends React.PureComponent {
           fill='black'
           fontSize={fontSize}
           x={0}
-          y={fontSize}
+          y={-height / 3 + 2.5 * fontSize}
         >
           <MultiLineText text={statement} x={0} dy={fontSize} />
         </text>

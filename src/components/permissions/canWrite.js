@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { graphql } from 'react-apollo'
 
-import { PERMISSIONS_QUERY } from '../../queries'
+import { PERMISSIONS_QUERY } from '../../queries/account'
 
 export class CanWritePresentation extends React.PureComponent {
   render () {

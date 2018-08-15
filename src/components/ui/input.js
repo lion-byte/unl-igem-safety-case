@@ -16,37 +16,54 @@ export class Input extends React.PureComponent {
       value
     } = this.props
 
-    if (type === 'textarea') {
-      return (
-        <label className={className}>
-          {label}
+    switch (type) {
+      case 'textarea':
+        return (
+          <label className={className}>
+            {label}
 
-          <textarea
-            name={name}
-            onChange={onChange}
-            required={required}
-            value={value}
-            style={{ resize: 'vertical' }}
-          />
-        </label>
-      )
-    } else {
-      return (
-        <label className={className}>
-          {label}
+            <textarea
+              name={name}
+              onChange={onChange}
+              required={required}
+              value={value}
+              style={{ resize: 'vertical' }}
+            />
+          </label>
+        )
 
-          <input
-            type={type}
-            min={min}
-            max={max}
-            step={step}
-            name={name}
-            onChange={onChange}
-            required={required}
-            value={value}
-          />
-        </label>
-      )
+      case 'checkbox':
+        return (
+          <label className={className}>
+            <input
+              type={type}
+              name={name}
+              onChange={onChange}
+              required={required}
+              checked={value}
+            />
+
+            <span className='checkable'>{label}</span>
+          </label>
+        )
+
+      default:
+        return (
+          <label className={className}>
+            {label}
+
+            <input
+              type={type}
+              min={min}
+              max={max}
+              step={step}
+              name={name}
+              onChange={onChange}
+              required={required}
+              value={value}
+            />
+          </label>
+        )
     }
   }
 }
@@ -61,6 +78,6 @@ Input.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   required: PropTypes.bool,
-  type: PropTypes.oneOf(['textarea', 'text', 'number', 'password']),
+  type: PropTypes.oneOf(['textarea', 'text', 'number', 'password', 'checkbox']),
   value: PropTypes.any
 }

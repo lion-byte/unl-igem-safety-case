@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 import { Link, Router } from '@reach/router'
 
 import { asyncPage } from '../utils/lazyload'
+import { AppErrorBoundary } from './error'
 import { Navigation } from './navigation'
 
 const Home = asyncPage(() =>
@@ -21,12 +22,12 @@ const Create = asyncPage(() =>
   import(/* webpackChunkName: "create", webpackPrefetch: true */ '../pages/create')
 )
 
-const Edit = asyncPage(() =>
-  import(/* webpackChunkName: "edit", webpackPrefetch: true */ '../pages/edit')
-)
-
 const Delete = asyncPage(() =>
   import(/* webpackChunkName: "delete", webpackPrefetch: true */ '../pages/delete')
+)
+
+const Edit = asyncPage(() =>
+  import(/* webpackChunkName: "edit", webpackPrefetch: true */ '../pages/edit')
 )
 
 const Example = asyncPage(() =>
@@ -39,6 +40,10 @@ const Login = asyncPage(() =>
 
 const Logout = asyncPage(() =>
   import(/* webpackChunkName: "logout", webpackPrefetch: true */ '../pages/logout')
+)
+
+const PageNotFound = asyncPage(() =>
+  import(/* webpackChunkName: "404", webpackPrefetch: true */ '../pages/404')
 )
 
 const Register = asyncPage(() =>
@@ -78,19 +83,22 @@ export class App extends React.PureComponent {
         </Navigation>
 
         <section className='container'>
-          <Router>
-            <Home path='/' />
-            <Admin path='/admin/*' />
-            <Account path='/account' />
-            <Create path='/create/*' />
-            <Edit path='/edit/*' />
-            <Example path='/example' />
-            <Delete path='/delete/*' />
-            <Login path='/login' />
-            <Logout path='/logout' />
-            <Register path='/register' />
-            <View path='/view/*' />
-          </Router>
+          <AppErrorBoundary>
+            <Router>
+              <Home path='/' />
+              <Admin path='/admin/*' />
+              <Account path='/account' />
+              <Create path='/create/*' />
+              <Edit path='/edit/*' />
+              <Example path='/example' />
+              <Delete path='/delete/*' />
+              <Login path='/login' />
+              <Logout path='/logout' />
+              <Register path='/register' />
+              <View path='/view/*' />
+              <PageNotFound path='*' />
+            </Router>
+          </AppErrorBoundary>
         </section>
       </React.Fragment>
     )
