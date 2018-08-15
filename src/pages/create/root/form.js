@@ -1,22 +1,16 @@
 import * as React from 'react'
-import { graphql, compose } from 'react-apollo'
 import { navigate } from '@reach/router'
 
-import {
-  CREATE_NODE_MUTATION,
-  CREATE_DIAGRAM_MUTATION,
-  UPDATE_NODE_MUTATION
-} from '../../../queries'
 import { Input } from '../../../components'
+import { createNode, createDiagram } from '../../../diagram/freeform'
 
-export class RootFormPresentation extends React.PureComponent {
+export class RootForm extends React.PureComponent {
   constructor (props) {
     super(props)
 
     this.state = {
       title: '',
       description: '',
-      rootGoalId: '',
       name: '',
       statement: '',
       sending: false
@@ -41,8 +35,7 @@ export class RootFormPresentation extends React.PureComponent {
     event.preventDefault()
 
     const {
-      props: { createNode, createDiagram, updateNode },
-      state: { title, description, name, statement, rootGoalId }
+      state: { title, description, name, statement }
     } = this
 
     if (
@@ -57,28 +50,16 @@ export class RootFormPresentation extends React.PureComponent {
     this.setState({ sending: true })
 
     try {
-      let id = rootGoalId
-
-      if (id === '') {
-        const {
-          data: { createNode: result }
-        } = await createNode({
-          variables: { type: 'GOAL', name, statement }
-        })
-
-        id = result
-      } else {
-        await updateNode({
-          variables: { id, name, statement }
-        })
-      }
+      const id = await createNode({ type: 'GOAL', name, statement })
 
       this.setState({ rootGoalId: id })
 
-      const {
-        data: { createDiagram: diagramId }
-      } = await createDiagram({
-        variables: { title, description, rootGoalId: id }
+      const diagramId = await createDiagram({
+        title,
+        description,
+        rootGoalId: id,
+        height: 480,
+        width: 800
       })
 
       if (diagramId !== null) {
@@ -143,9 +124,3 @@ export class RootFormPresentation extends React.PureComponent {
     )
   }
 }
-
-export const RootForm = compose(
-  graphql(UPDATE_NODE_MUTATION, { name: 'updateNode' }),
-  graphql(CREATE_NODE_MUTATION, { name: 'createNode' }),
-  graphql(CREATE_DIAGRAM_MUTATION, { name: 'createDiagram' })
-)(RootFormPresentation)

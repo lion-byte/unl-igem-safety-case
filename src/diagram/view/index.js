@@ -1,5 +1,6 @@
 import { getClient } from '../../client'
 import { DIAGRAM_QUERY, NODE_QUERY } from '../../queries'
+import { sleep } from '../../utils'
 
 export * from './admin'
 
@@ -44,6 +45,8 @@ export const fetchNodesRecursively = async id => {
     query: NODE_QUERY,
     variables: { id }
   })
+
+  await sleep()
 
   if (!node || !node.children) {
     return node

@@ -54,6 +54,8 @@ export class DisplayDiagram extends React.PureComponent {
       return (
         <section>
           <Graph
+            title={diagram.title}
+            description={diagram.description}
             data={diagram.rootGoal}
             height={diagram.height}
             width={diagram.width}

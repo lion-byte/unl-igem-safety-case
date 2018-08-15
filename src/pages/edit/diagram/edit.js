@@ -1,6 +1,6 @@
 import * as React from 'react'
+import { navigate, Link } from '@reach/router'
 import { graphql } from 'react-apollo'
-import { navigate } from '@reach/router'
 
 import { Graph, Input } from '../../../components'
 import { fetchFullDiagram } from '../../../diagram'
@@ -149,10 +149,20 @@ export class ModifyDiagramPresentation extends React.PureComponent {
             </fieldset>
 
             <button>Save</button>
+
+            <Link className='pseudo button' to={`/view/diagram/${diagram.id}`}>
+              Cancel
+            </Link>
           </form>
 
           <section>
-            <Graph data={rootGoal} height={height} width={width} />
+            <Graph
+              title={title}
+              description={description}
+              data={rootGoal}
+              height={height}
+              width={width}
+            />
           </section>
         </div>
       )

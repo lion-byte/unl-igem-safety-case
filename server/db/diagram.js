@@ -451,11 +451,17 @@ const deleteNode = async opts => {
 const deleteBranchRecursive = async opts => {
   const { id, ownerId } = opts
 
-  const { children } = await getNodeById({ ownerId, id })
+  const node = await getNodeById({ ownerId, id })
 
-  if (Array.isArray(children)) {
+  if (!node) {
+    return true
+  }
+
+  if (Array.isArray(node.children)) {
     await Promise.all(
-      children.map(childId => deleteBranchRecursive({ ownerId, id: childId }))
+      node.children.map(childId =>
+        deleteBranchRecursive({ ownerId, id: childId })
+      )
     )
   }
 

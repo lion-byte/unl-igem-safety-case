@@ -1,10 +1,12 @@
 import * as React from 'react'
+import * as PropTypes from 'prop-types'
 import { hierarchy } from 'd3-hierarchy'
 import { Tree } from '@vx/hierarchy'
 
 import { exportAsPNG, exportAsSVG } from '../../utils'
 import { Link } from './link'
 import { Node } from './node'
+import { MultiLineText } from './multiLineText'
 
 export class Graph extends React.PureComponent {
   constructor (props) {
@@ -31,6 +33,8 @@ export class Graph extends React.PureComponent {
   render () {
     const {
       className,
+      title,
+      description,
       data: raw,
       height,
       margin = {
@@ -48,7 +52,7 @@ export class Graph extends React.PureComponent {
     const data = hierarchy(raw)
 
     return (
-      <section>
+      <div>
         <svg
           className={className}
           height={height}
@@ -58,6 +62,34 @@ export class Graph extends React.PureComponent {
           ref={diagram => (this.diagram = diagram)}
         >
           <rect width={width} height={height} rx={16} fill='#272b4d' />
+
+          {title &&
+            description && (
+              <g transform={`translate(${width / 4}, 72)`}>
+                <text
+                  style={{ pointerEvents: 'none' }}
+                  textAnchor='middle'
+                  fill='white'
+                  fontWeight='bolder'
+                  x={0}
+                  y={0}
+                  fontSize={24}
+                >
+                  {title}
+                </text>
+                <text
+                  style={{ pointerEvents: 'none' }}
+                  textAnchor='middle'
+                  fill='white'
+                  fontWeight='bold'
+                  x={0}
+                  y={27}
+                  fontSize={14}
+                >
+                  <MultiLineText text={description} />
+                </text>
+              </g>
+            )}
 
           <Tree
             top={middle ? height / 2 : margin.top}
@@ -78,13 +110,22 @@ export class Graph extends React.PureComponent {
             <button onClick={this.savePNG}>Save as PNG</button>
           </React.Fragment>
         ) : null}
-      </section>
+      </div>
     )
   }
 }
 
+Graph.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  data: PropTypes.any.isRequired,
+  height: PropTypes.number,
+  width: PropTypes.number,
+  middle: PropTypes.bool,
+  showExport: PropTypes.bool
+}
+
 Graph.defaultProps = {
-  data: {},
   height: 100,
   width: 100,
   middle: false,

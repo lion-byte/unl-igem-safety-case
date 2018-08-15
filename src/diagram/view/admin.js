@@ -1,5 +1,6 @@
 import { getClient } from '../../client'
 import { ADMIN_DIAGRAM_QUERY, ADMIN_NODE_QUERY } from '../../queries'
+import { sleep } from '../../utils'
 
 /**
  * Admin access to a diagram
@@ -42,6 +43,9 @@ export const adminFetchNodesRecursively = async id => {
     query: ADMIN_NODE_QUERY,
     variables: { id }
   })
+
+  // A buffer between fetch calls
+  await sleep()
 
   if (node === null || node.children === null) {
     return node

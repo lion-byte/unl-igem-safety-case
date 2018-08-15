@@ -78,7 +78,8 @@ export const createTemplate = async opts => {
         {
           type: 'CONTEXT',
           name: rootEnv.label || 'General Environment',
-          statement: rootEnv.value.toString()
+          statement: rootEnv.value.toString(),
+          height: 75
         },
         {
           type: 'JUSTIFICATION',
