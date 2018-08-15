@@ -3,11 +3,11 @@
  * @property {string} label
  * @property {Option} root
  * @property {Option} argument
- * @property {Array<Option>} subGoals
+ * @property {ReadonlyArray<Option>} subGoals
  */
 
 /**
- * @type {Array<SafetyFeatureTemplate>}
+ * @type {ReadonlyArray<SafetyFeatureTemplate>}
  */
 export const safetyFeatures = [
   {
@@ -43,18 +43,18 @@ export const safetyFeatures = [
     ]
   },
   {
-    label: 'Degredation',
-    root: { value: 'Our degredation\ndesign is safe, secure,\nand effective.' },
+    label: 'Degradation',
+    root: { value: 'Our degradation\ndesign is safe, secure,\nand effective.' },
     argument: {
       value:
         "Argument over the\neffectiveness of the\nhazard-migration\nstrategies of our\norganisms /\norganisms' outputs."
     },
     subGoals: [
-      { value: 'Our degredation\noperates effectively\nand when intended.' },
-      { value: 'Our degredation\noperates safely.' },
+      { value: 'Our degradation\noperates effectively\nand when intended.' },
+      { value: 'Our degradation\noperates safely.' },
       {
         value:
-          'Our degredation\noperates securely and\nis robust to\nexternal attacks.'
+          'Our degradation\noperates securely and\nis robust to\nexternal attacks.'
       }
     ]
   }
@@ -65,7 +65,7 @@ export const safetyFeatures = [
 //
 
 /**
- * @type {Array<Option>}
+ * @type {ReadonlyArray<Option>}
  */
 export const generalAssumptions = [
   { value: 'All threats to the\nenvironment have\nbeen identified.' },
@@ -78,10 +78,10 @@ export const generalAssumptions = [
 ]
 
 /**
- * @type {Array<Option>}
+ * @type {ReadonlyArray<Option>}
  */
 export const generalEnvironments = [
-  { value: 'Only in the lab.' },
+  { value: 'Only in the lab' },
   { value: 'An industrial bioractor' },
   { value: 'The general enviornment' },
   { value: 'Soil' },
@@ -93,7 +93,7 @@ export const generalEnvironments = [
 ]
 
 /**
- * @type {Array<Option>}
+ * @type {ReadonlyArray<Option>}
  */
 export const generalJustifications = [
   { value: 'Our organisms only\nfunction in fresh\nwater.' },
@@ -113,7 +113,7 @@ export const generalJustifications = [
 //
 
 /**
- * @type {Array<Option>}
+ * @type {ReadonlyArray<Option>}
  */
 export const specificAssumptions = [
   { value: 'Our lab has adequate\nphysical security.' },
@@ -125,7 +125,7 @@ export const specificAssumptions = [
 ]
 
 /**
- * @type {Array<Option>}
+ * @type {ReadonlyArray<Option>}
  */
 export const specificJustifications = [
   {
