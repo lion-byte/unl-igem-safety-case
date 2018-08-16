@@ -1,4 +1,5 @@
 const merge = require('webpack-merge')
+const { DefinePlugin } = require('webpack')
 
 const common = require('./webpack.common')
 
@@ -9,5 +10,12 @@ module.exports = merge(common, {
     contentBase: './dist',
     historyApiFallback: true
   },
-  mode: 'development'
+  mode: 'development',
+  plugins: [
+    new DefinePlugin({
+      'process.env': {
+        server: JSON.stringify('http://localhost:3000/graphql')
+      }
+    })
+  ]
 })

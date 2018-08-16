@@ -4,10 +4,9 @@ import { concat } from 'apollo-link'
 import { setContext } from 'apollo-link-context'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-import { isProduction } from '../utils/env'
 import { getToken } from '../utils/token'
 
-const uri = isProduction() ? undefined : 'http://localhost:3000/graphql'
+const uri = process.env.server
 
 const httpLink = new HttpLink({ uri })
 

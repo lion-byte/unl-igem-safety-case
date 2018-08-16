@@ -1,6 +1,7 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const PrerenderSPAPlugin = require('prerender-spa-plugin')
 const merge = require('webpack-merge')
+const { DefinePlugin } = require('webpack')
 const path = require('path')
 
 const common = require('./webpack.common')
@@ -14,6 +15,11 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
+    new DefinePlugin({
+      'process.env': {
+        server: JSON.stringify('https://igem-test.herokuapp.com/graphql')
+      }
+    }),
     new PrerenderSPAPlugin({
       staticDir: path.join(__dirname, './dist'),
       indexPath: path.join(__dirname, './dist/index.html'),
