@@ -36,6 +36,41 @@ Generate a safety case diagram.
 
 ## Deployment
 
-¯\\\_(ツ)\_/¯
+### Services
 
-(Most likely `Netlify` for frontend code and `Heroku` for the server code)
+- [mLab](https://mlab.com/) - MongoDB hosting service
+- [Heroku](https://www.heroku.com/) - Server hosting service
+- [Netlify](https://www.netlify.com/) - Static-site hosting service
+
+### Instructions
+
+For the instructions below, I'm assuming that you have made an account on these sites.
+
+- mLab
+  - Create New MongoDB Deployment
+  - Follow the instructions. Choose whatever provider/price is appropriate. (Free tier available)
+  - View the created database
+  - In the Collections tab, create 3 `Collections`
+    - `users`
+    - `diagrams`
+    - `diagramNodes`
+  - In the Users tab, create a database user
+    - This gives read/write access to the database
+    - Remember the username and password, it's used in the **standard MongoDB URI**
+      - It is the `DB_HOST` environment variable
+- Heroku
+  - Note: Install the Heroku CLI (https://devcenter.heroku.com/articles/heroku-cli)
+  - On the dashboard, create a new app
+  - In the settings tab of the app
+    - Click: Reveal Config Vars
+    - Set the `DB_HOST` and `TOKEN_SECRET` variables
+  - In the deploy tab of the app
+    - Follow the instructions for using the CLI
+    - Push the application using `git push heroku master`
+    - It should then run automatically
+- Netlify
+  - In the `wepback.prod.js` file, change the server URL to the new Heroku app's URL
+  - Build the application bundle: `npm run build`
+  - Under the sites page, drag-and-drop the `dist` directory that was built onto the site
+  - The site should then be live
+  - Updates can be uploaded to the same site under the Deploys tab

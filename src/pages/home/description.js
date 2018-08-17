@@ -21,5 +21,10 @@ If a creator of a Safety Case wishes to convey that a certain Goal or Strategy i
 export const acknowledgment = `
 ## Acknowledgment
 
-This work is supported in part by NSF grant CCF-1745775.  Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.
+This work is supported in part by:
+
+- National Science Foundation, grant CCF-1745775
+- National Institute of Justice, grant 2016-R2-CX-0023
+
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of any of the foundations/institutes above.
 `

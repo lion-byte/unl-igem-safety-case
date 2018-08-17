@@ -25,12 +25,21 @@ export default class Home extends React.PureComponent {
 
           <MD content={acknowledgment} />
 
-          <Image
-            src='/img/nsf-logo.png'
-            alt='NSF Logo'
-            height={128}
-            width={128}
-          />
+          <div>
+            <Image
+              src='/img/nsf-logo.png'
+              alt='National Science Foundation Logo'
+              height={128}
+              width={128}
+            />
+
+            <Image
+              src='/img/nij-logo.png'
+              alt='National Institute of Justice Logo'
+              height={128}
+              width={128}
+            />
+          </div>
         </section>
       </Page>
     )

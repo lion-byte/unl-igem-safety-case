@@ -57,13 +57,13 @@ const resolvers = {
         canWrite: false
       }
 
-      const account = await user.findById(userToken.id)
-
-      if (!userToken || !account) {
+      if (!userToken) {
         return guestPermissions
       }
 
-      return account.permissions
+      const account = await user.findById(userToken.id)
+
+      return account ? account.permissions : guestPermissions
     }
   },
 
