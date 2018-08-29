@@ -1,14 +1,10 @@
 import * as React from 'react'
 import { render } from 'react-dom'
-import { ApolloProvider } from 'react-apollo'
+import ApolloProvider from 'react-apollo/ApolloProvider'
 
 import './styles/main.less'
+import { App } from './app'
 import { getClient } from './client'
-import { asyncComponent } from './utils/lazyload'
-
-const App = asyncComponent(() =>
-  import(/* webpackChunkName: "app-router", webpackPreload: true */ './app')
-)
 
 getClient().then(client => {
   render(

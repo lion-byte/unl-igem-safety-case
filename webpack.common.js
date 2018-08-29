@@ -60,7 +60,13 @@ module.exports = {
     ]),
     new HtmlWebpackPlugin({
       title: 'Hello',
-      template: 'static/index.html'
+      template: 'static/index.html',
+      minify: {
+        caseSensitive: false,
+        collapseWhitespace: true,
+        conservativeCollapse: true,
+        removeComments: true
+      }
     })
   ]
 }

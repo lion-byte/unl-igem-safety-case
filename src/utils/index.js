@@ -1,8 +1,8 @@
-export * from './diagram'
-export * from './env'
-export * from './lazyload'
-export * from './text'
-export * from './token'
+export { exportAsPNG, exportAsSVG } from './diagram'
+export { isProduction } from './env'
+export { asyncComponent, asyncPage } from './lazyload'
+export { renderMd } from './text'
+export { getToken, removeToken, setToken } from './token'
 
 /**
  * @param {number} ms
