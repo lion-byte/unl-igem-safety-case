@@ -117,7 +117,7 @@ export class ModifyDiagramPresentation extends React.PureComponent {
 
               <Input
                 label='Description'
-                type='text'
+                type='textarea'
                 name='description'
                 onChange={this.handleChange}
                 value={description}
