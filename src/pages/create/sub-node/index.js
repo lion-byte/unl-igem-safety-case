@@ -17,7 +17,10 @@ export class Node extends React.PureComponent {
         </GuestOnly>
 
         <UserOnly>
-          <NodeForm id={id} />
+          <NodeForm
+            // @ts-ignore
+            id={id}
+          />
         </UserOnly>
       </Page>
     )

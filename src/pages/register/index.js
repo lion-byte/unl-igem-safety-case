@@ -8,6 +8,13 @@ export default class Register extends React.PureComponent {
     return (
       <Page title='Register'>
         <Form />
+
+        <section>
+          <p>
+            It's advised to not re-use a password and to create a new unique
+            password.
+          </p>
+        </section>
       </Page>
     )
   }

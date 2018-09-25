@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from '@reach/router'
 
 import { Page, MD, Image, GuestOnly, UserOnly } from '../../components'
 import { description, acknowledgment } from './description'
@@ -23,6 +24,15 @@ export default class Home extends React.PureComponent {
         <section>
           <MD content={description} />
 
+          <section>
+            <h2>Example Diagram</h2>
+
+            <p>
+              View the <Link to='/example'>example diagram</Link> for the format
+              described above.
+            </p>
+          </section>
+
           <MD content={acknowledgment} />
 
           <div>
@@ -40,6 +50,32 @@ export default class Home extends React.PureComponent {
               width={128}
             />
           </div>
+        </section>
+
+        <section>
+          <h2>Collaboration</h2>
+
+          <p>
+            If your team chooses to create a safety case, place this badge in
+            your wiki along with an image of your safety case.
+          </p>
+
+          <Image
+            src='/img/badge.png'
+            alt='UNL iGEM Collaboration 2018 Badge'
+            height={256}
+            width={256}
+          />
+        </section>
+
+        <section>
+          <h2>Privacy and Storage</h2>
+
+          <p>
+            This site stores data in the browser solely for authentication
+            purposes. Continued use of the web application means that you
+            consent to our use of storage.
+          </p>
         </section>
       </Page>
     )

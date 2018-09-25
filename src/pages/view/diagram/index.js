@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from '@reach/router'
 
 import { DisplayDiagram } from './display'
-import { Page, GuestOnly, UserOnly } from '../../../components'
+import { Image, Page, GuestOnly, UserOnly } from '../../../components'
 
 export class ViewDiagram extends React.PureComponent {
   render () {
@@ -22,6 +22,15 @@ export class ViewDiagram extends React.PureComponent {
           </section>
 
           <DisplayDiagram id={id} />
+
+          <section>
+            <Image
+              src='/img/badge.png'
+              alt='UNL iGEM Collaboration 2018 Badge'
+              height={256}
+              width={256}
+            />
+          </section>
         </UserOnly>
       </Page>
     )

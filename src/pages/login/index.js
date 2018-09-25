@@ -15,6 +15,8 @@ export default class Login extends React.PureComponent {
           <p>
             New to the site? <Link to='/register'> Register an account.</Link>
           </p>
+
+          <p>This website does not store sensitive data.</p>
         </div>
       </Page>
     )
