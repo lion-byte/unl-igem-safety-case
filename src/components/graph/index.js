@@ -63,33 +63,32 @@ export class Graph extends React.PureComponent {
         >
           <rect width={width} height={height} rx={16} fill='#272b4d' />
 
-          {title &&
-            description && (
-              <g transform={`translate(${width / 4}, 72)`}>
-                <text
-                  style={{ pointerEvents: 'none' }}
-                  textAnchor='middle'
-                  fill='white'
-                  fontWeight='bolder'
-                  x={0}
-                  y={0}
-                  fontSize={24}
-                >
-                  {title}
-                </text>
-                <text
-                  style={{ pointerEvents: 'none' }}
-                  textAnchor='middle'
-                  fill='white'
-                  fontWeight='bold'
-                  x={0}
-                  y={27}
-                  fontSize={14}
-                >
-                  <MultiLineText text={description} />
-                </text>
-              </g>
-            )}
+          {title && description && (
+            <g transform={`translate(${width / 4}, 72)`}>
+              <text
+                style={{ pointerEvents: 'none' }}
+                textAnchor='middle'
+                fill='white'
+                fontWeight='bolder'
+                x={0}
+                y={0}
+                fontSize={24}
+              >
+                {title}
+              </text>
+              <text
+                style={{ pointerEvents: 'none' }}
+                textAnchor='middle'
+                fill='white'
+                fontWeight='bold'
+                x={0}
+                y={27}
+                fontSize={14}
+              >
+                <MultiLineText text={description} />
+              </text>
+            </g>
+          )}
 
           <Tree
             top={middle ? height / 2 : margin.top}

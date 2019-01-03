@@ -9,47 +9,12 @@
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "dev": "webpack-dev-server --config webpack.dev.js --open",
-    "lint": "standard",
-    "lint:fix": "prettier --write **/*.js && standard --fix",
-    "lint:type": "tsc --pretty",
+    "format": "npm run prettier && npm run lint -- --fix",
+    "lint": "eslint --ignore-path .gitignore .",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|yml|yaml|css|less|ts|md|graphql|mdx)\"",
+    "type": "tsc --pretty",
     "start": "node server",
-    "test": "standard && tsc --pretty && jest --coverage"
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
-  "standard": {
-    "globals": [
-      "afterAll",
-      "afterEach",
-      "beforeAll",
-      "beforeEach",
-      "describe",
-      "expect",
-      "jest",
-      "test"
-    ],
-    "ignore": [],
-    "parser": "babel-eslint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": [
-        "lint-staged"
-      ]
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "standard --fix",
-      "git add"
-    ],
-    "*.{md,less}": [
-      "prettier --write",
-      "git add"
-    ]
+    "test": "npm run lint && npm run type && jest --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",
@@ -84,6 +49,14 @@
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
     "cssnano": "^4.0.5",
+    "eslint": "^5.11.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard-jsx": "^6.0.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.12.2",
+    "eslint-plugin-standard": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^1.0.0-rc.13",
     "jest": "^23.5.0",
@@ -92,8 +65,7 @@
     "lint-staged": "^7.2.0",
     "mini-css-extract-plugin": "^0.4.1",
     "postcss-loader": "^2.1.6",
-    "prettier": "^1.14.0",
-    "standard": "^11.0.1",
+    "prettier": "^1.15.3",
     "style-loader": "^0.21.0",
     "typescript": "^3.0.1",
     "webpack": "^4.16.5",
