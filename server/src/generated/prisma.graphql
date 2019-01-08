@@ -1,0 +1,1831 @@
+# source: https://us1.prisma.sh/mark-hernandez-074398/safety-case/dev
+# timestamp: Mon Jan 07 2019 23:05:11 GMT-0600 (Central Standard Time)
+
+type AggregateDiagram {
+  count: Int!
+}
+
+type AggregateDiagramNode {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  """
+  The number of nodes that have been affected by the Batch operation.
+  """
+  count: Long!
+}
+
+scalar DateTime
+
+type Diagram implements Node {
+  id: ID!
+  title: String!
+  description: String!
+  primaryNode: DiagramNode
+  published: PublishStatus!
+  height: Int!
+  width: Int!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A connection to a list of items.
+"""
+type DiagramConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [DiagramEdge]!
+  aggregate: AggregateDiagram!
+}
+
+input DiagramCreateInput {
+  title: String!
+  description: String!
+  published: PublishStatus!
+  height: Int!
+  width: Int!
+  primaryNode: DiagramNodeCreateOneWithoutDiagramInput
+  user: UserCreateOneInput!
+}
+
+input DiagramCreateOneWithoutPrimaryNodeInput {
+  create: DiagramCreateWithoutPrimaryNodeInput
+  connect: DiagramWhereUniqueInput
+}
+
+input DiagramCreateWithoutPrimaryNodeInput {
+  title: String!
+  description: String!
+  published: PublishStatus!
+  height: Int!
+  width: Int!
+  user: UserCreateOneInput!
+}
+
+"""
+An edge in a connection.
+"""
+type DiagramEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: Diagram!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+type DiagramNode implements Node {
+  id: ID!
+  type: DiagramNodeType!
+  name: String!
+  statement: String!
+  diagram: Diagram!
+  parentNode: DiagramNode
+  height: Int!
+  width: Int!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A connection to a list of items.
+"""
+type DiagramNodeConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [DiagramNodeEdge]!
+  aggregate: AggregateDiagramNode!
+}
+
+input DiagramNodeCreateInput {
+  type: DiagramNodeType!
+  name: String!
+  statement: String!
+  height: Int!
+  width: Int!
+  diagram: DiagramCreateOneWithoutPrimaryNodeInput!
+  parentNode: DiagramNodeCreateOneInput
+  user: UserCreateOneInput!
+}
+
+input DiagramNodeCreateOneInput {
+  create: DiagramNodeCreateInput
+  connect: DiagramNodeWhereUniqueInput
+}
+
+input DiagramNodeCreateOneWithoutDiagramInput {
+  create: DiagramNodeCreateWithoutDiagramInput
+  connect: DiagramNodeWhereUniqueInput
+}
+
+input DiagramNodeCreateWithoutDiagramInput {
+  type: DiagramNodeType!
+  name: String!
+  statement: String!
+  height: Int!
+  width: Int!
+  parentNode: DiagramNodeCreateOneInput
+  user: UserCreateOneInput!
+}
+
+"""
+An edge in a connection.
+"""
+type DiagramNodeEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: DiagramNode!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum DiagramNodeOrderByInput {
+  id_ASC
+  id_DESC
+  type_ASC
+  type_DESC
+  name_ASC
+  name_DESC
+  statement_ASC
+  statement_DESC
+  height_ASC
+  height_DESC
+  width_ASC
+  width_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type DiagramNodePreviousValues {
+  id: ID!
+  type: DiagramNodeType!
+  name: String!
+  statement: String!
+  height: Int!
+  width: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type DiagramNodeSubscriptionPayload {
+  mutation: MutationType!
+  node: DiagramNode
+  updatedFields: [String!]
+  previousValues: DiagramNodePreviousValues
+}
+
+input DiagramNodeSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [DiagramNodeSubscriptionWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [DiagramNodeSubscriptionWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [DiagramNodeSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DiagramNodeWhereInput
+}
+
+enum DiagramNodeType {
+  ASSUMPTION
+  CONTEXT
+  GOAL
+  INSUFFICIENT
+  JUSTIFICATION
+  SOLUTION
+  STRATEGY
+}
+
+input DiagramNodeUpdateDataInput {
+  type: DiagramNodeType
+  name: String
+  statement: String
+  height: Int
+  width: Int
+  diagram: DiagramUpdateOneRequiredWithoutPrimaryNodeInput
+  parentNode: DiagramNodeUpdateOneInput
+  user: UserUpdateOneRequiredInput
+}
+
+input DiagramNodeUpdateInput {
+  type: DiagramNodeType
+  name: String
+  statement: String
+  height: Int
+  width: Int
+  diagram: DiagramUpdateOneRequiredWithoutPrimaryNodeInput
+  parentNode: DiagramNodeUpdateOneInput
+  user: UserUpdateOneRequiredInput
+}
+
+input DiagramNodeUpdateManyMutationInput {
+  type: DiagramNodeType
+  name: String
+  statement: String
+  height: Int
+  width: Int
+}
+
+input DiagramNodeUpdateOneInput {
+  create: DiagramNodeCreateInput
+  connect: DiagramNodeWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DiagramNodeUpdateDataInput
+  upsert: DiagramNodeUpsertNestedInput
+}
+
+input DiagramNodeUpdateOneWithoutDiagramInput {
+  create: DiagramNodeCreateWithoutDiagramInput
+  connect: DiagramNodeWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: DiagramNodeUpdateWithoutDiagramDataInput
+  upsert: DiagramNodeUpsertWithoutDiagramInput
+}
+
+input DiagramNodeUpdateWithoutDiagramDataInput {
+  type: DiagramNodeType
+  name: String
+  statement: String
+  height: Int
+  width: Int
+  parentNode: DiagramNodeUpdateOneInput
+  user: UserUpdateOneRequiredInput
+}
+
+input DiagramNodeUpsertNestedInput {
+  update: DiagramNodeUpdateDataInput!
+  create: DiagramNodeCreateInput!
+}
+
+input DiagramNodeUpsertWithoutDiagramInput {
+  update: DiagramNodeUpdateWithoutDiagramDataInput!
+  create: DiagramNodeCreateWithoutDiagramInput!
+}
+
+input DiagramNodeWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [DiagramNodeWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [DiagramNodeWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [DiagramNodeWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  type: DiagramNodeType
+
+  """
+  All values that are not equal to given value.
+  """
+  type_not: DiagramNodeType
+
+  """
+  All values that are contained in given list.
+  """
+  type_in: [DiagramNodeType!]
+
+  """
+  All values that are not contained in given list.
+  """
+  type_not_in: [DiagramNodeType!]
+  name: String
+
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  statement: String
+
+  """
+  All values that are not equal to given value.
+  """
+  statement_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  statement_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  statement_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  statement_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  statement_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  statement_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  statement_gte: String
+
+  """
+  All values containing the given string.
+  """
+  statement_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  statement_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  statement_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  statement_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  statement_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  statement_not_ends_with: String
+  height: Int
+
+  """
+  All values that are not equal to given value.
+  """
+  height_not: Int
+
+  """
+  All values that are contained in given list.
+  """
+  height_in: [Int!]
+
+  """
+  All values that are not contained in given list.
+  """
+  height_not_in: [Int!]
+
+  """
+  All values less than the given value.
+  """
+  height_lt: Int
+
+  """
+  All values less than or equal the given value.
+  """
+  height_lte: Int
+
+  """
+  All values greater than the given value.
+  """
+  height_gt: Int
+
+  """
+  All values greater than or equal the given value.
+  """
+  height_gte: Int
+  width: Int
+
+  """
+  All values that are not equal to given value.
+  """
+  width_not: Int
+
+  """
+  All values that are contained in given list.
+  """
+  width_in: [Int!]
+
+  """
+  All values that are not contained in given list.
+  """
+  width_not_in: [Int!]
+
+  """
+  All values less than the given value.
+  """
+  width_lt: Int
+
+  """
+  All values less than or equal the given value.
+  """
+  width_lte: Int
+
+  """
+  All values greater than the given value.
+  """
+  width_gt: Int
+
+  """
+  All values greater than or equal the given value.
+  """
+  width_gte: Int
+  createdAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  diagram: DiagramWhereInput
+  parentNode: DiagramNodeWhereInput
+  user: UserWhereInput
+}
+
+input DiagramNodeWhereUniqueInput {
+  id: ID
+}
+
+enum DiagramOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+  published_ASC
+  published_DESC
+  height_ASC
+  height_DESC
+  width_ASC
+  width_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type DiagramPreviousValues {
+  id: ID!
+  title: String!
+  description: String!
+  published: PublishStatus!
+  height: Int!
+  width: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type DiagramSubscriptionPayload {
+  mutation: MutationType!
+  node: Diagram
+  updatedFields: [String!]
+  previousValues: DiagramPreviousValues
+}
+
+input DiagramSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [DiagramSubscriptionWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [DiagramSubscriptionWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [DiagramSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: DiagramWhereInput
+}
+
+input DiagramUpdateInput {
+  title: String
+  description: String
+  published: PublishStatus
+  height: Int
+  width: Int
+  primaryNode: DiagramNodeUpdateOneWithoutDiagramInput
+  user: UserUpdateOneRequiredInput
+}
+
+input DiagramUpdateManyMutationInput {
+  title: String
+  description: String
+  published: PublishStatus
+  height: Int
+  width: Int
+}
+
+input DiagramUpdateOneRequiredWithoutPrimaryNodeInput {
+  create: DiagramCreateWithoutPrimaryNodeInput
+  connect: DiagramWhereUniqueInput
+  update: DiagramUpdateWithoutPrimaryNodeDataInput
+  upsert: DiagramUpsertWithoutPrimaryNodeInput
+}
+
+input DiagramUpdateWithoutPrimaryNodeDataInput {
+  title: String
+  description: String
+  published: PublishStatus
+  height: Int
+  width: Int
+  user: UserUpdateOneRequiredInput
+}
+
+input DiagramUpsertWithoutPrimaryNodeInput {
+  update: DiagramUpdateWithoutPrimaryNodeDataInput!
+  create: DiagramCreateWithoutPrimaryNodeInput!
+}
+
+input DiagramWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [DiagramWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [DiagramWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [DiagramWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  title: String
+
+  """
+  All values that are not equal to given value.
+  """
+  title_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  title_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  title_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  title_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  title_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  title_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  title_gte: String
+
+  """
+  All values containing the given string.
+  """
+  title_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  title_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  title_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  title_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  title_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  title_not_ends_with: String
+  description: String
+
+  """
+  All values that are not equal to given value.
+  """
+  description_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  description_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  description_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  description_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  description_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  description_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  description_gte: String
+
+  """
+  All values containing the given string.
+  """
+  description_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  description_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  description_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  description_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  description_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  description_not_ends_with: String
+  published: PublishStatus
+
+  """
+  All values that are not equal to given value.
+  """
+  published_not: PublishStatus
+
+  """
+  All values that are contained in given list.
+  """
+  published_in: [PublishStatus!]
+
+  """
+  All values that are not contained in given list.
+  """
+  published_not_in: [PublishStatus!]
+  height: Int
+
+  """
+  All values that are not equal to given value.
+  """
+  height_not: Int
+
+  """
+  All values that are contained in given list.
+  """
+  height_in: [Int!]
+
+  """
+  All values that are not contained in given list.
+  """
+  height_not_in: [Int!]
+
+  """
+  All values less than the given value.
+  """
+  height_lt: Int
+
+  """
+  All values less than or equal the given value.
+  """
+  height_lte: Int
+
+  """
+  All values greater than the given value.
+  """
+  height_gt: Int
+
+  """
+  All values greater than or equal the given value.
+  """
+  height_gte: Int
+  width: Int
+
+  """
+  All values that are not equal to given value.
+  """
+  width_not: Int
+
+  """
+  All values that are contained in given list.
+  """
+  width_in: [Int!]
+
+  """
+  All values that are not contained in given list.
+  """
+  width_not_in: [Int!]
+
+  """
+  All values less than the given value.
+  """
+  width_lt: Int
+
+  """
+  All values less than or equal the given value.
+  """
+  width_lte: Int
+
+  """
+  All values greater than the given value.
+  """
+  width_gt: Int
+
+  """
+  All values greater than or equal the given value.
+  """
+  width_gte: Int
+  createdAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  createdAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  createdAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  createdAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  createdAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  createdAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  createdAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """
+  All values that are not equal to given value.
+  """
+  updatedAt_not: DateTime
+
+  """
+  All values that are contained in given list.
+  """
+  updatedAt_in: [DateTime!]
+
+  """
+  All values that are not contained in given list.
+  """
+  updatedAt_not_in: [DateTime!]
+
+  """
+  All values less than the given value.
+  """
+  updatedAt_lt: DateTime
+
+  """
+  All values less than or equal the given value.
+  """
+  updatedAt_lte: DateTime
+
+  """
+  All values greater than the given value.
+  """
+  updatedAt_gt: DateTime
+
+  """
+  All values greater than or equal the given value.
+  """
+  updatedAt_gte: DateTime
+  primaryNode: DiagramNodeWhereInput
+  user: UserWhereInput
+}
+
+input DiagramWhereUniqueInput {
+  id: ID
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createDiagram(data: DiagramCreateInput!): Diagram!
+  createDiagramNode(data: DiagramNodeCreateInput!): DiagramNode!
+  createUser(data: UserCreateInput!): User!
+  updateDiagram(
+    data: DiagramUpdateInput!
+    where: DiagramWhereUniqueInput!
+  ): Diagram
+  updateDiagramNode(
+    data: DiagramNodeUpdateInput!
+    where: DiagramNodeWhereUniqueInput!
+  ): DiagramNode
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteDiagram(where: DiagramWhereUniqueInput!): Diagram
+  deleteDiagramNode(where: DiagramNodeWhereUniqueInput!): DiagramNode
+  deleteUser(where: UserWhereUniqueInput!): User
+  upsertDiagram(
+    where: DiagramWhereUniqueInput!
+    create: DiagramCreateInput!
+    update: DiagramUpdateInput!
+  ): Diagram!
+  upsertDiagramNode(
+    where: DiagramNodeWhereUniqueInput!
+    create: DiagramNodeCreateInput!
+    update: DiagramNodeUpdateInput!
+  ): DiagramNode!
+  upsertUser(
+    where: UserWhereUniqueInput!
+    create: UserCreateInput!
+    update: UserUpdateInput!
+  ): User!
+  updateManyDiagrams(
+    data: DiagramUpdateManyMutationInput!
+    where: DiagramWhereInput
+  ): BatchPayload!
+  updateManyDiagramNodes(
+    data: DiagramNodeUpdateManyMutationInput!
+    where: DiagramNodeWhereInput
+  ): BatchPayload!
+  updateManyUsers(
+    data: UserUpdateManyMutationInput!
+    where: UserWhereInput
+  ): BatchPayload!
+  deleteManyDiagrams(where: DiagramWhereInput): BatchPayload!
+  deleteManyDiagramNodes(where: DiagramNodeWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""
+An object with an ID
+"""
+interface Node {
+  """
+  The id of the object.
+  """
+  id: ID!
+}
+
+"""
+Information about pagination in a connection.
+"""
+type PageInfo {
+  """
+  When paginating forwards, are there more items?
+  """
+  hasNextPage: Boolean!
+
+  """
+  When paginating backwards, are there more items?
+  """
+  hasPreviousPage: Boolean!
+
+  """
+  When paginating backwards, the cursor to continue.
+  """
+  startCursor: String
+
+  """
+  When paginating forwards, the cursor to continue.
+  """
+  endCursor: String
+}
+
+enum Permission {
+  USER
+  ADMIN
+  MODELCREATE
+  MODELUPDATE
+  MODELDELETE
+  PERMISSIONUPDATE
+}
+
+enum PublishStatus {
+  DRAFT
+  PRIVATE
+  PUBLIC
+}
+
+type Query {
+  diagrams(
+    where: DiagramWhereInput
+    orderBy: DiagramOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Diagram]!
+  diagramNodes(
+    where: DiagramNodeWhereInput
+    orderBy: DiagramNodeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [DiagramNode]!
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User]!
+  diagram(where: DiagramWhereUniqueInput!): Diagram
+  diagramNode(where: DiagramNodeWhereUniqueInput!): DiagramNode
+  user(where: UserWhereUniqueInput!): User
+  diagramsConnection(
+    where: DiagramWhereInput
+    orderBy: DiagramOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): DiagramConnection!
+  diagramNodesConnection(
+    where: DiagramNodeWhereInput
+    orderBy: DiagramNodeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): DiagramNodeConnection!
+  usersConnection(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection!
+
+  """
+  Fetches an object given its ID
+  """
+  node(
+    """
+    The ID of an object
+    """
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  diagram(where: DiagramSubscriptionWhereInput): DiagramSubscriptionPayload
+  diagramNode(
+    where: DiagramNodeSubscriptionWhereInput
+  ): DiagramNodeSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  permissions: [Permission!]!
+}
+
+"""
+A connection to a list of items.
+"""
+type UserConnection {
+  """
+  Information to aid in pagination.
+  """
+  pageInfo: PageInfo!
+
+  """
+  A list of edges.
+  """
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  name: String!
+  email: String!
+  password: String!
+  permissions: UserCreatepermissionsInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreatepermissionsInput {
+  set: [Permission!]
+}
+
+"""
+An edge in a connection.
+"""
+type UserEdge {
+  """
+  The item at the end of the edge.
+  """
+  node: User!
+
+  """
+  A cursor for use in pagination.
+  """
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  permissions: [Permission!]!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [UserSubscriptionWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [UserSubscriptionWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+  email: String
+  password: String
+  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpdatepermissionsInput {
+  set: [Permission!]
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserWhereInput {
+  """
+  Logical AND on all given filters.
+  """
+  AND: [UserWhereInput!]
+
+  """
+  Logical OR on all given filters.
+  """
+  OR: [UserWhereInput!]
+
+  """
+  Logical NOT on all given filters combined by AND.
+  """
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """
+  All values that are not equal to given value.
+  """
+  id_not: ID
+
+  """
+  All values that are contained in given list.
+  """
+  id_in: [ID!]
+
+  """
+  All values that are not contained in given list.
+  """
+  id_not_in: [ID!]
+
+  """
+  All values less than the given value.
+  """
+  id_lt: ID
+
+  """
+  All values less than or equal the given value.
+  """
+  id_lte: ID
+
+  """
+  All values greater than the given value.
+  """
+  id_gt: ID
+
+  """
+  All values greater than or equal the given value.
+  """
+  id_gte: ID
+
+  """
+  All values containing the given string.
+  """
+  id_contains: ID
+
+  """
+  All values not containing the given string.
+  """
+  id_not_contains: ID
+
+  """
+  All values starting with the given string.
+  """
+  id_starts_with: ID
+
+  """
+  All values not starting with the given string.
+  """
+  id_not_starts_with: ID
+
+  """
+  All values ending with the given string.
+  """
+  id_ends_with: ID
+
+  """
+  All values not ending with the given string.
+  """
+  id_not_ends_with: ID
+  name: String
+
+  """
+  All values that are not equal to given value.
+  """
+  name_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  name_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  name_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  name_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  name_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  name_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  name_gte: String
+
+  """
+  All values containing the given string.
+  """
+  name_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  name_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  name_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  name_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  name_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  name_not_ends_with: String
+  email: String
+
+  """
+  All values that are not equal to given value.
+  """
+  email_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  email_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  email_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  email_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  email_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  email_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  email_gte: String
+
+  """
+  All values containing the given string.
+  """
+  email_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  email_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  email_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  email_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  email_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  email_not_ends_with: String
+  password: String
+
+  """
+  All values that are not equal to given value.
+  """
+  password_not: String
+
+  """
+  All values that are contained in given list.
+  """
+  password_in: [String!]
+
+  """
+  All values that are not contained in given list.
+  """
+  password_not_in: [String!]
+
+  """
+  All values less than the given value.
+  """
+  password_lt: String
+
+  """
+  All values less than or equal the given value.
+  """
+  password_lte: String
+
+  """
+  All values greater than the given value.
+  """
+  password_gt: String
+
+  """
+  All values greater than or equal the given value.
+  """
+  password_gte: String
+
+  """
+  All values containing the given string.
+  """
+  password_contains: String
+
+  """
+  All values not containing the given string.
+  """
+  password_not_contains: String
+
+  """
+  All values starting with the given string.
+  """
+  password_starts_with: String
+
+  """
+  All values not starting with the given string.
+  """
+  password_not_starts_with: String
+
+  """
+  All values ending with the given string.
+  """
+  password_ends_with: String
+
+  """
+  All values not ending with the given string.
+  """
+  password_not_ends_with: String
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}

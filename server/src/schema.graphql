@@ -1,0 +1,49 @@
+# import * from './generated/prisma.graphql'
+
+type Query {
+  me: User
+  diagrams: [Diagram!]!
+}
+
+type Mutation {
+  register(name: String!, email: String!, password: String!): User!
+  login(email: String!, password: String!): User!
+}
+
+type Diagram {
+  id: ID!
+  title: String!
+  description: String!
+  primaryNode: DiagramNode
+  published: PublishStatus!
+  height: Int!
+  width: Int!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  nodes: [DiagramNode!]!
+}
+
+type DiagramNode {
+  id: ID!
+  type: DiagramNodeType!
+  name: String!
+  statement: String!
+  diagram: Diagram!
+  parentNode: DiagramNode
+  height: Int!
+  width: Int!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  children: [DiagramNode!]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: [Permission!]!
+  diagrams: [Diagram!]!
+  nodes: [DiagramNode!]!
+}

@@ -1,5 +1,7 @@
-# Babel Compiled Output
-dist/
+# Build Output
+.cache/
+public/
+lambda/
 
 # Logs
 logs

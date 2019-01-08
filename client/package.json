@@ -1,0 +1,42 @@
+{
+  "name": "igem-safety-case-client",
+  "version": "1.0.0",
+  "description": "Generate a safety case diagram",
+  "contributors": [
+    "Mark Hernandez <mark@lion-byte.com>"
+  ],
+  "main": "n/a",
+  "scripts": {
+    "build": "gatsby build",
+    "dev": "gatsby develop",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "@vx/gradient": "0.0.182",
+    "@vx/group": "0.0.182",
+    "@vx/hierarchy": "0.0.182",
+    "@vx/shape": "0.0.182",
+    "apollo-boost": "^0.1.23",
+    "apollo-client": "^2.4.8",
+    "babel-plugin-styled-components": "^1.10.0",
+    "d3-hierarchy": "^1.1.8",
+    "gatsby": "^2.0.83",
+    "gatsby-plugin-catch-links": "^2.0.9",
+    "gatsby-plugin-create-client-paths": "^2.0.3",
+    "gatsby-plugin-netlify": "^2.0.6",
+    "gatsby-plugin-react-helmet": "^3.0.5",
+    "gatsby-plugin-styled-components": "^3.0.4",
+    "graphql-tag": "^2.10.0",
+    "http-proxy-middleware": "^0.19.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-apollo": "^2.3.3",
+    "react-dom": "^16.7.0",
+    "react-helmet": "^5.2.0",
+    "save-svg-as-png": "^1.4.6",
+    "styled-components": "^4.1.3"
+  }
+}

@@ -1,0 +1,3 @@
+# Only holds function directory for netlify-lambda's compiled output
+[build]
+  functions = "lambda"

@@ -1,0 +1,59 @@
+enum Permission {
+  USER
+  ADMIN
+  MODELCREATE
+  MODELUPDATE
+  MODELDELETE
+  PERMISSIONUPDATE
+}
+
+type User {
+  id: ID! @unique
+  name: String!
+  email: String! @unique
+  password: String!
+  permissions: [Permission!]!
+}
+
+enum PublishStatus {
+  DRAFT
+  PRIVATE
+  PUBLIC
+}
+
+type Diagram {
+  id: ID! @unique
+  title: String!
+  description: String!
+  primaryNode: DiagramNode
+  published: PublishStatus!
+  height: Int!
+  width: Int!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum DiagramNodeType {
+  ASSUMPTION
+  CONTEXT
+  GOAL
+  INSUFFICIENT
+  JUSTIFICATION
+  SOLUTION
+  STRATEGY
+}
+
+type DiagramNode {
+  id: ID! @unique
+  type: DiagramNodeType!
+  name: String!
+  statement: String!
+  diagram: Diagram!
+  parentNode: DiagramNode
+  height: Int!
+  width: Int!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
