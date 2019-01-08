@@ -1,8 +1,11 @@
 import React from 'react'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import 'typeface-exo-2'
 
 const theme = {
-  colorPrimary: '#f30aae'
+  fontBase: `'Exo 2', Arial, Helvetica, sans-serif`,
+  colorPrimary: '#f30aae',
+  black: '#535353'
 }
 
 const GlobalStyles = createGlobalStyle`
@@ -13,9 +16,10 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    font-family: ${props => props.theme.fontBase};
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    line-height: 1.5;
   }
 
   a {
