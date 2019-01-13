@@ -1,5 +1,5 @@
 const saveSvgLib = () =>
-  import(/* webpackChunkName: "save-svg-as-png" */ 'save-svg-as-png')
+  import(/* webpackPrefetch: true , webpackChunkName: "save-svg-as-png" */ 'save-svg-as-png')
 
 /**
  * @param {SVGSVGElement} svg
